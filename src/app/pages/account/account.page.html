@@ -1,0 +1,221 @@
+@if (user(); as u) {
+  <div class="container page">
+    <header class="profile fade-up">
+      <span class="avatar">{{ userInitials() }}</span>
+      <div class="who">
+        @if (editingName()) {
+          <form class="name-form" [formGroup]="nameForm" (ngSubmit)="saveName()">
+            <label class="visually-hidden" for="name">Your name</label>
+            <input id="name" class="input" formControlName="name" autocomplete="name" />
+            <button type="submit" class="btn btn-dark btn-sm" [disabled]="nameForm.invalid || savingName()">Save</button>
+            <button type="button" class="btn btn-ghost btn-sm" (click)="editingName.set(false)">Cancel</button>
+          </form>
+        } @else {
+          <h1 class="display">
+            {{ u.name }}
+            <button type="button" class="icon-btn edit" (click)="startEditName()" aria-label="Edit your name"><app-icon name="pencil" [size]="17" /></button>
+          </h1>
+        }
+        <p class="muted">{{ u.email }} · Reading since {{ memberSince() }}</p>
+        <span class="tag backend">
+          <app-icon name="shield" [size]="14" />
+          {{ auth.backendKind === 'local' ? 'Stored privately on this device' : 'Synced across your devices' }}
+        </span>
+      </div>
+    </header>
+
+    <!-- Stats -->
+    <section class="section" aria-labelledby="stats-title">
+      <h2 class="section-title" id="stats-title">Reading stats</h2>
+      <div class="stats-grid">
+        <div class="card goal-card">
+          <div class="ring-wrap">
+            <svg viewBox="0 0 120 120" class="ring" aria-hidden="true">
+              <circle cx="60" cy="60" [attr.r]="ring().r" class="ring-track" />
+              <circle
+                cx="60"
+                cy="60"
+                [attr.r]="ring().r"
+                class="ring-fill"
+                [attr.stroke-dasharray]="ring().c"
+                [attr.stroke-dashoffset]="ring().offset"
+              />
+            </svg>
+            <div class="ring-label">
+              <strong>{{ todayMinutes() }}</strong>
+              <span>of {{ goal() }} min</span>
+            </div>
+          </div>
+          <div class="goal-text">
+            <h3>Today’s reading</h3>
+            <p class="muted">
+              @if (goalProgress() >= 1) {
+                Goal reached — lovely work.
+              } @else {
+                {{ goal() - todayMinutes() }} more {{ goal() - todayMinutes() === 1 ? 'minute' : 'minutes' }} to reach your daily goal.
+              }
+            </p>
+            <label class="goal-select">
+              <span>Daily goal</span>
+              <select class="select" [value]="goal()" (change)="setGoal($any($event.target).value)">
+                @for (g of goalOptions; track g) {
+                  <option [value]="g" [selected]="g === goal()">{{ g }} minutes</option>
+                }
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="tiles">
+          @for (t of tiles(); track t.label) {
+            <div class="card tile">
+              <app-icon [name]="t.icon" [size]="18" class="tile-icon" />
+              <span class="tile-value">{{ t.value }}</span>
+              <span class="tile-label">{{ t.label }}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="card chart-card">
+        <div class="chart-head">
+          <h3>Last 14 days</h3>
+          <span class="legend"><i class="dot met"></i>Goal met <i class="dot"></i>Read</span>
+        </div>
+        <div class="chart" role="img" [attr.aria-label]="'Minutes read per day over the last 14 days'">
+          <span class="goal-line" [style.bottom.%]="goalLine()" aria-hidden="true"><span>{{ goal() }} min</span></span>
+          @for (d of chart(); track d.key) {
+            <div class="bar-col" [class.today]="d.today">
+              <div class="bar-area">
+                <div class="bar" [class.met]="d.metGoal" [style.height.%]="d.height" [title]="d.minutes + ' min on ' + d.key"></div>
+              </div>
+              <span class="bar-label">{{ d.label }}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      @if (recentlyFinished().length) {
+        <div class="finished">
+          <h3>Recently finished</h3>
+          <div class="finished-row">
+            @for (b of recentlyFinished(); track b!.id) {
+              <a [routerLink]="['/book', b!.id]" class="finished-book" [attr.aria-label]="b!.title">
+                <app-book-cover [book]="b!" sizes="90px" />
+              </a>
+            }
+          </div>
+        </div>
+      }
+    </section>
+
+    <!-- Preferences -->
+    <section class="section two-col" aria-labelledby="prefs-title">
+      <div>
+        <h2 class="section-title" id="prefs-title">Preferences</h2>
+        <p class="muted">How Folio looks around the library and while you read.</p>
+      </div>
+      <div class="card settings-card">
+        <div class="setting">
+          <div>
+            <h3>App theme</h3>
+            <p class="muted">Used for browsing and your library.</p>
+          </div>
+          <div class="segmented" role="radiogroup" aria-label="App theme">
+            @for (o of themeOptions; track o.id) {
+              <button type="button" role="radio" [attr.aria-checked]="theme.preference() === o.id" (click)="theme.set(o.id)">
+                <app-icon [name]="o.icon" [size]="16" />{{ o.label }}
+              </button>
+            }
+          </div>
+        </div>
+        <div class="setting">
+          <div>
+            <h3>Reading appearance</h3>
+            <p class="muted">{{ readerSummary() }}. Adjust it anytime from the <strong>Aa</strong> menu in the reader.</p>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" (click)="resetReader()"><app-icon name="reset" [size]="15" />Reset</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Security -->
+    <section class="section two-col" aria-labelledby="security-title">
+      <div>
+        <h2 class="section-title" id="security-title">Password</h2>
+        <p class="muted">Use a long, unique password you don’t use anywhere else.</p>
+      </div>
+      <form class="card form-card" [formGroup]="passwordForm" (ngSubmit)="changePassword()" novalidate>
+        @if (passwordError()) {
+          <div class="alert alert-error" role="alert"><app-icon name="alert" [size]="18" />{{ passwordError() }}</div>
+        }
+        <div class="field">
+          <label class="field-label" for="current">Current password</label>
+          <input id="current" class="input" type="password" formControlName="current" autocomplete="current-password" [attr.aria-invalid]="passwordFieldError('current')" />
+          @if (passwordFieldError('current')) {
+            <span class="field-error">Enter your current password.</span>
+          }
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label" for="new-password">New password</label>
+            <input id="new-password" class="input" type="password" formControlName="password" autocomplete="new-password" [attr.aria-invalid]="passwordFieldError('password')" />
+            @if (passwordFieldError('password')) {
+              <span class="field-error">At least {{ minLength }} characters.</span>
+            }
+          </div>
+          <div class="field">
+            <label class="field-label" for="confirm-password">Confirm new password</label>
+            <input id="confirm-password" class="input" type="password" formControlName="confirm" autocomplete="new-password" [attr.aria-invalid]="passwordMismatch()" />
+            @if (passwordMismatch()) {
+              <span class="field-error">Passwords don’t match.</span>
+            }
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-dark" [disabled]="savingPassword()">{{ savingPassword() ? 'Saving…' : 'Update password' }}</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Data -->
+    <section class="section two-col" aria-labelledby="data-title">
+      <div>
+        <h2 class="section-title" id="data-title">Your data</h2>
+        <p class="muted">Download a copy of everything, or start fresh.</p>
+      </div>
+      <div class="card settings-card">
+        <div class="setting">
+          <div>
+            <h3>Export library</h3>
+            <p class="muted">Shelves, progress, bookmarks and reading time as JSON.</p>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" (click)="exportData()"><app-icon name="download" [size]="15" />Download</button>
+        </div>
+        <div class="setting">
+          <div>
+            <h3>Clear reading history</h3>
+            <p class="muted">Removes progress and reading time. Shelves and bookmarks stay.</p>
+          </div>
+          <button type="button" class="btn btn-danger btn-sm" (click)="askClearHistory()">Clear history</button>
+        </div>
+        <div class="setting">
+          <div>
+            <h3>Sign out</h3>
+            <p class="muted">You can sign back in at any time.</p>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" (click)="signOut()"><app-icon name="log-out" [size]="15" />Sign out</button>
+        </div>
+      </div>
+    </section>
+  </div>
+}
+
+<dialog #confirmDialog class="confirm" aria-labelledby="confirm-title" aria-describedby="confirm-desc">
+  <h2 id="confirm-title">Clear your reading history?</h2>
+  <p id="confirm-desc">Progress in every book and your reading-time statistics will be removed. This can’t be undone.</p>
+  <div class="confirm-actions">
+    <button type="button" class="btn btn-ghost" (click)="closeConfirm()">Cancel</button>
+    <button type="button" class="btn btn-danger" (click)="confirmClear()">Clear history</button>
+  </div>
+</dialog>

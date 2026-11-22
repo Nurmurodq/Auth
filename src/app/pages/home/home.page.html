@@ -1,0 +1,228 @@
+@if (continueReading().length) {
+  <!-- Returning reader -->
+  <section class="welcome container fade-up">
+    <div class="welcome-head">
+      <div>
+        <p class="eyebrow">{{ greeting() }}{{ firstName() ? ', ' + firstName() : '' }}</p>
+        <h1 class="display welcome-title">Pick up where you left off.</h1>
+      </div>
+      <a routerLink="/library" class="btn btn-secondary btn-sm hide-sm">Open my library</a>
+    </div>
+
+    @let lead = continueReading()[0];
+    <div class="continue-grid">
+      <a class="continue-lead" [routerLink]="['/read', lead.book.id]" [style.--tint]="lead.book.cover.color">
+        <div class="lead-cover"><app-book-cover [book]="lead.book" [eager]="true" sizes="180px" /></div>
+        <div class="lead-body">
+          <span class="tag">Chapter {{ lead.chapter + 1 }} of {{ lead.book.chapters }}</span>
+          <h2>{{ lead.book.title }}</h2>
+          <p class="muted">{{ lead.book.author }}</p>
+          <div class="lead-progress">
+            <div class="progress"><span [style.width.%]="lead.percent * 100"></span></div>
+            <span>{{ percent(lead.percent) }} · about {{ duration(lead.minutesLeft) }} left</span>
+          </div>
+          <span class="btn btn-primary resume"><app-icon name="book-open" [size]="18" />Continue reading</span>
+        </div>
+      </a>
+      @if (continueReading().length > 1) {
+        <div class="continue-more">
+          @for (item of continueReading().slice(1); track item.book.id) {
+            <a class="continue-item" [routerLink]="['/read', item.book.id]">
+              <div class="mini-cover"><app-book-cover [book]="item.book" sizes="64px" /></div>
+              <div class="mini-body">
+                <strong>{{ item.book.title }}</strong>
+                <span class="muted">{{ item.book.author }}</span>
+                <div class="progress"><span [style.width.%]="item.percent * 100"></span></div>
+              </div>
+              <span class="mini-pct">{{ percent(item.percent) }}</span>
+            </a>
+          }
+        </div>
+      }
+    </div>
+  </section>
+} @else {
+  <!-- First visit hero -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy fade-up">
+        <p class="eyebrow">A library of {{ catalog.books.length }} timeless books</p>
+        <h1 class="display hero-title">Great books, <em>beautifully</em> read.</h1>
+        <p class="hero-lead">
+          A calm, ad-free home for the classics — with a reader designed for long, comfortable sessions. Adjust the type, choose your light, and
+          always pick up exactly where you left off.
+        </p>
+        <div class="hero-cta">
+          <a routerLink="/browse" class="btn btn-primary btn-lg">Explore the library <app-icon name="arrow-right" [size]="18" /></a>
+          @if (!auth.isAuthenticated()) {
+            <a routerLink="/register" class="btn btn-secondary btn-lg">Create a free account</a>
+          } @else {
+            <a routerLink="/library" class="btn btn-secondary btn-lg">My library</a>
+          }
+        </div>
+        <dl class="hero-stats">
+          @for (s of stats; track s.label) {
+            <div>
+              <dt>{{ s.label }}</dt>
+              <dd>{{ s.value }}</dd>
+            </div>
+          }
+        </dl>
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <div class="stack">
+          @for (book of heroBooks; track book.id; let i = $index) {
+            <a class="stack-book" [style.--i]="i" [routerLink]="['/book', book.id]" tabindex="-1">
+              <app-book-cover [book]="book" [eager]="true" sizes="240px" />
+            </a>
+          }
+        </div>
+        <div class="glow"></div>
+      </div>
+    </div>
+  </section>
+}
+
+<!-- Editor's picks -->
+<section class="container block">
+  <app-book-shelf heading="Editor’s picks" description="Twelve unforgettable places to begin." [books]="picks" [link]="{ commands: ['/browse'] }" />
+</section>
+
+<!-- Genres -->
+<section class="container block" aria-labelledby="genres-title">
+  <div class="section-head">
+    <div>
+      <h2 class="section-title" id="genres-title">Browse by genre</h2>
+      <p>From gothic chills to gentle comedies of manners.</p>
+    </div>
+    <a routerLink="/browse" class="btn btn-ghost btn-sm">All books</a>
+  </div>
+  <div class="genre-grid">
+    @for (g of genres; track g.id) {
+      <a class="genre" [routerLink]="['/browse']" [queryParams]="{ genre: g.id }" [style.--tint]="g.books[0]?.cover?.color">
+        <div class="genre-text">
+          <h3>{{ g.name }}</h3>
+          <p>{{ g.blurb }}</p>
+          <span class="genre-count">{{ g.count }} {{ g.count === 1 ? 'book' : 'books' }}</span>
+        </div>
+        <div class="genre-covers" aria-hidden="true">
+          @for (b of g.books; track b.id; let i = $index) {
+            <app-book-cover class="gc" [style.--i]="i" [book]="b" sizes="70px" />
+          }
+        </div>
+      </a>
+    }
+  </div>
+</section>
+
+<!-- Reading experience showcase -->
+<section class="container block">
+  <div class="showcase">
+    <div class="showcase-copy">
+      <p class="eyebrow">The reader</p>
+      <h2 class="display showcase-title">Designed for deep, unhurried reading.</h2>
+      <ul class="features">
+        <li>
+          <span class="f-icon"><app-icon name="type" /></span>
+          <div><strong>Typography you control</strong><span>Five typefaces, fine-grained size, spacing and line width.</span></div>
+        </li>
+        <li>
+          <span class="f-icon"><app-icon name="sun" /></span>
+          <div><strong>Light that suits the hour</strong><span>Paper, Sepia, Dusk and true-black Night themes.</span></div>
+        </li>
+        <li>
+          <span class="f-icon"><app-icon name="bookmark" /></span>
+          <div><strong>Never lose your place</strong><span>Progress saves as you read; bookmark any passage.</span></div>
+        </li>
+        <li>
+          <span class="f-icon"><app-icon name="columns" /></span>
+          <div><strong>Scroll or turn pages</strong><span>Swipe, tap or use the keyboard — whatever feels natural.</span></div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="preview-wrap">
+      <div class="preview-controls" role="group" aria-label="Try a reading theme">
+        <div class="swatches">
+          @for (t of themes; track t.id) {
+            <button
+              type="button"
+              class="swatch"
+              [style.background]="t.bg"
+              [style.color]="t.fg"
+              [attr.aria-pressed]="readerSettings.settings().theme === t.id"
+              (click)="setTheme(t.id)"
+              [attr.aria-label]="t.label + ' theme'"
+            >
+              Aa
+            </button>
+          }
+        </div>
+        <div class="font-pills">
+          @for (f of fonts; track f.id) {
+            <button type="button" class="chip" [attr.aria-pressed]="readerSettings.settings().font === f.id" (click)="setFont(f.id)" [style.font-family]="f.family">
+              {{ f.label }}
+            </button>
+          }
+        </div>
+      </div>
+      <article class="preview" [style.background]="previewTheme().bg" [style.color]="previewTheme().fg" [style.font-family]="previewFont().family">
+        <span class="preview-meta">Pride and Prejudice · Chapter I</span>
+        <p class="dropcap">
+          It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.
+        </p>
+        <p>
+          However little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the minds of
+          the surrounding families, that he is considered as the rightful property of some one or other of their daughters.
+        </p>
+        <div class="preview-foot">
+          <div class="progress"><span style="width: 12%"></span></div>
+          <span>3 min left in chapter</span>
+        </div>
+      </article>
+      <a routerLink="/read/pride-and-prejudice" class="btn btn-dark try-btn">Open the reader <app-icon name="arrow-right" [size]="18" /></a>
+      <p class="preview-note">Your choice is saved for the reader.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Curated shelves -->
+@for (shelf of shelves; track shelf.id) {
+  <section class="container block">
+    @defer (on viewport) {
+      <app-book-shelf [heading]="shelf.title" [description]="shelf.description" [books]="shelf.books" />
+    } @placeholder {
+      <div class="shelf-placeholder"></div>
+    }
+  </section>
+}
+
+<!-- Quote -->
+@if (quoteBook) {
+  <section class="container block">
+    <figure class="quote">
+      <app-icon name="quote" [size]="36" class="quote-mark" />
+      <blockquote class="display">“I declare after all there is no enjoyment like reading! How much sooner one tires of any thing than of a book!”</blockquote>
+      <figcaption>
+        Caroline Bingley in <a [routerLink]="['/book', quoteBook.id]"><em>Pride and Prejudice</em></a>, Jane Austen
+      </figcaption>
+    </figure>
+  </section>
+}
+
+<!-- Join CTA -->
+@if (!auth.isAuthenticated()) {
+  <section class="container block">
+    <div class="join">
+      <div class="join-copy">
+        <h2 class="display">Your personal library, always in order.</h2>
+        <p>Create a free account to save favourites, organise your shelves, bookmark passages and track your reading streak.</p>
+      </div>
+      <div class="join-cta">
+        <a routerLink="/register" class="btn btn-primary btn-lg">Get started — it’s free</a>
+        <a routerLink="/login" class="btn btn-ghost btn-lg">I have an account</a>
+      </div>
+    </div>
+  </section>
+}

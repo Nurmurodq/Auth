@@ -1,0 +1,253 @@
+@if (book(); as b) {
+  <!-- Top chrome -->
+  <header class="r-topbar" [attr.aria-hidden]="!chromeShown()" [attr.inert]="chromeShown() ? null : ''">
+    <a class="r-btn" [routerLink]="['/book', b.id]" aria-label="Back to book details" title="Back to book">
+      <app-icon name="arrow-left" />
+    </a>
+    <div class="r-heading">
+      <strong>{{ b.title }}</strong>
+      <span>{{ current()?.title }}</span>
+    </div>
+    <div class="r-actions">
+      <button type="button" class="r-btn" (click)="openPanel('contents', 'contents')" aria-label="Contents and bookmarks (T)" title="Contents (T)">
+        <app-icon name="list" />
+      </button>
+      <button type="button" class="r-btn" (click)="openPanel('settings')" aria-label="Appearance (A)" title="Appearance (A)">
+        <app-icon name="type" />
+      </button>
+      <button
+        type="button"
+        class="r-btn"
+        [class.active]="!!activeBookmark()"
+        [attr.aria-pressed]="!!activeBookmark()"
+        (click)="toggleBookmark()"
+        [attr.aria-label]="activeBookmark() ? 'Remove bookmark (B)' : 'Bookmark this page (B)'"
+        [title]="activeBookmark() ? 'Remove bookmark (B)' : 'Bookmark this page (B)'"
+      >
+        <app-icon name="bookmark" [filled]="!!activeBookmark()" />
+      </button>
+      @if (fullscreenSupported) {
+        <button
+          type="button"
+          class="r-btn hide-touch"
+          (click)="toggleFullscreen()"
+          [attr.aria-label]="isFullscreen() ? 'Exit full screen (F)' : 'Full screen (F)'"
+          [title]="isFullscreen() ? 'Exit full screen (F)' : 'Full screen (F)'"
+        >
+          <app-icon [name]="isFullscreen() ? 'minimize' : 'maximize'" />
+        </button>
+      }
+    </div>
+  </header>
+
+  <!-- Reading surface -->
+  <ng-template #chapterTpl>
+    <header class="r-chapter-head">
+      @if (current()?.part) {
+        <span class="r-part">{{ current()!.part }}</span>
+      }
+      <h1 class="r-chapter-title">{{ current()?.title }}</h1>
+      <span class="r-ornament" aria-hidden="true">❦</span>
+    </header>
+
+    @if (error()) {
+      <div class="r-error" role="alert">
+        <app-icon name="alert" [size]="22" />
+        <p>{{ error() }}</p>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="retry()">Try again</button>
+      </div>
+    } @else if (loading() && !html()) {
+      <div class="r-skeleton" aria-label="Loading chapter">
+        @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
+          <span [style.width.%]="i % 3 === 0 ? 72 : 100"></span>
+        }
+      </div>
+    }
+
+    <div class="r-content" [innerHTML]="html()" [attr.lang]="b.language"></div>
+
+    @if (!loading() && html()) {
+      <nav class="r-chapter-end" aria-label="Chapter navigation">
+        @if (!isLast()) {
+          <button type="button" class="r-next-card" (click)="goNextChapter()">
+            <span class="r-next-label">Next {{ nextChapter()?.part && nextChapter()?.part !== current()?.part ? '· ' + nextChapter()?.part : '' }}</span>
+            <span class="r-next-title">{{ nextChapter()?.title }}</span>
+            <app-icon name="arrow-right" [size]="20" />
+          </button>
+        } @else {
+          <div class="r-finale">
+            <span class="r-ornament" aria-hidden="true">✦</span>
+            <h2>The End</h2>
+            <p>You’ve reached the end of <em>{{ b.title }}</em>.</p>
+            <div class="r-finale-actions">
+              @if (!isFinished()) {
+                <button type="button" class="btn btn-primary" (click)="markFinished()"><app-icon name="check" [size]="18" />Mark as finished</button>
+              } @else {
+                <span class="r-done"><app-icon name="trophy" [size]="18" />On your Finished shelf</span>
+              }
+              <a class="btn btn-secondary" [routerLink]="['/book', b.id]">Back to book</a>
+            </div>
+            @if (related().length) {
+              <p class="r-next-reads-title">What to read next</p>
+              <div class="r-next-reads">
+                @for (r of related(); track r.id) {
+                  <a [routerLink]="['/book', r.id]" class="r-next-read">
+                    <app-book-cover [book]="r" sizes="90px" />
+                    <span>{{ r.title }}</span>
+                  </a>
+                }
+              </div>
+            }
+          </div>
+        }
+      </nav>
+    }
+  </ng-template>
+
+  @if (isPaged()) {
+    <div class="r-paged" (click)="onSurfaceClick($event)" (pointerdown)="onPointerDown($event)" (pointerup)="onPointerUp($event)">
+      <div class="r-viewport" [style.width.px]="columns().width" [style.height.px]="pageHeight()" [style.top.px]="pageInsets().top">
+        <div
+          class="r-columns"
+          [class.instant]="instant()"
+          [style.transform]="translate()"
+          [style.column-count]="columns().count"
+          [style.column-gap.px]="columns().gap"
+          [style.--page-h.px]="pageHeight()"
+          aria-live="polite"
+        >
+          <ng-container [ngTemplateOutlet]="chapterTpl" />
+          <span class="r-sentinel" aria-hidden="true"></span>
+        </div>
+      </div>
+      @if (columns().count === 2) {
+        <span class="r-gutter" aria-hidden="true"></span>
+      }
+      <span class="r-page-num" aria-hidden="true">{{ page() + 1 }} / {{ pageCount() }}</span>
+      <button type="button" class="r-edge r-edge-prev" (click)="$event.stopPropagation(); prev()" [disabled]="isFirst() && page() === 0" aria-label="Previous page">
+        <app-icon name="chevron-left" [size]="26" />
+      </button>
+      <button type="button" class="r-edge r-edge-next" (click)="$event.stopPropagation(); next()" [disabled]="isLast() && page() >= pageCount() - 1" aria-label="Next page">
+        <app-icon name="chevron-right" [size]="26" />
+      </button>
+    </div>
+  } @else {
+    <div class="r-scroll" (click)="onSurfaceClick($event)" (pointerdown)="onPointerDown($event)" (pointerup)="onPointerUp($event)">
+      <article class="r-article">
+        <ng-container [ngTemplateOutlet]="chapterTpl" />
+      </article>
+    </div>
+  }
+
+  <!-- Bottom chrome -->
+  <footer class="r-bottombar" [attr.aria-hidden]="!chromeShown()" [attr.inert]="chromeShown() ? null : ''">
+    <button type="button" class="r-btn" (click)="goPrevChapter(0)" [disabled]="isFirst()" aria-label="Previous chapter" title="Previous chapter ([)">
+      <app-icon name="chevron-left" />
+    </button>
+    <div class="r-progress">
+      <div class="r-progress-labels">
+        <span>{{ chapterIndex() + 1 }} of {{ toc()?.length ?? b.chapters }}</span>
+        <span>
+          @if (chapterMinutesLeft() > 0) {
+            {{ chapterMinutesLeft() }} min left in chapter ·
+          }
+          {{ percentLabel() }}
+        </span>
+      </div>
+      <div class="r-range-wrap">
+        <input
+          type="range"
+          min="0"
+          max="1000"
+          step="1"
+          class="r-range"
+          [value]="scrub() ?? percent() * 1000"
+          [style.--fill.%]="(scrub() ?? percent() * 1000) / 10"
+          (input)="onScrubInput(+$any($event.target).value)"
+          (change)="onScrubChange(+$any($event.target).value)"
+          aria-label="Position in book"
+          [attr.aria-valuetext]="percentLabel() + ', ' + (current()?.title ?? '')"
+        />
+        @if (scrubPreview(); as sp) {
+          <div class="r-scrub-tip" [style.left.%]="(scrub() ?? 0) / 10">
+            <strong>{{ sp.label }}</strong>
+            <span>{{ sp.pct }}</span>
+          </div>
+        }
+      </div>
+    </div>
+    <button type="button" class="r-btn" (click)="goNextChapter()" [disabled]="isLast()" aria-label="Next chapter" title="Next chapter (])">
+      <app-icon name="chevron-right" />
+    </button>
+  </footer>
+
+  <div class="r-mini-progress" aria-hidden="true"><span [style.width.%]="percent() * 100"></span></div>
+
+  <!-- Panels -->
+  <dialog
+    #contentsDialog
+    class="r-drawer"
+    aria-label="Contents and bookmarks"
+    (close)="onDialogClose('contents')"
+    (click)="onDialogClick($event, 'contents')"
+  >
+    @if (panel() === 'contents' && toc()) {
+      <app-reader-contents-panel
+        [bookTitle]="b.title"
+        [author]="b.author"
+        [chapters]="toc()!"
+        [current]="chapterIndex()"
+        [currentPercent]="chapterPercent()"
+        [bookmarks]="bookmarks()"
+        [signedIn]="auth.isAuthenticated()"
+        [(tab)]="contentsTab"
+        (closed)="panel.set(null)"
+        (goChapter)="goToChapter($event)"
+        (goBookmark)="goToBookmark($event)"
+        (removeBookmark)="removeBookmark($event)"
+      />
+    }
+  </dialog>
+
+  <dialog
+    #settingsDialog
+    class="r-popover"
+    aria-labelledby="settings-title"
+    (close)="onDialogClose('settings')"
+    (click)="onDialogClick($event, 'settings')"
+  >
+    @if (panel() === 'settings') {
+      <app-reader-settings-panel (closed)="panel.set(null)" (shortcuts)="openPanel('shortcuts')" />
+    }
+  </dialog>
+
+  <dialog
+    #shortcutsDialog
+    class="r-modal"
+    aria-labelledby="shortcuts-title"
+    (close)="onDialogClose('shortcuts')"
+    (click)="onDialogClick($event, 'shortcuts')"
+  >
+    <div class="r-modal-head">
+      <h2 id="shortcuts-title">Keyboard shortcuts</h2>
+      <button type="button" class="r-btn" (click)="panel.set(null)" aria-label="Close"><app-icon name="x" /></button>
+    </div>
+    <dl class="r-shortcuts">
+      <div><dt><span class="kbd">←</span> <span class="kbd">→</span></dt><dd>Previous / next page (chapter in scroll mode)</dd></div>
+      <div><dt><span class="kbd">Space</span></dt><dd>Next page in page mode</dd></div>
+      <div><dt><span class="kbd">[</span> <span class="kbd">]</span></dt><dd>Previous / next chapter</dd></div>
+      <div><dt><span class="kbd">T</span></dt><dd>Contents & bookmarks</dd></div>
+      <div><dt><span class="kbd">A</span></dt><dd>Appearance</dd></div>
+      <div><dt><span class="kbd">B</span></dt><dd>Toggle bookmark</dd></div>
+      <div><dt><span class="kbd">+</span> <span class="kbd">−</span></dt><dd>Text size</dd></div>
+      <div><dt><span class="kbd">F</span></dt><dd>Full screen</dd></div>
+      <div><dt><span class="kbd">Esc</span></dt><dd>Close panel / show controls</dd></div>
+    </dl>
+  </dialog>
+} @else {
+  <div class="r-missing">
+    <app-icon name="book-open" [size]="32" />
+    <h1>We couldn’t find that book</h1>
+    <a routerLink="/browse" class="btn btn-primary">Browse the library</a>
+  </div>
+}

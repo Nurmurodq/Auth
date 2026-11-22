@@ -1,14 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <title>My app</title>
-    <meta charset="UTF-8" />
-    <base href="/">
-    <meta property="og:image" content="https://bolt.new/static/og_default.png" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://bolt.new/static/og_default.png" />
+    <meta charset="utf-8" />
+    <title>Folio — Great books, beautifully read</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Folio is a calm, ad-free reading platform for timeless books, with a reader designed for long, comfortable sessions." />
+    <meta name="theme-color" content="#f8f6f1" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121110" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Folio — Great books, beautifully read" />
+    <meta property="og:description" content="A calm, ad-free library of timeless books with a beautiful reader." />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <script>
+      // Apply the saved theme before first paint to avoid a flash of the wrong colours.
+      (function () {
+        try {
+          var pref = localStorage.getItem('folio:theme') || 'system';
+          var dark = pref === 'dark' || (pref === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        } catch (e) {
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+    </script>
   </head>
   <body>
-    <app-root>Loading...</app-root>
+    <app-root>
+      <div class="boot" aria-hidden="true">
+        <svg class="boot-mark" viewBox="0 0 32 32" width="40" height="40"><path d="M7 5.5h12.5a5.5 5.5 0 0 1 5.5 5.5v15.5H12.5A5.5 5.5 0 0 1 7 21V5.5Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 11h8M12 15.5h8M12 20h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+    </app-root>
+    <noscript>Folio needs JavaScript enabled to run.</noscript>
   </body>
 </html>

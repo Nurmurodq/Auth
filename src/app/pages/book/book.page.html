@@ -1,0 +1,248 @@
+@if (book(); as b) {
+  <div class="backdrop" [style.--tint]="b.cover.color" aria-hidden="true"></div>
+
+  <div class="container">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a routerLink="/browse">Browse</a>
+      @if (genres()[0]; as g) {
+        <app-icon name="chevron-right" [size]="14" />
+        <a routerLink="/browse" [queryParams]="{ genre: g.id }">{{ g.name }}</a>
+      }
+      <app-icon name="chevron-right" [size]="14" />
+      <span aria-current="page">{{ b.title }}</span>
+    </nav>
+
+    <section class="hero">
+      <div class="cover-col">
+        <div class="cover-3d">
+          <app-book-cover [book]="b" [eager]="true" [decorative]="false" sizes="(max-width: 760px) 60vw, 320px" />
+        </div>
+      </div>
+
+      <div class="info fade-up">
+        <div class="genre-row">
+          @for (g of genres(); track g!.id) {
+            <a class="tag genre-tag" routerLink="/browse" [queryParams]="{ genre: g!.id }">{{ g!.name }}</a>
+          }
+        </div>
+        <h1 class="display title">{{ b.title }}</h1>
+        @if (b.subtitle) {
+          <p class="subtitle">{{ b.subtitle }}</p>
+        }
+        <p class="byline">
+          by <a routerLink="/browse" [queryParams]="{ author: b.authorId }" class="author">{{ b.author }}</a>
+          @if (b.translator) {
+            <span class="credit">· Translated by {{ b.translator }}</span>
+          }
+          @if (b.illustrator) {
+            <span class="credit">· Illustrated by {{ b.illustrator }}</span>
+          }
+        </p>
+        <p class="tagline">{{ b.tagline }}</p>
+
+        <div class="actions">
+          <a class="btn btn-primary btn-lg" [routerLink]="readLink().commands" [queryParams]="readLink().query">
+            <app-icon name="book-open" [size]="19" />
+            {{ readLabel() }}
+            @if (readLabel() === 'Continue reading') {
+              <span class="pct">{{ percent(progress()!.percent) }}</span>
+            }
+          </a>
+          <app-shelf-menu [bookId]="b.id" [title]="b.title" />
+          <button
+            type="button"
+            class="icon-btn round"
+            [attr.aria-pressed]="isFavorite()"
+            (click)="toggleFavorite()"
+            [attr.aria-label]="isFavorite() ? 'Remove from favourites' : 'Add to favourites'"
+            [title]="isFavorite() ? 'Remove from favourites' : 'Add to favourites'"
+          >
+            <app-icon name="heart" [filled]="isFavorite()" />
+          </button>
+          <button type="button" class="icon-btn round" (click)="share()" aria-label="Share this book" title="Share">
+            <app-icon name="share" />
+          </button>
+        </div>
+
+        @if (progress(); as p) {
+          <div class="progress-block">
+            <div class="progress"><span [style.width.%]="p.percent * 100"></span></div>
+            <span>{{ progressSummary() }}</span>
+          </div>
+        }
+
+        <dl class="stats">
+          @for (s of stats(); track s.label) {
+            <div>
+              <dt>{{ s.label }}</dt>
+              <dd>{{ s.value }}</dd>
+            </div>
+          }
+        </dl>
+      </div>
+    </section>
+
+    <div class="columns">
+      <div class="main-col">
+        <section class="panel" aria-labelledby="about-title">
+          <h2 id="about-title" class="panel-title">About this book</h2>
+          <div class="prose-desc desc" [class.clamped]="!descExpanded()" [innerHTML]="b.description"></div>
+          @if (b.description.length > 600) {
+            <button type="button" class="link more" (click)="descExpanded.set(!descExpanded())">
+              {{ descExpanded() ? 'Show less' : 'Read more' }}
+            </button>
+          }
+        </section>
+
+        <section class="panel" aria-labelledby="toc-title">
+          <div class="panel-head">
+            <h2 id="toc-title" class="panel-title">Contents</h2>
+            <span class="muted small">{{ b.chapters }} {{ b.genres.includes('poetry') ? 'sections' : 'chapters' }}</span>
+          </div>
+          @if (tocError()) {
+            <p class="alert alert-error">We couldn’t load the table of contents. Check your connection and refresh.</p>
+          } @else if (!toc()) {
+            <div class="toc-skeleton">
+              @for (i of [1, 2, 3, 4, 5]; track i) {
+                <div class="skeleton"></div>
+              }
+            </div>
+          } @else {
+            <ol class="toc">
+              @for (row of visibleToc(); track row.index) {
+                @if (row.showPart) {
+                  <li class="toc-part" aria-hidden="true">{{ row.part }}</li>
+                }
+                <li>
+                  <a
+                    class="toc-row"
+                    [class.read]="row.status === 'read'"
+                    [class.current]="row.status === 'current'"
+                    [routerLink]="['/read', b.id]"
+                    [queryParams]="{ chapter: row.index }"
+                  >
+                    <span class="toc-num">{{ row.index + 1 }}</span>
+                    <span class="toc-title">
+                      @if (row.part && row.showPart) {
+                        <span class="visually-hidden">{{ row.part }}, </span>
+                      }
+                      {{ row.title }}
+                    </span>
+                    @if (row.status === 'current') {
+                      <span class="tag here">Reading</span>
+                    } @else if (row.status === 'read') {
+                      <app-icon name="check" [size]="16" class="done" />
+                    }
+                    <span class="toc-time">{{ row.minutes }} min</span>
+                  </a>
+                </li>
+              }
+            </ol>
+            @if (tocRows().length > 10) {
+              <button type="button" class="btn btn-secondary btn-sm toc-more" (click)="tocExpanded.set(!tocExpanded())">
+                {{ tocExpanded() ? 'Show fewer' : 'Show all ' + tocRows().length }}
+                <app-icon [name]="tocExpanded() ? 'chevron-up' : 'chevron-down'" [size]="16" />
+              </button>
+            }
+          }
+        </section>
+
+        @if (bookmarks().length) {
+          <section class="panel" aria-labelledby="bm-title">
+            <div class="panel-head">
+              <h2 id="bm-title" class="panel-title">Your bookmarks</h2>
+              <span class="muted small">{{ bookmarks().length }}</span>
+            </div>
+            <ul class="bookmarks">
+              @for (m of bookmarks(); track m.id) {
+                <li class="bm">
+                  <a class="bm-link" [routerLink]="['/read', b.id]" [queryParams]="{ chapter: m.chapter, pos: m.position }">
+                    <span class="bm-icon"><app-icon name="bookmark" [size]="16" [filled]="true" /></span>
+                    <span class="bm-body">
+                      <span class="bm-chapter">{{ chapterTitle(m.chapter) }} · {{ relative(m.createdAt) }}</span>
+                      <span class="bm-excerpt">“{{ m.excerpt }}”</span>
+                      @if (m.note) {
+                        <span class="bm-note">{{ m.note }}</span>
+                      }
+                    </span>
+                  </a>
+                  <button type="button" class="icon-btn" (click)="removeBookmark(m.id)" aria-label="Remove bookmark">
+                    <app-icon name="trash" [size]="17" />
+                  </button>
+                </li>
+              }
+            </ul>
+          </section>
+        }
+      </div>
+
+      <aside class="side-col">
+        <div class="card details">
+          <h2 class="panel-title small-title">Details</h2>
+          <dl>
+            <div>
+              <dt>Author</dt>
+              <dd>
+                <a routerLink="/browse" [queryParams]="{ author: b.authorId }" class="link">{{ b.author }}</a>
+              </dd>
+            </div>
+            <div>
+              <dt>First published</dt>
+              <dd>{{ stats()[0].value }}</dd>
+            </div>
+            <div>
+              <dt>Language</dt>
+              <dd>{{ language() }}</dd>
+            </div>
+            <div>
+              <dt>Words</dt>
+              <dd>{{ b.words.toLocaleString('en') }}</dd>
+            </div>
+            <div>
+              <dt>Reading ease</dt>
+              <dd>{{ b.readingEase }} / 100 <span class="muted">(Flesch)</span></dd>
+            </div>
+          </dl>
+          @if (b.subjects.length) {
+            <h3 class="mini-title">Subjects</h3>
+            <div class="subjects">
+              @for (s of b.subjects.slice(0, 8); track s) {
+                <a class="tag" routerLink="/browse" [queryParams]="{ q: s }">{{ s }}</a>
+              }
+            </div>
+          }
+          @if (b.collections.length) {
+            <h3 class="mini-title">Featured in</h3>
+            <ul class="collections">
+              @for (c of b.collections; track c) {
+                <li><app-icon name="trophy" [size]="15" />{{ c }}</li>
+              }
+            </ul>
+          }
+          <p class="source">
+            Public-domain edition from
+            <a [href]="b.source" target="_blank" rel="noopener" class="link">Standard Ebooks <app-icon name="external" [size]="13" /></a>
+          </p>
+        </div>
+      </aside>
+    </div>
+
+    @if (moreByAuthor().length) {
+      <section class="block">
+        <app-book-shelf [heading]="'More by ' + b.author" [books]="moreByAuthor()" [link]="{ commands: ['/browse'], query: { author: b.authorId } }" />
+      </section>
+    }
+    @if (related().length) {
+      <section class="block">
+        <app-book-shelf heading="You might also enjoy" description="Chosen for shared genres, themes and era." [books]="related()" />
+      </section>
+    }
+  </div>
+} @else {
+  <div class="container missing">
+    <div class="missing-icon"><app-icon name="book-open" [size]="30" /></div>
+    <h1 class="display">We couldn’t find that book</h1>
+    <p class="muted">It may have been moved, or the link might be mistyped.</p>
+    <a routerLink="/browse" class="btn btn-primary">Browse the library</a>
+  </div>
+}

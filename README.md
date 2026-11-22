@@ -1,306 +1,136 @@
-# Authentication Application
+# Folio — great books, beautifully read
 
-A comprehensive role-based authentication system built with Angular, TypeScript, and Supabase. This application provides complete user and admin authentication functionality with modern security practices.
+Folio is a reading platform for timeless books. It has a calm, ad-free library of **77 public-domain classics** (about 7 million words across 14 genres) and a reader built for long, comfortable sessions.
+
+![Folio home page](docs/screenshots/home.jpg)
+
+| Reader (paged, Sepia) | Appearance settings (Dusk) |
+| --- | --- |
+| ![Paged reader](docs/screenshots/reader.jpg) | ![Reader settings](docs/screenshots/reader-settings.jpg) |
+
+| Book page | Browse with filters (dark mode) |
+| --- | --- |
+| ![Book page](docs/screenshots/book.jpg) | ![Browse](docs/screenshots/browse.jpg) |
 
 ## Features
 
-### User Authentication
-- User registration with automatic profile creation
-- Secure login/logout functionality
-- Password reset via email
-- Profile management (view and edit personal details)
-- Protected user routes with route guards
-- Responsive design for all devices
+**Library & discovery**
+- 77 complete books with covers, descriptions, subjects, award lists, word counts, reading time and reading level.
+- Instant search (⌘K / Ctrl K or `/`) across titles, authors, genres, subjects and descriptions. It ignores accents and tolerates typos ("dracla" finds *Dracula*).
+- Browse with faceted filters (genre, reading time, era, reading level) that show live counts. Also: author pages, seven sort orders, grid and list views, and URL-synced state you can share or bookmark.
+- A curated home page: editor's picks, genre tiles, themed shelves, and *Continue reading* for returning readers.
+- Book pages with a 3D cover, table of contents, your progress and bookmarks, "More by this author" and related recommendations.
 
-### Admin Features
-- Admin login with elevated privileges
-- User management dashboard
-- View all users with detailed information
-- Enable/disable user accounts
-- Promote users to admin or demote to regular user
-- Real-time user statistics
-- Admin-only protected routes
+**Reading experience**
+- **Scroll** or **page-turn** layout. On wide screens, page mode shows a two-page spread. It supports swipe, tap zones, arrow keys and Space.
+- Four themes (Paper, Sepia, Dusk, true-black Night) and five reading typefaces (Literata, Source Serif, EB Garamond, Inter, Atkinson Hyperlegible).
+- Adjustable text size, line spacing and line width, plus left or justified alignment with hyphenation.
+- Book typography throughout: drop caps, indented paragraphs, scene-break ornaments, set verse, drama with speaker names, letters and epigraphs, and illustrations that invert in dark themes.
+- Progress saves automatically and the reader resumes exactly where you left off. A progress scrubber shows chapter previews, along with time left in the chapter.
+- Bookmarks with excerpts and notes, a contents drawer, an end-of-book celebration with "Mark as finished", full screen and keyboard shortcuts (press `?`).
 
-### Security
-- Row Level Security (RLS) policies in Supabase
-- Role-based access control (RBAC)
-- Secure password handling
-- Protected routes with Angular Guards
-- JWT-based authentication
-- Automatic session management
+**Your account**
+- Registration, sign-in, password change and a full forgot/reset flow.
+- My Library shelves: Reading, Want to read, Finished, Favourites and Bookmarks, with undo for removals.
+- Reading stats: daily goal ring, streaks, a 14-day chart, time read this week and all-time, and books finished.
+- Export all your data as JSON, or clear your reading history.
+- Guests can read freely. Their progress carries over when they create an account.
 
-## Tech Stack
+**Quality**
+- Fully responsive, with a mobile tab bar and bottom-sheet filters and settings. Light, dark and system themes are applied before first paint, so there's no flash.
+- Accessible: semantic landmarks, skip link, labelled controls, keyboard support for every feature, focus-managed dialogs and reduced-motion support. It has **0 axe-core WCAG 2.1 AA violations** across all pages in both themes.
+- Fast: about 138 KB (gzip) of initial JavaScript, lazy-loaded routes, chapters loaded on demand with prefetching, responsive WebP covers, and self-hosted variable fonts that load only when used.
 
-- **Frontend**: Angular 21+ with TypeScript
-- **Backend**: Supabase (PostgreSQL database, Authentication)
-- **Styling**: Custom CSS with responsive design
-- **Forms**: Angular Reactive Forms
-- **Routing**: Angular Router with Guards
+## Tech stack
 
-## Project Structure
+- **Angular 21**: standalone components, signals, zoneless change detection and the new control flow. Every component uses OnPush.
+- **Pluggable backend**: a local browser backend by default, or **Supabase** (Auth + Postgres with row-level security) for cross-device sync.
+- **Content**: [Standard Ebooks](https://standardebooks.org) EPUBs (CC0), converted at build time into sanitized per-chapter HTML.
+- **Testing**: Vitest unit tests through the Angular CLI.
 
-```
-src/
-├── app/
-│   ├── components/
-│   │   ├── admin/
-│   │   │   └── dashboard.component.ts       # Admin user management
-│   │   ├── auth/
-│   │   │   ├── login.component.ts          # User login
-│   │   │   ├── register.component.ts       # User registration
-│   │   │   ├── forgot-password.component.ts # Password reset request
-│   │   │   └── reset-password.component.ts  # New password form
-│   │   ├── landing/
-│   │   │   └── landing.component.ts        # Landing page
-│   │   └── user/
-│   │       ├── dashboard.component.ts      # User dashboard
-│   │       └── profile.component.ts        # Profile management
-│   ├── guards/
-│   │   ├── auth.guard.ts                   # Authenticated user guard
-│   │   └── admin.guard.ts                  # Admin-only guard
-│   ├── models/
-│   │   └── user.model.ts                   # TypeScript interfaces
-│   └── services/
-│       ├── auth.service.ts                 # Authentication logic
-│       └── supabase.service.ts             # Supabase client
-├── environments/
-│   └── environment.ts                      # Environment configuration
-├── global_styles.css                       # Global styles
-├── main.ts                                 # Application bootstrap & routing
-└── index.html                              # HTML entry point
+## Getting started
+
+```bash
+npm install
+npm start          # http://localhost:4200
+npm test           # unit tests
+npm run build      # production build in dist/folio/browser
 ```
 
-## Setup Instructions
+The app works out of the box with no server. Accounts and reading data live in the browser (see *Backends* below).
 
-### Prerequisites
-- Node.js 18+ and npm
-- A Supabase account and project
+## Backends
 
-### Installation
+Choose the backend in `src/environments/environment.ts`:
 
-1. **Install Dependencies**
-   ```bash
-   npm install
-   ```
+| `backend` | Accounts | Library, progress, bookmarks | Notes |
+| --- | --- | --- | --- |
+| `'local'` (default) | Stored in the browser (PBKDF2-SHA-256 password hashes via WebCrypto) | Local storage, synced across tabs | No server needed. Password-reset links are shown on screen because email can't be sent. Needs HTTPS or localhost. |
+| `'supabase'` | Supabase Auth (email confirmation and reset emails) | Postgres tables with row-level security, synced in the background (offline-first) | Apply the migrations first. The Supabase client is lazy-loaded, so local mode never downloads it. |
 
-2. **Database Setup**
-   The database schema is already configured with:
-   - `profiles` table with user information
-   - Row Level Security policies
-   - Automatic trigger to create profiles on user signup
-   - Indexes for optimal performance
+To use Supabase:
 
-3. **Run the Application**
-   ```bash
-   npm start
-   ```
-   The application will be available at `http://localhost:4200`
+1. Apply both SQL files in `supabase/migrations/` to your project, in order. The second one adds the reading tables and fixes a recursive policy in the original `profiles` setup.
+2. In Supabase → Authentication → URL configuration, add your site URL and `/reset-password` as a redirect URL.
+3. Set `backend: 'supabase'` plus your project URL and anon (publishable) key in `environment.ts`.
 
-4. **Build for Production**
-   ```bash
-   npm run build
-   ```
+All user data is written locally first, so reading works offline. Changes are pushed in the background and retried when the connection returns. On sign-in, local and remote data are merged, with the newest change winning.
 
-## Usage Guide
+## Content pipeline
 
-### For Regular Users
+The library is generated by `scripts/import-books.mjs` from the list in `scripts/books.config.mjs`:
 
-1. **Registration**
-   - Navigate to the registration page
-   - Enter full name, email, and password
-   - Account is created automatically
-
-2. **Login**
-   - Use email and password to sign in
-   - Redirected to user dashboard upon success
-
-3. **User Dashboard**
-   - View account information
-   - Access quick actions
-   - Navigate to profile management
-
-4. **Profile Management**
-   - Update full name
-   - Add/change avatar URL
-   - View account status and creation date
-
-5. **Password Reset**
-   - Click "Forgot password" on login page
-   - Enter email to receive reset link
-   - Click link in email and set new password
-
-### For Administrators
-
-1. **Access Admin Dashboard**
-   - Login with admin credentials
-   - Automatically redirected to admin dashboard
-
-2. **User Management**
-   - View all registered users
-   - See user statistics (total, active, admins)
-   - Enable or disable user accounts
-   - Promote users to admin or demote to regular user
-
-3. **User Actions**
-   - **Enable/Disable**: Toggle user account status
-   - **Change Role**: Switch between user and admin roles
-   - Cannot modify own account to prevent lockout
-
-## Database Schema
-
-### profiles Table
-```sql
-- id (uuid, primary key) - Links to auth.users
-- email (text) - User's email
-- full_name (text) - User's full name
-- role (text) - 'user' or 'admin'
-- is_active (boolean) - Account status
-- avatar_url (text, nullable) - Profile picture URL
-- created_at (timestamptz) - Creation timestamp
-- updated_at (timestamptz) - Last update timestamp
+```bash
+npm run import-books                        # rebuild everything (downloads are cached in .cache/)
+node scripts/import-books.mjs --only=emma   # re-import selected books
 ```
 
-### Row Level Security Policies
+For each book the script:
 
-**For Users:**
-- Read their own profile
-- Update their own profile (except role and is_active)
+1. Downloads the Standard Ebooks EPUB.
+2. Parses its metadata and table of contents.
+3. Splits it into chapters (plays by scene, poetry collections by poem, very long chapters at scene breaks).
+4. Sanitizes the XHTML into a small whitelist of reader-friendly HTML.
+5. Optimises illustrations (with width and height set to prevent layout shift).
+6. Crops the cover artwork into responsive WebP files and samples a palette colour for the typographic cover.
 
-**For Admins:**
-- Read all profiles
-- Update any profile (including role and is_active)
+The output (`public/books`, `public/covers`, `src/app/data/catalog.data.ts`) is committed, so building the app needs no network. Re-running the importer requires ImageMagick.
 
-## API Endpoints (Supabase)
+To add a book, append its Standard Ebooks path, year of publication and genres to `books.config.mjs`, then run the importer.
 
-### Authentication
-- `auth.signUp()` - Register new user
-- `auth.signInWithPassword()` - Login
-- `auth.signOut()` - Logout
-- `auth.resetPasswordForEmail()` - Request password reset
-- `auth.updateUser()` - Update password
+## Project structure
 
-### Database Operations
-- `from('profiles').select()` - Get user profiles
-- `from('profiles').update()` - Update user profile
-- `from('profiles').insert()` - Create profile (triggered automatically)
+```
+src/app/
+  app.component.ts / app.config.ts / app.routes.ts   shell, providers, lazy routes
+  config.ts, guards.ts
+  data/catalog.data.ts          generated catalog metadata
+  layout/                       header, mobile nav, footer, search palette, toasts
+  models/                       book and user types
+  pages/
+    home/  browse/  book/       discovery
+    reader/                     reader + appearance and contents panels
+    library/  account/          personal library and stats
+    auth/                       sign-in, sign-up, forgot and reset password
+  services/
+    auth/                       AuthService facade + local and Supabase backends
+    sync/                       Supabase sync adapter
+    catalog.service.ts          search, filters, recommendations
+    book-content.service.ts     table-of-contents and chapter loading with caching
+    library.service.ts          shelves, progress, bookmarks, stats (local-first)
+    reader-settings.service.ts  typography and theme preferences
+  shared/                       book cover, card, shelf, icons, shelf menu
+  utils/                        formatting, text, storage, passwords
+scripts/                        content import pipeline
+supabase/migrations/            database schema and RLS policies
+```
 
-## Routes
+## Deployment
 
-| Route | Component | Guard | Description |
-|-------|-----------|-------|-------------|
-| `/` | Landing | None | Home page |
-| `/login` | Login | None | User login |
-| `/register` | Register | None | User registration |
-| `/forgot-password` | ForgotPassword | None | Password reset request |
-| `/reset-password` | ResetPassword | None | Set new password |
-| `/user/dashboard` | UserDashboard | AuthGuard | User dashboard |
-| `/user/profile` | UserProfile | AuthGuard | Profile management |
-| `/admin/dashboard` | AdminDashboard | AdminGuard | Admin panel |
+`npm run build` produces a static site in `dist/folio/browser`. Serve it from any static host with an SPA fallback, so that unknown routes are rewritten to `index.html` (for example Netlify `_redirects`, Vercel rewrites, or nginx `try_files $uri /index.html`). Enable gzip or Brotli. Chapter files are plain HTML fragments and compress very well.
 
-## Security Best Practices
+## Credits
 
-1. **Password Security**
-   - Minimum 6 characters required
-   - Passwords are hashed by Supabase
-   - Secure password reset flow
+Book texts and cover artwork come from [Standard Ebooks](https://standardebooks.org). They are believed to be in the US public domain, and Standard Ebooks dedicates its contributions to the public domain under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/). Folio's cover designs set this public-domain artwork with original typography. Folio is not affiliated with Standard Ebooks.
 
-2. **Access Control**
-   - Route guards prevent unauthorized access
-   - RLS policies enforce database-level security
-   - Role-based permissions
-
-3. **Data Protection**
-   - Users can only access their own data
-   - Admins have controlled elevated access
-   - No sensitive data exposed in client
-
-4. **Session Management**
-   - Automatic session handling
-   - Secure JWT tokens
-   - Auth state synchronization
-
-## Styling & Responsiveness
-
-The application features:
-- Modern, clean design with gradient accents
-- Fully responsive layout (mobile, tablet, desktop)
-- Consistent color scheme
-- Smooth transitions and hover effects
-- Accessible form controls
-- Loading states and error messages
-
-## Error Handling
-
-The application includes comprehensive error handling:
-- Form validation with helpful error messages
-- API error handling with user-friendly messages
-- Loading states for async operations
-- Success confirmations for user actions
-
-## Development
-
-### Adding New Features
-
-1. **New Component**
-   - Create component in appropriate directory
-   - Add to routing in `main.ts`
-   - Apply necessary guards
-
-2. **New Database Table**
-   - Create migration with RLS policies
-   - Add TypeScript interface in `models/`
-   - Create service methods if needed
-
-3. **New Route Guard**
-   - Create guard in `guards/` directory
-   - Implement `canActivate` method
-   - Add to route configuration
-
-## Testing
-
-To test the admin functionality:
-
-1. Create a regular user account
-2. Manually promote user to admin:
-   ```sql
-   UPDATE profiles
-   SET role = 'admin'
-   WHERE email = 'your-email@example.com';
-   ```
-3. Login to access admin dashboard
-
-## Troubleshooting
-
-### Build Issues
-- Ensure all dependencies are installed: `npm install`
-- Clear cache: `rm -rf node_modules package-lock.json && npm install`
-
-### Authentication Issues
-- Check Supabase credentials in environment file
-- Verify database migrations are applied
-- Check browser console for errors
-
-### Permission Issues
-- Verify RLS policies are enabled
-- Check user role in database
-- Ensure user account is active
-
-## Future Enhancements
-
-Potential features to add:
-- Email verification on signup
-- Two-factor authentication
-- User activity logs
-- Advanced admin analytics
-- Bulk user operations
-- User search and filtering
-- Export user data
-- Custom user permissions
-
-## License
-
-This project is open source and available for educational purposes.
-
-## Support
-
-For issues or questions, please check the documentation or review the code comments for detailed explanations of complex logic.
+Fonts: Fraunces, Inter, Literata, Source Serif 4, EB Garamond and Atkinson Hyperlegible Next (SIL Open Font License), self-hosted via Fontsource.

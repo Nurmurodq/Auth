@@ -1,47 +1,58 @@
-export type UserRole = 'user' | 'admin';
-
-export interface Profile {
+export interface User {
   id: string;
   email: string;
-  full_name: string;
-  role: UserRole;
-  is_active: boolean;
-  avatar_url: string | null;
-  created_at: string;
-  updated_at: string;
+  name: string;
+  createdAt: string;
 }
 
-export interface AuthUser {
+export type Shelf = 'want' | 'reading' | 'finished';
+
+export interface LibraryEntry {
+  bookId: string;
+  shelf: Shelf | null;
+  favorite: boolean;
+  addedAt: string;
+  updatedAt: string;
+  finishedAt?: string;
+}
+
+export interface ReadingProgress {
+  bookId: string;
+  /** Zero-based chapter index. */
+  chapter: number;
+  /** Fraction (0–1) of the current chapter that has been read. */
+  position: number;
+  /** Fraction (0–1) of the whole book that has been read. */
+  percent: number;
+  updatedAt: string;
+}
+
+export interface Bookmark {
   id: string;
-  email: string;
-  profile: Profile | null;
+  bookId: string;
+  chapter: number;
+  position: number;
+  excerpt: string;
+  note?: string;
+  createdAt: string;
 }
 
-export interface LoginCredentials {
-  email: string;
-  password: string;
+export interface UserData {
+  version: 1;
+  library: Record<string, LibraryEntry>;
+  progress: Record<string, ReadingProgress>;
+  bookmarks: Bookmark[];
+  /** Seconds of active reading per local day (YYYY-MM-DD). */
+  activity: Record<string, number>;
+  /** Daily reading goal in minutes. */
+  dailyGoal: number;
 }
 
-export interface RegisterCredentials {
-  email: string;
-  password: string;
-  full_name: string;
-}
-
-export interface UpdateProfileData {
-  full_name?: string;
-  avatar_url?: string;
-}
-
-export interface AdminUpdateProfileData extends UpdateProfileData {
-  role?: UserRole;
-  is_active?: boolean;
-}
-
-export interface PasswordResetRequest {
-  email: string;
-}
-
-export interface PasswordUpdateRequest {
-  password: string;
-}
+export const emptyUserData = (): UserData => ({
+  version: 1,
+  library: {},
+  progress: {},
+  bookmarks: [],
+  activity: {},
+  dailyGoal: 20,
+});

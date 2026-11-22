@@ -1,0 +1,10 @@
+{
+  "name": "Folio",
+  "short_name": "Folio",
+  "description": "Great books, beautifully read.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f6f1",
+  "theme_color": "#9c3d24",
+  "icons": [{ "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

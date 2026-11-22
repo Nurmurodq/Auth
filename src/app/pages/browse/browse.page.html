@@ -1,0 +1,180 @@
+<header class="head container">
+  @if (author(); as a) {
+    <p class="eyebrow">Author</p>
+    <h1 class="display title">{{ a.name }}</h1>
+    <p class="lead">{{ a.count }} {{ a.count === 1 ? 'book' : 'books' }} in the library.</p>
+  } @else if (singleGenre(); as g) {
+    <p class="eyebrow">Genre</p>
+    <h1 class="display title">{{ g.name }}</h1>
+    <p class="lead">{{ g.blurb }}</p>
+  } @else {
+    <p class="eyebrow">The library</p>
+    <h1 class="display title">Find your next great read</h1>
+    <p class="lead">Search {{ catalog.books.length }} classics by title, author, theme or mood.</p>
+  }
+
+  <div class="search">
+    <app-icon name="search" [size]="20" />
+    <label for="browse-search" class="visually-hidden">Search the library</label>
+    <input
+      id="browse-search"
+      #search
+      type="search"
+      [value]="query().q ?? ''"
+      (input)="onSearch(search.value)"
+      placeholder="Try “Austen”, “detective”, “sea voyage”…"
+      autocomplete="off"
+      enterkeyhint="search"
+    />
+    @if (query().q) {
+      <button type="button" class="icon-btn clear" (click)="search.value = ''; onSearch('')" aria-label="Clear search">
+        <app-icon name="x" [size]="18" />
+      </button>
+    }
+  </div>
+</header>
+
+<ng-template #filterPanel>
+  @for (facet of facets(); track facet.key) {
+    <fieldset class="facet">
+      <legend>{{ facet.title }}</legend>
+      @for (opt of facet.options; track opt.id) {
+        <label class="opt" [class.disabled]="opt.count === 0 && !isSelected(facet.key, opt.id)">
+          <input
+            type="checkbox"
+            [checked]="isSelected(facet.key, opt.id)"
+            (change)="toggle(facet.key, opt.id)"
+            [disabled]="opt.count === 0 && !isSelected(facet.key, opt.id)"
+          />
+          <span class="box" aria-hidden="true"><app-icon name="check" [size]="13" [stroke]="3" /></span>
+          <span class="opt-label">{{ opt.label }}</span>
+          <span class="opt-count">{{ opt.count }}</span>
+        </label>
+      }
+    </fieldset>
+  }
+</ng-template>
+
+<div class="container body">
+  <aside class="sidebar" aria-label="Filters">
+    <div class="sidebar-head">
+      <h2>Filters</h2>
+      @if (filterCount()) {
+        <button type="button" class="link" (click)="clearAll()">Clear all</button>
+      }
+    </div>
+    <ng-container [ngTemplateOutlet]="filterPanel" />
+  </aside>
+
+  <section class="results" aria-labelledby="results-count">
+    <div class="toolbar" #resultsTop>
+      <p id="results-count" class="count" aria-live="polite">
+        <strong>{{ results().length }}</strong> {{ results().length === 1 ? 'book' : 'books' }}
+      </p>
+      <div class="toolbar-actions">
+        <button type="button" class="btn btn-secondary btn-sm filters-btn" (click)="openFilters()">
+          <app-icon name="sliders" [size]="16" /> Filters
+          @if (filterCount()) {
+            <span class="badge">{{ filterCount() }}</span>
+          }
+        </button>
+        <label class="visually-hidden" for="sort">Sort by</label>
+        <select id="sort" class="select" [value]="effectiveSort()" (change)="setSort($any($event.target).value)">
+          @for (s of visibleSorts(); track s.id) {
+            <option [value]="s.id" [selected]="s.id === effectiveSort()">{{ s.label }}</option>
+          }
+        </select>
+        <div class="view-toggle" role="group" aria-label="Layout">
+          <button type="button" class="icon-btn" [attr.aria-pressed]="view() === 'grid'" (click)="setView('grid')" aria-label="Grid view">
+            <app-icon name="grid" [size]="18" />
+          </button>
+          <button type="button" class="icon-btn" [attr.aria-pressed]="view() === 'list'" (click)="setView('list')" aria-label="List view">
+            <app-icon name="rows" [size]="18" />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @if (activeChips().length) {
+      <div class="chips">
+        @for (chip of activeChips(); track chip.key + chip.id) {
+          <button type="button" class="chip active-chip" (click)="removeChip(chip)" [attr.aria-label]="'Remove filter ' + chip.label">
+            {{ chip.label }} <app-icon name="x" [size]="14" />
+          </button>
+        }
+        <button type="button" class="link clear-link" (click)="clearAll()">Clear all</button>
+      </div>
+    }
+
+    @if (results().length === 0) {
+      <div class="empty fade-up">
+        <div class="empty-icon"><app-icon name="search" [size]="28" /></div>
+        <h2>No books found</h2>
+        <p>We couldn’t find anything matching your search and filters. Try fewer filters or a different word.</p>
+        <button type="button" class="btn btn-primary" (click)="clearAll()">Reset search</button>
+      </div>
+    } @else if (view() === 'grid') {
+      <div class="grid">
+        @for (book of results(); track book.id; let i = $index) {
+          <app-book-card [book]="book" [eager]="i < 8" [progress]="progressOf(book.id)" />
+        }
+      </div>
+    } @else {
+      <ol class="rows">
+        @for (book of results(); track book.id) {
+          <li class="row">
+            <a class="row-cover" [routerLink]="['/book', book.id]" tabindex="-1" aria-hidden="true">
+              <app-book-cover [book]="book" sizes="96px" />
+            </a>
+            <div class="row-body">
+              <a class="row-title" [routerLink]="['/book', book.id]">{{ book.title }}</a>
+              <a class="row-author" [routerLink]="['/browse']" [queryParams]="{ author: book.authorId }">{{ book.author }}</a>
+              <p class="row-tagline">{{ book.tagline }}</p>
+              <div class="row-meta">
+                <span>{{ meta.year(book.year) }}</span>
+                <span>{{ meta.time(book.words) }}</span>
+                <span>{{ meta.ease(book.readingEase) }}</span>
+                @for (g of book.genres.slice(0, 2); track g) {
+                  <span class="tag">{{ catalog.genre(g)?.name }}</span>
+                }
+              </div>
+              @if (progressOf(book.id) !== null) {
+                <div class="row-progress">
+                  <div class="progress"><span [style.width.%]="progressOf(book.id)! * 100"></span></div>
+                </div>
+              }
+            </div>
+            <div class="row-actions">
+              <a class="btn btn-secondary btn-sm" [routerLink]="['/read', book.id]">{{ progressOf(book.id) !== null ? 'Continue' : 'Read' }}</a>
+              <button
+                type="button"
+                class="icon-btn"
+                [attr.aria-pressed]="!!library.entry(book.id)?.favorite"
+                (click)="toggleFavorite(book.id, book.title)"
+                [attr.aria-label]="(library.entry(book.id)?.favorite ? 'Remove from' : 'Add to') + ' favourites'"
+              >
+                <app-icon name="heart" [filled]="!!library.entry(book.id)?.favorite" />
+              </button>
+            </div>
+          </li>
+        }
+      </ol>
+    }
+  </section>
+</div>
+
+<dialog #sheet class="sheet" aria-labelledby="sheet-title" (click)="onSheetClick($event)">
+  <div class="sheet-inner">
+    <div class="sheet-head">
+      <h2 id="sheet-title">Filters</h2>
+      <button type="button" class="icon-btn" (click)="closeFilters()" aria-label="Close filters"><app-icon name="x" /></button>
+    </div>
+    <div class="sheet-body">
+      <ng-container [ngTemplateOutlet]="filterPanel" />
+    </div>
+    <div class="sheet-foot">
+      <button type="button" class="btn btn-ghost" (click)="clearAll()" [disabled]="!filterCount()">Clear all</button>
+      <button type="button" class="btn btn-primary" (click)="closeFilters()">Show {{ results().length }} {{ results().length === 1 ? 'book' : 'books' }}</button>
+    </div>
+  </div>
+</dialog>

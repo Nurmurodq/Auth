@@ -1,0 +1,164 @@
+<header class="head container">
+  <div>
+    <p class="eyebrow">Your reading</p>
+    <h1 class="display title">My Library</h1>
+  </div>
+  <dl class="summary">
+    <div>
+      <dt>Books saved</dt>
+      <dd>{{ summary().books }}</dd>
+    </div>
+    <div>
+      <dt>Finished</dt>
+      <dd>{{ summary().finished }}</dd>
+    </div>
+    <div>
+      <dt>This week</dt>
+      <dd>{{ summary().week }}</dd>
+    </div>
+    <div>
+      <dt>Day streak</dt>
+      <dd><app-icon name="flame" [size]="18" class="flame" />{{ summary().streak }}</dd>
+    </div>
+  </dl>
+</header>
+
+<div class="container">
+  <div class="tabs-bar">
+    <div class="tabs" role="tablist" aria-label="Library shelves">
+      @for (t of tabs; track t.id; let i = $index) {
+        <button
+          type="button"
+          role="tab"
+          class="tab"
+          [id]="'tab-' + t.id"
+          [attr.aria-selected]="activeTab() === t.id"
+          [attr.aria-controls]="'panel-' + t.id"
+          [attr.tabindex]="activeTab() === t.id ? 0 : -1"
+          (click)="selectTab(t.id)"
+          (keydown)="onTabKey($event, i)"
+        >
+          {{ t.label }}
+          <span class="count">{{ counts()[t.id] }}</span>
+        </button>
+      }
+    </div>
+    @if (activeTab() !== 'bookmarks' && rows().length > 1) {
+      <label class="visually-hidden" for="lib-sort">Sort</label>
+      <select id="lib-sort" class="select" [value]="sort()" (change)="sort.set($any($event.target).value)">
+        <option value="recent">Recently read</option>
+        <option value="title">Title</option>
+        <option value="author">Author</option>
+        <option value="progress">Progress</option>
+      </select>
+    }
+  </div>
+
+  <section class="panel" role="tabpanel" [id]="'panel-' + activeTab()" [attr.aria-labelledby]="'tab-' + activeTab()">
+    @if (activeTab() === 'bookmarks') {
+      @if (bookmarkGroups().length === 0) {
+        <ng-container *ngTemplateOutlet="empty" />
+      } @else {
+        <div class="bm-groups">
+          @for (g of bookmarkGroups(); track g.book.id) {
+            <article class="bm-group fade-up">
+              <a class="bm-book" [routerLink]="['/book', g.book.id]">
+                <div class="bm-cover"><app-book-cover [book]="g.book" sizes="56px" /></div>
+                <div>
+                  <h2>{{ g.book.title }}</h2>
+                  <p class="muted">{{ g.book.author }} · {{ g.marks.length }} {{ g.marks.length === 1 ? 'bookmark' : 'bookmarks' }}</p>
+                </div>
+              </a>
+              <ul class="bm-list">
+                @for (m of g.marks; track m.id) {
+                  <li class="bm">
+                    <a class="bm-main" [routerLink]="['/read', g.book.id]" [queryParams]="{ chapter: m.chapter, pos: m.position }">
+                      <span class="bm-meta">{{ chapterTitle(g.book.id, m.chapter) }} · {{ relative(m.createdAt) }}</span>
+                      <span class="bm-excerpt">“{{ m.excerpt }}”</span>
+                    </a>
+                    @if (editingNote() === m.id) {
+                      <form class="note-form" (submit)="$event.preventDefault(); saveNote(m.id, note.value)">
+                        <label class="visually-hidden" [for]="'note-' + m.id">Note</label>
+                        <textarea #note class="input note-input" [id]="'note-' + m.id" rows="2" maxlength="2000" [value]="m.note ?? ''" placeholder="Add a thought about this passage…"></textarea>
+                        <div class="note-actions">
+                          <button type="button" class="btn btn-ghost btn-sm" (click)="editingNote.set(null)">Cancel</button>
+                          <button type="submit" class="btn btn-dark btn-sm">Save note</button>
+                        </div>
+                      </form>
+                    } @else if (m.note) {
+                      <p class="bm-note"><app-icon name="pencil" [size]="14" />{{ m.note }}</p>
+                    }
+                    <div class="bm-actions">
+                      <a class="btn btn-secondary btn-sm" [routerLink]="['/read', g.book.id]" [queryParams]="{ chapter: m.chapter, pos: m.position }">Open</a>
+                      <button type="button" class="icon-btn" (click)="editingNote.set(m.id)" [attr.aria-label]="m.note ? 'Edit note' : 'Add note'" title="Note">
+                        <app-icon name="pencil" [size]="17" />
+                      </button>
+                      <button type="button" class="icon-btn" (click)="removeBookmark(m.id)" aria-label="Delete bookmark" title="Delete">
+                        <app-icon name="trash" [size]="17" />
+                      </button>
+                    </div>
+                  </li>
+                }
+              </ul>
+            </article>
+          }
+        </div>
+      }
+    } @else if (rows().length === 0) {
+      <ng-container *ngTemplateOutlet="empty" />
+    } @else {
+      <ul class="items">
+        @for (row of rows(); track row.book.id) {
+          <li class="item fade-up">
+            <a class="item-cover" [routerLink]="['/book', row.book.id]" tabindex="-1" aria-hidden="true">
+              <app-book-cover [book]="row.book" sizes="110px" />
+            </a>
+            <div class="item-body">
+              <a class="item-title" [routerLink]="['/book', row.book.id]">{{ row.book.title }}</a>
+              <span class="item-author">{{ row.book.author }}</span>
+
+              @if (activeTab() === 'finished' && row.entry?.finishedAt) {
+                <span class="item-meta"><app-icon name="trophy" [size]="14" />Finished {{ date(row.entry!.finishedAt!) }}</span>
+              } @else if (row.percent !== null) {
+                <div class="item-progress">
+                  <div class="progress"><span [style.width.%]="row.percent * 100"></span></div>
+                  <span>{{ percent(row.percent) }}{{ row.lastRead ? ' · ' + relative(row.lastRead) : '' }}</span>
+                </div>
+              } @else if (row.entry) {
+                <span class="item-meta">Added {{ relative(row.entry.addedAt) }}</span>
+              }
+
+              <div class="item-actions">
+                <a class="btn btn-primary btn-sm" [routerLink]="['/read', row.book.id]" [queryParams]="row.percent !== null && row.percent >= 0.995 ? { chapter: 0 } : {}">
+                  {{ row.percent === null ? 'Start' : row.percent >= 0.995 ? 'Read again' : 'Continue' }}
+                </a>
+                <app-shelf-menu [bookId]="row.book.id" [title]="row.book.title" [compact]="true" />
+                <button
+                  type="button"
+                  class="icon-btn"
+                  [attr.aria-pressed]="!!row.entry?.favorite"
+                  (click)="toggleFavorite(row)"
+                  [attr.aria-label]="row.entry?.favorite ? 'Remove from favourites' : 'Add to favourites'"
+                >
+                  <app-icon name="heart" [filled]="!!row.entry?.favorite" [size]="19" />
+                </button>
+              </div>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+</div>
+
+<ng-template #empty>
+  <div class="empty fade-up">
+    <div class="empty-art" aria-hidden="true">
+      <span></span><span></span><span></span>
+      <app-icon [name]="activeMeta().icon" [size]="26" class="empty-icon" />
+    </div>
+    <h2>{{ activeMeta().empty.title }}</h2>
+    <p>{{ activeMeta().empty.body }}</p>
+    <a class="btn btn-primary" [routerLink]="emptyLink().commands" [queryParams]="emptyLink().query ?? {}">{{ activeMeta().empty.cta }}</a>
+  </div>
+</ng-template>

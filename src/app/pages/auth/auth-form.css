@@ -1,0 +1,119 @@
+:host {
+  display: block;
+}
+
+form {
+  display: grid;
+  gap: 18px;
+  margin-top: 32px;
+}
+
+.label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.label-row a {
+  font-size: 0.85rem;
+}
+
+.pw-wrap {
+  position: relative;
+}
+
+.pw-wrap .input {
+  padding-right: 48px;
+}
+
+.pw-toggle {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 40px;
+  height: 40px;
+}
+
+.strength {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.strength span {
+  height: 4px;
+  border-radius: 4px;
+  background: var(--surface-2);
+  transition: background-color var(--dur) var(--ease);
+}
+
+.strength[data-score='1'] span:nth-child(-n + 1) {
+  background: var(--danger);
+}
+
+.strength[data-score='2'] span:nth-child(-n + 2) {
+  background: #d08a2c;
+}
+
+.strength[data-score='3'] span:nth-child(-n + 3) {
+  background: #7a9a3a;
+}
+
+.strength[data-score='4'] span {
+  background: var(--success);
+}
+
+.strength-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.submit {
+  margin-top: 6px;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: spin 700ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.switch {
+  margin-top: 28px;
+  text-align: center;
+  font-size: 0.94rem;
+  color: var(--text-2);
+}
+
+.success-state {
+  display: grid;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.success-icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.fine-print {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  text-align: center;
+}
