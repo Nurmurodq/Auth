@@ -8,85 +8,91 @@ export const GENRES: GenreRecord[] = [
     "id": "classics",
     "name": "Literary Fiction",
     "blurb": "Novels that shaped the way we read.",
-    "count": 33
+    "count": 65
   },
   {
     "id": "romance",
     "name": "Romance",
     "blurb": "Courtship, longing and the comedy of manners.",
-    "count": 14
+    "count": 23
   },
   {
     "id": "mystery",
     "name": "Mystery & Crime",
     "blurb": "Detectives, puzzles and the long shadow of guilt.",
-    "count": 11
+    "count": 20
   },
   {
     "id": "science-fiction",
     "name": "Science Fiction",
     "blurb": "Machines, other worlds and futures imagined.",
-    "count": 8
+    "count": 12
   },
   {
     "id": "fantasy",
     "name": "Fantasy",
     "blurb": "Rabbit holes, emerald cities and lands beyond maps.",
-    "count": 6
+    "count": 14
   },
   {
     "id": "adventure",
     "name": "Adventure",
     "blurb": "Treasure, high seas and journeys into the unknown.",
-    "count": 16
+    "count": 33
   },
   {
     "id": "horror",
     "name": "Horror & Gothic",
     "blurb": "Haunted halls, monsters and the uncanny.",
-    "count": 12
+    "count": 19
   },
   {
     "id": "historical",
     "name": "Historical Fiction",
     "blurb": "Revolutions, intrigue and lives in turbulent times.",
-    "count": 4
+    "count": 12
   },
   {
     "id": "childrens",
     "name": "Young Readers",
     "blurb": "Stories for every age, first read and reread.",
-    "count": 10
+    "count": 17
   },
   {
     "id": "short-stories",
     "name": "Short Stories",
     "blurb": "Whole worlds in a single sitting.",
-    "count": 6
+    "count": 15
   },
   {
     "id": "poetry",
     "name": "Poetry",
     "blurb": "Verse, song and epic.",
-    "count": 6
+    "count": 13
   },
   {
     "id": "drama",
     "name": "Drama",
     "blurb": "Plays written for the stage, ready for the page.",
-    "count": 4
+    "count": 11
+  },
+  {
+    "id": "humor",
+    "name": "Humour & Satire",
+    "blurb": "Wit, comic mishaps and sharp-eyed satire.",
+    "count": 13
   },
   {
     "id": "philosophy",
     "name": "Philosophy",
     "blurb": "Timeless ideas on how to think and how to live.",
-    "count": 7
+    "count": 15
   },
   {
     "id": "nonfiction",
     "name": "Memoir & Essays",
     "blurb": "True lives and considered reflections.",
-    "count": 2
+    "count": 8
   }
 ];
 
@@ -103,7 +109,6 @@ export const BOOKS: BookRecord[] = [
       "classics"
     ],
     "tagline": "A Regency-era novel of manners in which five women try to adjust to their new neighbor, an eligible gentleman.",
-    "description": "<p><i>Pride and Prejudice</i> may today be one of Jane Austen’s most enduring novels, having been widely adapted to stage, screen, and other media since its publication in 1813. The novel tells the tale of five unmarried sisters and how their lives change when a wealthy eligible bachelor moves in to their neighborhood.</p>",
     "subjects": [
       "England",
       "Young women",
@@ -140,7 +145,6 @@ export const BOOKS: BookRecord[] = [
       "classics"
     ],
     "tagline": "A wealthy young woman decides to take on the role of patroness and matchmaker to a young protégé, with considerably less than successful results.",
-    "description": "<p><i>Emma</i> is one of Jane Austen’s best-loved novels. Its eponymous heroine, Emma Woodhouse, has lived a pampered, protected life and consequently is somewhat unrealistic when she sets her sights on becoming a matchmaker for a young friend.</p><p>The novel provides a light-hearted insight into the distinctions of the rigid class structure of England in the Regency period, and the social barriers to marriage between persons considered to be of superior and inferior rank.</p><p><i>Emma</i> was published in 1815, the last of Austen’s novels to be published while she still lived. It received a generally very positive reception, and was well reviewed (though anonymously) by Sir Walter Scott. Criticisms of the novel, such as they were, centered around its supposed lack of plot, though its treatment of character was recognized and applauded. Today it is regarded as one of Austen’s best works. The novel has been adapted many times for theater, movies and television.</p>",
     "subjects": [
       "Humorous stories",
       "England",
@@ -180,7 +184,6 @@ export const BOOKS: BookRecord[] = [
       "classics"
     ],
     "tagline": "A young woman meets again with a lover whose marriage proposal she had been persuaded to reject several years ago.",
-    "description": "<p>Anne Elliot is the under-valued daughter of a vain and improvident English baronet, Sir Walter Elliot. Some years previously, at the urging of a family friend, Anne had rejected a marriage proposal from a young but impoverished naval captain. When she unexpectedly encounters him again, she is filled with regrets.</p><p><i>Persuasion</i> was published in 1817, six months after Jane Austen’s death, and is the last novel she completed in full. It was well-regarded on publication and has been turned into several television series and movies.</p>",
     "subjects": [
       "England",
       "Psychological fiction",
@@ -219,7 +222,6 @@ export const BOOKS: BookRecord[] = [
       "classics"
     ],
     "tagline": "Two sisters take long journeys to love in early nineteenth-century England.",
-    "description": "<p>When her husband dies and leaves his estate to his son from a former marriage, Mrs. Dashwood and her three daughters are offered a cottage on the estate of a distant relative. The two oldest daughters fall in love, only to find that the objects of their affection have secrets that throw their lives into an uproar. The reserved oldest daughter and impetuous, fiery middle daughter will take very different journeys to discovering the true worth of their respective beaus.</p><p>Published in 1811, <i>Sense and Sensibility</i>, was largely written fifteen years earlier, when Austen was approximately the same age as her older protagonist Elinor. It was published anonymously (“By A Lady”), possibly due to propriety, or perhaps because she wanted to avoid any negative publicity if the book was not well-received. She needn’t have worried; it sold out its first printing of a modest 750 copies. She used well-defined characters, humor, and satire to paint a vivid picture of life in the England of George III, with all of its manners, class issues, and unwritten rules of behavior. That it’s still being read over two hundred years later is a testimony to her brilliance.</p>",
     "subjects": [
       "England",
       "Inheritance and succession",
@@ -259,7 +261,6 @@ export const BOOKS: BookRecord[] = [
       "horror"
     ],
     "tagline": "A woman is hired by the mysterious master of Thornfield Hall as a governess for his young ward.",
-    "description": "<p>Jane Eyre experienced abuse at a young age, not only from her aunt—who raised her after both her parents died—but also from the headmaster of Lowood Institution, where she is sent away to. After ten years of living and teaching at Lowood Jane decides she is ready to see more of the world and takes a position as a governess at Thornfield Hall. Jane later meets the mysterious master of Thornfield Hall, Mr. Rochester, and becomes drawn to him.</p><p>Charlotte Brontë published <i>Jane Eyre: An Autobiography</i> on October 16th 1847 using the pen name “Currer Bell.” The novel is known for revolutionizing prose fiction, and is considered to be ahead of its time because of how it deals with topics of class, religion, and feminism.</p>",
     "subjects": [
       "Orphans",
       "England",
@@ -302,7 +303,6 @@ export const BOOKS: BookRecord[] = [
       "horror"
     ],
     "tagline": "An adopted child ends up tearing apart families in a quest for power and revenge.",
-    "description": "<p>Returning from Liverpool, Mr. Earnshaw brings with him a dirty, ragged, black-haired child called Heathcliff, and sets into motion a tale of destructive passions. The book’s two locations, the genteel Thrushcross Grange and the wild Wuthering Heights, serve as matching backgrounds to the characters of their occupants, as they struggle to gain the upper hand in marriage and power. All the while, the ghosts of the past seem to drive revenge more than inspire forgiveness.</p><p><i>Wuthering Heights</i> was Emily Brontë’s sole published novel before her early death at the age of 30. Published under the pen name of Ellis Bell, a shared surname with the pen names of her sisters, many assumed that such a book could only have been written by a man. Reviewers of the time praised its emotional power but were also shocked at the actions of its characters, and most agreed that it was impossible to put down. After the novel’s original publication in 1847 it was revised into a single volume in 1850, and over time has become a classic of English literature. The story has been reworked into plays, operas, films, TV dramatisations and a ballet, and has inspired many further works of art, music and literature.</p>",
     "subjects": [
       "Revenge",
       "Psychological fiction",
@@ -342,7 +342,6 @@ export const BOOKS: BookRecord[] = [
       "classics"
     ],
     "tagline": "An orphan boy living in Victorian England begins his life in extreme poverty and goes on to experience good fortune, love, rejection, wealth, and social challenges as he grows into adulthood.",
-    "description": "<p>Charles Dickens was a British author, journalist, and editor whose work brought attention to the struggles of Victorian England’s lower classes. His writings provided a candid portrait of the era’s poor and served as inspiration for social change.</p><p><i>Great Expectations</i>, Dickens’ thirteenth novel, was first published in serial form between 1860 and 1861 and is widely praised as the author’s greatest literary accomplishment.</p><p>The novel follows the life, relationships, and moral development of an orphan boy named Pip. The novel begins when Pip encounters an escaped convict whom he helps and fears in equal measure. Pip’s actions that day set off a sequence of events and interactions that shape Pip’s character as he matures into adulthood.</p><p>The vivid characters, engaging narrative style, and universal themes of <i>Great Expectations</i> establish this novel as a timeless literary classic, and an engaging portrait of Victorian life.</p>",
     "subjects": [
       "Orphans",
       "England",
@@ -379,7 +378,6 @@ export const BOOKS: BookRecord[] = [
       "classics"
     ],
     "tagline": "A family is reunited, added to, and then threatened to be torn apart by events arising from the French Revolution.",
-    "description": "<p>A doctor is released from the Bastille after being falsely imprisoned for almost eighteen years. A young woman discovers the father she’s never known is not dead but alive, if not entirely well. A young man is acquitted of being a traitor, due in part to the efforts of a rather selfish lout who is assisting the young man’s attorney. A man has a wine shop in Paris with a wife who knits at the bar. These disparate elements are tied together as only Dickens can, and in the process he tells the story of the French Revolution.</p><p>Charles Dickens was fascinated by Thomas Carlyle’s magnum opus <i>The French Revolution</i>; according to Dickens’ letters, he read it “500 times” and carried it with him everywhere while he was working on this novel. When he wrote to Carlyle asking him for books to read on background, Carlyle sent him two cartloads full. Dickens mimicked Carlyle’s style, his chronology, and his overall characterization of the revolution; although <i>A Tale of Two Cities</i> is fiction, the historical events described are largely accurate, sometimes exactly so. Even so, Dickens made his name and reputation on telling stories full of characters one could be invested in, care about, and despise, and this novel has all of those and more. It also, in its first and last lines, has two of the most famous lines in literature. With the possible exception of <i>A Christmas Carol</i>, it is his most popular novel, and according to many, his best.</p>",
     "subjects": [
       "Historical fiction",
       "France",
@@ -414,7 +412,6 @@ export const BOOKS: BookRecord[] = [
       "fantasy"
     ],
     "tagline": "A miserly moneylender is visited by four ghosts who help him see how to honor Christmas in his heart all year round.",
-    "description": "<p>Charles Dickens wrote <i>A Christmas Carol</i> in 1843 and the first edition, published on 19th December, was so successful that it sold out in just six days. The publishers had to produce two further editions between Christmas and the new year to meet the demand, and the novella has never been out of print.</p><p><em>A Christmas Carol</em> tells the story of a greedy money-lender, Ebenezer Scrooge, who is first visited by the ghost of his former business partner and then by three spirits—the Ghost of Christmas Past, the Ghost of Christmas Present and the Ghost of Christmas Yet to Come. They show Scrooge’s lack of compassion to him, compelling him to act more compassionately in the future and to honor Christmas in his heart.</p>",
     "subjects": [
       "Christmas stories",
       "London (England)",
@@ -447,7 +444,6 @@ export const BOOKS: BookRecord[] = [
       "romance"
     ],
     "tagline": "The decadent and mysterious Jay Gatsby pursues the American Dream in Jazz Age New York.",
-    "description": "<p><i>The Great Gatsby</i> is a novel that needs no introduction for a certain generation of American readers. Long taught as required reading in American schools, critics have consistently held it up alongside <i>Moby Dick</i>, <i>Huck Finn</i>, and <i>To Kill a Mockingbird</i> as perhaps the quintessential Great American Novel.</p><p>Nick Carraway is a young Midwestern man freshly arrived in New York to make his fortune. He rents a shabby apartment in Long Island next door to a sumptuous mansion: the home of the mysterious and wealthy Jay Gatsby. Carraway spends time catching up with his distant cousin Daisy and her industry-baron husband Tom before being invited to one of Gatsby’s wildly lavish weekend parties. There he meets Jordan, a flapper and a golf star, and an intricate web of romances and betrayals begins to unfold.</p><p>The novel is a colorful study of America’s Jazz Age—a term said to be coined by Fitzgerald himself—complete with wealthy socialites living in hedonistic abandon, libertine flappers, jazz bands, roaring roadsters, and greasy speakeasies populated with shady grifters. Contrasted against the glamorous lives of wealthy socialites is the entrenched lower class, who live in gray, dingy squalor among smoldering ash-heaps. Fitzgerald uses the setting to examine the American Dream: the idea that anyone in America can achieve success through hard work and dedication. Gatsby has spent his life reaching for his dream. Some say he’s already achieved it. But has he? Is the dream even real for the hard-working poor that Gatsby and Tom race past in their glittering cars on the way to the decadent city?</p><p>Fitzgerald wrote much of his real life into the novel. Like Carraway, he was a Midwesterner educated at an Ivy-league school who went to live on Long Island. Despite his meager finances he hobnobbed with socialites, and spent his career struggling for money to maintain the grand style his romantic interests were accustomed to.</p><p>The cover art, titled <i>Celestial Eyes</i>, was commissioned from Francis Cugat, who completed it before the novel was finished. The huge eyes gazing down on the blazing city so moved Fitzgerald that he wrote them into the story.</p><p>Fitzgerald saw the novel as a purely artistic work, free of the pulp pandering required by his shorter commissions—but despite that, contemporary reviews were mixed, and it sold poorly. Fitzgerald thought it a failure, and died believing the novel to be fatally obscure. Only during World War II did it come back to the public consciousness, buoyed by the support of a ring of writers and critics and printed as an Armed Service Edition to be sent to soldiers on the front. Now it is an American classic.</p>",
     "subjects": [
       "Traffic accidents",
       "First loves",
@@ -488,7 +484,6 @@ export const BOOKS: BookRecord[] = [
       "adventure"
     ],
     "tagline": "Captain Ahab, having lost his leg to the white whale Moby Dick, travels the world on a quest for vengeance.",
-    "description": "<p>“Call me Ishmael” says <i>Moby Dick</i>’s protagonist, and with this famous first line launches one of the acclaimed great American novels. Part adventure story, part quest for vengeance, part biological textbook, and part whaling manual, <i>Moby Dick</i> was first published in 1851. The story follows Ishmael as he abandons his humdrum life on shore for an adventure on the waves. Finding the whaler <i>Pequod</i> at harbor in Nantucket, he signs up for a three-year term without meeting the captain of the ship, a mysterious figure called Ahab. It’s only well into the voyage that Ahab’s thirst for vengeance against the eponymous white whale Moby Dick—and the consequences—become clear.</p><p>The novel is semi-autobiographical: Herman Melville had had his own experience of whaling, having spent a year and a half aboard a whaling ship and further years traveling the world in the early 1840s. Melville used the knowledge gained from his experiences and wide reading on the subject to furnish <i>Moby Dick</i> with an almost encyclopedic quality. The literary style varies widely, veering from soliloquies and staged scenes to dream sequences to comprehensive lists of ships’ provisions, but everything serves to further detail the world that’s being painted.</p><p>Presented here is the New York edition, which was published later than the London edition and reverted numerous changes the original publishers had made, as well as including the initially omitted epilogue.</p>",
     "subjects": [
       "Whaling",
       "Sea stories",
@@ -530,7 +525,6 @@ export const BOOKS: BookRecord[] = [
       "romance"
     ],
     "tagline": "A socialite starts an affair with a cavalry officer, against a backdrop of wealthy family life in Imperialist Russia.",
-    "description": "<p>Anna Karenina is certainly somewhat unhappy in her life, but presents a strong and vivacious character when called in to smooth over a major crack that’s appeared in her brother’s marriage. Unfortunately, the very visit designed to help her brother introduces her to Count Alexei Vronsky and sets in motion a chain of events that will ripple through families and the unforgiving society of wealthy Moscow and St. Petersburg.</p><p>Initially serialized over five years in <i>The Russian Messenger</i>, <i>Anna Karenina</i> was first published as a two-volume novel in 1878. It was Leo Tolstoy’s second novel, coming after <i>War and Peace</i> and further cementing his role as the primary Russian author of his age. Tolstoy drew on his aristocratic upbringing to set the scene for the novel, and it’s widely believed that he wrote his own experiences and struggles with religion (documented in <i>A Confession</i>) into the central character of Konstantin Levin.</p><p>This edition compiles into a single volume the 1901 English translation by Constance Garnett.</p>",
     "subjects": [
       "Adultery",
       "Didactic fiction",
@@ -566,7 +560,6 @@ export const BOOKS: BookRecord[] = [
       "mystery"
     ],
     "tagline": "Inflated by his own ambition, an ex-student murders a pawnbroker, then faces the inevitable consequences.",
-    "description": "<p><i>Crime and Punishment</i> tells the story of Rodion Raskolnikov, an ex-student who plans to murder a pawnbroker to test his theory of personality. Having accomplished the deed, Raskolnikov struggles with mental anguish while trying to both avoid the consequences and hide his guilt from his friends and family.</p><p>Dostoevsky’s original idea for the novel centered on the Marmeladov family and the impact of alcoholism in Russia, but inspired by a double murder in France he decided to rework it around the new character of Raskolnikov. The novel was first serialized in <i>The Russian Messenger</i> over the course of 1866, where it was an instant success. It was published in a single volume in 1867. Presented here is Constance Garnett’s 1914 translation.</p>",
     "subjects": [
       "Detective and mystery stories",
       "Psychological fiction",
@@ -601,7 +594,6 @@ export const BOOKS: BookRecord[] = [
       "classics"
     ],
     "tagline": "Arkady returns to his father’s estate accompanied by his friend from university—a nihilist.",
-    "description": "<p>Arkady, a university graduate, returns from St. Petersburg to his father’s estate with his mentor Bazarov—a nihilist.</p><p><i>Fathers and Children</i> (also known as <i>Fathers and Sons</i>) is a novel written in 1862 by Russian writer Ivan Turgenev and published in Moscow by <i>The Russian Messenger</i>.</p><p>The main theme of the novel is the conflict between two generations—the “fathers,” the liberal serf owners, and the “children,” nihilists who reject their authority and traditions.</p><p>Turgenev’s novel also helped popularize the term “nihilism,” especially after the word’s use by an influential Russian nihilist movement in the 1860s.</p><p>Despite being harshly criticized in Russia, the novel was very well received in Europe, being praised by influential novelists like Gustave Flaubert and Guy de Maupassant, making it the first Russian novel to gain recognition in the Western literary world.</p>",
     "subjects": [
       "Historical fiction",
       "Fathers and sons",
@@ -635,7 +627,6 @@ export const BOOKS: BookRecord[] = [
       "romance"
     ],
     "tagline": "A middle-class country wife tries to satisfy her yearnings for a luxurious life by engaging in various affairs.",
-    "description": "<p><i>Madame Bovary</i>, often ranked among the greatest novels of all time, is Flaubert’s first novel, and considered to be both his masterpiece and one of the most influential works in literary history, with authors from Henry James to Proust to Nabokov heaping it with praise.</p><p>The novel tells the story of Emma Bovary, a commoner wife of a country doctor, and her attempts to escape the drudgery of day-to-day mediocrity by engaging in adulterous affairs and overspending on luxuries. She remains unsatisfied even though her husband adores her and they want for little, and her shallowness eventually leads to their ruin.</p><p>The story was first serialized in <i>Revue de Paris</i>, where prosecutors tried to have it censored for obscenity, arguing that not only is the story immoral, but that realism as a literary style is an offence against art and decency. The trial only served to increase the story’s fame, and when it was published as a single novel it quickly became a bestseller.</p><p>The novel is groundbreaking in its emphasis on the psychological and emotional lives of its characters. Literature up to then had mostly focusing on the external events that make characters react, instead of focusing on the internal thought processes of those characters. <i>Madame Bovary</i> changed that forever. It was also revolutionary in its criticism of the middle class, which at the time was a still-new social class vying for elbow room between the working poor and hereditary aristocracy. Flaubert critiqued the middle class as being ambitious, shallow, greedy, materialistic, and totally without culture; Emma’s burning desire to reach even higher social strata, contrasted against that satisfaction being fundamentally denied to her by her middle-class nature, is an early echo of Marx’s theory of alienation in industrial societies.</p><p>Today <i>Madame Bovary</i>, with its careful but charming description of the banality of everyday life, is considered the first great example of literary realism in fiction novels. Eleanor Marx-Aveling’s translation, though over a hundred years old, is remarkably fresh and smooth, and is a pleasure even for modern readers.</p>",
     "subjects": [
       "Adultery",
       "Domestic fiction",
@@ -671,7 +662,6 @@ export const BOOKS: BookRecord[] = [
       "horror"
     ],
     "tagline": "A Victorian dandy turns to a life of debauchery after a magical portrait stops him from aging.",
-    "description": "<p><i>The Picture of Dorian Gray</i> was first published as a serial in <i>Lippencott’s Monthly Magazine</i>, and the publishers thought it would so offend readers that they removed nearly 500 words without Wilde’s approval. Wilde soon expanded it and republished it as a novel, including a short preface justifying his art. Even though his contemporaries considered it so offensive that some argued for his prosecution, <i>Dorian Gray</i> today survives as a classic philosophical novel that explores themes of aestheticism and double lives. Couched in Wilde’s trademark cutting wit, <i>Dorian Gray</i> is still being adapted today, with Dorian and his moldering portrait remaining cultural touchstones.</p>",
     "subjects": [
       "Appearance (Philosophy)",
       "Conduct of life",
@@ -703,7 +693,6 @@ export const BOOKS: BookRecord[] = [
       "adventure"
     ],
     "tagline": "The adventures of a young boy and his friend, an escaped slave, on the Mississippi river in the Antebellum South.",
-    "description": "<p>One of the great American novels, <i>The Adventures of Huckleberry Finn</i> tells the story of Huck Finn and his travels with Jim, an escaped slave. Roundly criticised by contemporary reviewers for its colorful and literal language and even banned by several libraries, it sealed its historical importance in part by being one of the first novels to be written entirely in American vernacular.</p><p>While <i>Huck Finn</i> is, on its face, an adventure tale for younger readers, it’s also a cutting satire and a nuanced examination of racism and morality. Hemingway called it “the best book we’ve had.”</p>",
     "subjects": [
       "Voyages and travels",
       "Slavery",
@@ -737,7 +726,6 @@ export const BOOKS: BookRecord[] = [
       "childrens"
     ],
     "tagline": "A young boy growing up in Missouri gets into all sorts of trouble and, with his friend, stumbles on a treasure.",
-    "description": "<p>The irrepressible Tom Sawyer drives his Aunt Polly to distraction; she can’t decide whether to cry or laugh at his antics. He fights, falls in love, and finds adventure with two of his friends, one of whom will later become famous in his own right. Along the way he attends his own funeral, wins the girl by falsely confessing to something she did, and, most famously, convinces most of the boys in town to pay him for the privilege of painting his aunt’s fence.</p><p><i>The Adventures of Tom Sawyer</i> was Mark Twain’s first novel written solely by himself. Although he was already a well-known author, it was for autobiographical sketches (<i>The Innocents Abroad</i>) and novels written with others (<i>The Gilded Age</i>). In writing about Tom, Twain drew on his childhood growing up in Hannibal, Missouri, infusing the story with his usual biting satire and social commentary. In Tom Sawyer and his friends, Twain created young men who would long outlive him. Not without controversy over the years due to its language and negative depiction of a Native American, <i>The Adventures of Tom Sawyer</i> is arguably Twain’s most endearing, and enduring, work.</p>",
     "subjects": [
       "Humorous stories",
       "Bildungsromans",
@@ -774,7 +762,6 @@ export const BOOKS: BookRecord[] = [
       "historical"
     ],
     "tagline": "A woman in the Puritan Massachusetts Bay Colony is forced to wear the shame of her sin embroidered on her clothes.",
-    "description": "<p><i>The Scarlet Letter</i> was published in 1850; it was one of the first books to be mass-produced in America, which helped ensure its immediate popularity and ubiquitous presence on contemporary shelves. Its first printing of 2,500 books sold out in ten days.</p><p>The novel is set in the Puritan Massachusetts Bay Colony between the years 1642 and 1649. Hester Prynne has had a child out of wedlock, and its father is a mystery. For her sin, she is made to wear an embroidered scarlet A on her clothes—for “Adulteress.” She now faces a life of unending shame in the stern and religious Puritan colony, in a part of the world where there are no others to turn to.</p><p>While the plot is simple, the novel is highly allegorical. It explores themes of sin, guilt, repentance, forgiveness, alienation, and legalism. Characters have symbolic names and appearances, and many aspects of the narrative can be viewed in a symbolist lens.</p><p>Hawthorne initially thought the novel was too short for publication on its own; to pad the length, he included the “Customhouse” introduction. The introduction angered the residents of Salem, who thought the introduction was poking mean-spirited fun at them. This prompted Hawthorne to republish the book “without the change of a word,” but with a reassurance that the introduction was meant in good spirits.</p><p>The novel has been consistently popular since its publication, with it being required reading in many American high schools. D. H. Lawrence called it “a perfect work of American imagination.”</p>",
     "subjects": [
       "Adultery",
       "Historical fiction",
@@ -814,7 +801,6 @@ export const BOOKS: BookRecord[] = [
       "classics"
     ],
     "tagline": "As Clarissa Dalloway walks through London on a glorious June day, her movements bring together a cast of friends and strangers, each in turn weighing matters of mind and heart.",
-    "description": "<p>Probably Virginia Woolf’s best-known novel, <i>Mrs. Dalloway</i>, originally published in 1925, is a glorious, ground-breaking text. On the surface, it follows Clarissa Dalloway, an Englishwoman in her fifties, minute by minute through the June day on which she is having a party. At a deeper level, however, the novel demonstrates, through an effortless stream of consciousness, the connections formed in human interaction—whether these interactions are fleeting, or persist through decades.</p><p>This is a novel to read and cherish, if only to marvel at Woolf’s linguistic acrobatics. Words and phrases swoop and soar like swallows. Woolf’s sentences are magnificent: sinuous, whirling, impeccably detailed. As narrative perspective shifts from character to character—sometimes within a single sentence—readers come to understand the oh-so-permeable barrier between self and other. Through Clarissa we meet Septimus Warren Smith, his wife Rezia, and a cast of dozens more, all connected by the “leaden circles” of Big Ben marking the passage of every hour, by the pavements of Bloomsbury that lead everywhere and nowhere. Modernist London has never been portrayed more sublimely: replete with birdsong and flowers, resplendent in sunshine, youthful yet eternal—and even in the aftermath of war and pandemic, resilient.</p><p><i>Mrs. Dalloway</i> is Woolf’s attempt to express that which may be inexpressible. It offers a close examination of how difficult it is, even when our hearts are brimming, to say what we really feel; and it examines the damage we inflict through our reticence with words, our withholding of love. It is a novel of the soul, and a work of immense beauty.</p>",
     "subjects": [
       "Triangles (Interpersonal relations)",
       "Middle-aged women",
@@ -853,7 +839,6 @@ export const BOOKS: BookRecord[] = [
       "romance"
     ],
     "tagline": "Upper-class New York gentleman Newland Archer is set to wed May Welland in a picture-perfect union, until the bride’s disgraced cousin returns from overseas and threatens to draw his love away.",
-    "description": "<p>Upper-class New York gentleman Newland Archer is set to wed May Welland in a picture-perfect union when the bride’s cousin, Ellen Olenska, returns from a failed marriage overseas. As Newland endeavors to help Countess Olenska be reinstated into the family’s good graces, his affections for her grow. Newland soon finds himself torn between his desire to conform to the society he knows and his new-found passion for the forbidden Countess.</p><p><i>The Age of Innocence</i> was originally published in 1920 as a four-part series in <i>Pictoral Review</i>, then later that same year as Wharton’s twelfth novel. It went on to win the 1921 Pulitzer Prize for Fiction, making Wharton the first woman to win the award.</p>",
     "subjects": [
       "New York (N.Y.)",
       "Love stories",
@@ -892,7 +877,6 @@ export const BOOKS: BookRecord[] = [
       "romance"
     ],
     "tagline": "A young woman of poor and uneducated parents is driven by guilt to try to redeem her family’s fortunes.",
-    "description": "<p><i>Tess of the d’Urbervilles</i> is said to be Thomas Hardy’s fictional masterpiece and is considered to be an important nineteenth century novel. It explores themes of love, sex, class and morality in an aching love story.</p><p>It initially appeared in a censored, serialised version in <i>The Graphic</i> in 1891 and was published in a single volume the following year. Early reviews were mixed, partly because of its challenge to Victorian sexual morals—it is now looked upon much more favorably.</p><p>Tess Durbeyfield is the oldest child of uneducated peasants who are given the impression that they may have noble blood, as their surname is a corruption of that of an extinct Norman family. When Tess participates in the village May Dance, she meets Angel, who stops to join the dance but notices Tess too late to dance with her. That night, Tess’s father gets too drunk to drive to the market, so she undertakes the journey herself. However, she falls asleep at the reins, and the family’s only horse encounters a speeding wagon and is fatally wounded. Tess feels so guilty over the consequences for the family that she agrees to try to claim kin with a rich widow who lives in a neighbouring town. The story traces Tess’s life through the following years.</p><p>The novel has been adapted for the stage, theatre, opera, cinema and television numerous times since its publication.</p>",
     "subjects": [
       "Didactic fiction",
       "Poor families",
@@ -932,7 +916,6 @@ export const BOOKS: BookRecord[] = [
       "classics"
     ],
     "tagline": "A woman’s dawning realisation of her situation leads to a struggle for independence.",
-    "description": "<p><i>The Awakening</i> charts Edna Pontellier’s journey of self-discovery. The time spent with a younger friend on a summer holiday on Grand Isle in Lousiana unlocks a feeling in her that she can’t close away again. On returning to her family home in New Orleans, she starts to transition from unthinking housewife and mother into something freer and more confident, although this doesn’t meet with the full approval of the society she’s a part of.</p><p>Kate Chopin had written a novel previously, but she was mostly known as a writer of Louisiana-set short stories. <i>The Awakening</i>, while keeping the setting, charted new territory with its themes of marital infidelity and less-than-perfect devotion of a mother to her children. The consequent critical reception was less than enthusiastic—hardly surprising given the prevailing moral atmosphere of the time—and her next novel was cancelled. <i>The Awakening</i> was rediscovered in the 1960s and is now regarded as an important early example of American feminist literature.</p>",
     "subjects": [
       "Adultery",
       "Women",
@@ -963,7 +946,6 @@ export const BOOKS: BookRecord[] = [
       "childrens"
     ],
     "tagline": "Four young sisters grow to adulthood in a northeastern town during the American Civil War.",
-    "description": "<p><i>Little Women</i> is the classic coming-of-age tale of four sisters on their journey to adulthood. Though today it’s considered a classic, <i>Little Women</i> almost wasn’t written: Alcott wanted to publish a collection of short stories instead, but her publisher and her father pressed her to write a book that would appeal to a wide audience of young girls.</p><p>The first volume was written quickly and published in 1868; it was a huge success, and Alcott composed the second volume just as quickly and published it in 1869. By her own account she didn’t enjoy writing them, and both she and her publisher agreed the first few chapters were dull—so it almost goes without saying she was pleasantly shocked at the positive reception the volumes received.</p><p>By 1927 it had been acknowledged as one of the most widely read novels of the era, and remains widely read today.</p>",
     "subjects": [
       "New England",
       "March family (Fictitious characters)",
@@ -1002,7 +984,6 @@ export const BOOKS: BookRecord[] = [
       "classics"
     ],
     "tagline": "A young English woman falls in love while on tour in Italy.",
-    "description": "<p><i>A Room With a View</i>, perhaps E. M. Forster’s lightest novel, was also one long in gestation—he began it as early as 1901, and only published it in 1908.</p><p>In it we meet young Lucy Honeychurch and her cousin Charlotte Bartlett, who have gone on tour to Italy. During their stay they meet a series of interesting characters, including George Emerson, the son of an eccentric gentleman. The conflict between Lucy’s choice of the unusual George, or her more conventional English suitor Cecil, forms the crux of Forster’s critique of contemporary English society.</p><p>Despite the novel being a societal critique, the prose is light and studded with Forster’s easy witticisms. In 1958 Forster added an appendix elaborating on what occurred to the main characters after the novel’s end: the two world wars figure largely in their futures.</p>",
     "subjects": [
       "Humorous stories",
       "England",
@@ -1036,7 +1017,6 @@ export const BOOKS: BookRecord[] = [
       "classics"
     ],
     "tagline": "Fifteen short stories about middle-class life in early 20th-century Dublin.",
-    "description": "<p><i>Dubliners</i> is a collection of picturesque short stories that paint a portrait of life in middle-class Dublin in the early 20th century. Joyce, a Dublin native, was careful to use actual locations and settings in the city, as well as language and slang in use at the time, to make the stories directly relatable to those who lived there.</p><p>The collection had a rocky publication history, with the stories being initially rejected over eighteen times before being provisionally accepted by a publisher—then later rejected again, multiple times. It took Joyce nine years to finally see his stories in print, but not before seeing a printer burn all but one copy of the proofs. Today <i>Dubliners</i> survives as a rich example of not just literary excellence, but of what everyday life was like for average Dubliners in their day.</p>",
     "subjects": [
       "Dublin (Ireland)"
     ],
@@ -1062,7 +1042,6 @@ export const BOOKS: BookRecord[] = [
       "mystery"
     ],
     "tagline": "The self-declared world’s first consulting detective unravels a mysterious case of murder and revenge.",
-    "description": "<p><i>A Study in Scarlet</i> is the novel which first introduced Arthur Conan Doyle’s iconic characters Sherlock Holmes and Dr. Watson. It was published in 1887 in a popular magazine, <i>Beeton’s Christmas Annual</i>. It attracted little public attention at the time, but interest in Holmes continued to build with the subsequent series of short stories Doyle wrote featuring the austere, analytical detective—now one of the most well-known characters in all of English literature.</p><p><i>A Study in Scarlet</i> is told from the point of view of Dr. John Watson, a medical doctor who has recently returned to London after suffering serious injury and illness as part of the Army Medical Department deployed to Afghanistan. In precarious health and even more precarious financial straits, he’s looking for cheap lodgings when a friend introduces him to Sherlock Holmes. The pair agree to share the rent of a flat Holmes has found.</p><p>Watson is baffled by his companion’s strange nature, his peculiar interests, his unusual breadth of knowledge in certain fields alongside his shocking ignorance in others, and his many strange visitors. Only eventually does Watson discover that Holmes has set himself up as the world’s first “consulting detective,” and it’s not long before Watson finds himself assisting Holmes in a mysterious case. The body of a man has been found in an abandoned house, without wounds or other marks of injury. But on the wall, scrawled in blood, is the word RACHE. The subsequent unravelling of the mystery takes many unexpected turns.</p>",
     "subjects": [
       "Holmes, Sherlock",
       "Private investigators",
@@ -1095,7 +1074,6 @@ export const BOOKS: BookRecord[] = [
       "mystery"
     ],
     "tagline": "An analytical detective is consulted by a young woman who has received a strange communication regarding her long-missing father and a mysterious treasure.",
-    "description": "<p><i>The Sign of the Four</i>, initially titled just <i>The Sign of Four</i>, is the second of Doyle’s novels to feature the analytical detective Sherlock Holmes and his faithful companion and chronicler Dr. Watson. The action takes place not long after the events in <i>A Study in Scarlet</i>, the first Holmes novel, and that prior case is referred to frequently at the beginning of this one.</p><p>Holmes is consulted by a young woman about a strange communication she has received. Ten years previously her father Captain Morstan went missing the night after returning from service in the Far East before his daughter could travel to meet him. He has never been seen or heard of ever since. But a few years after his disappearance, Miss Morstan was startled to receive a precious pearl in the mail, with no sender’s name or address and no accompanying message. A similar pearl has arrived each subsequent year. Finally, she received an anonymous letter begging her to come to a meeting outside a London theater that very evening. She may bring two companions. Naturally, Holmes and Watson accompany the young woman to the mysterious meeting, and are subsequently involved in the unveiling of a complex story of treasure and betrayal.</p>",
     "subjects": [
       "Holmes, Sherlock",
       "Private investigators",
@@ -1129,7 +1107,6 @@ export const BOOKS: BookRecord[] = [
       "short-stories"
     ],
     "tagline": "The world’s first consulting detective investigates a variety of intriguing cases in the first Holmes short story collection.",
-    "description": "<p><i>The Adventures of Sherlock Holmes</i> was the first collection of Sherlock Holmes short stories Conan Doyle published in book form, following the popular success of the novels <i>A Study in Scarlet</i> and <i>The Sign of the Four</i>, which introduced the characters of Dr. John Watson and the austere analytical detective Sherlock Holmes.</p><p>The collection contains twelve stories, all originally published in <i>The Strand Magazine</i> between July 1891 and June 1892. Narrated by the first-person voice of Dr. Watson, they involve him and Holmes solving a series of mysterious cases.</p><p>Some of the more well-known stories in this collection are “A Scandal in Bohemia,” in which Holmes comes up against a worthy opponent in the form of Irene Adler, whom Holmes forever after admiringly refers to as <em>the</em> woman; “The Redheaded League,” involving a bizarre scheme offering a well-paid sinecure to redheaded men; and “The Speckled Band,” in which Holmes and Watson save a young woman from a terrible death.</p>",
     "subjects": [
       "Holmes, Sherlock",
       "Private investigators",
@@ -1163,7 +1140,6 @@ export const BOOKS: BookRecord[] = [
       "horror"
     ],
     "tagline": "A famous detective investigates a mysterious and apparently supernatural threat to the heir of a wealthy Dartmoor estate.",
-    "description": "<p>It would be hard to nominate a more well-known character in English literature than that of the austere analytical detective Sherlock Holmes, created by Arthur Conan Doyle in the late 1880s. Holmes, alongside his friend and biographer Dr. John Watson, appeared in two initial novels and dozens of short stories serialized in popular magazines, attracting a devoted, almost fanatical following which continues to this day.</p><p><i>The Hound of the Baskervilles</i>, serialized in 1901–1902, was the third novel featuring Holmes and Watson. Sherlock Holmes is consulted in his Baker Street apartment by Dr. Mortimer, a physician now living on the fringes of Dartmoor. He gives Holmes and Watson an account of a centuries-old legend, in which a hell-hound slaughtered the debauched heir of the Baskerville family who had been in lecherous pursuit of an innocent maiden across the moor. The same hound is reputed to have harrowed several of the subsequent heirs to the estate.</p><p>This ancient story might be dismissed as mere fancy, but for the fact that the elderly Sir Charles Baskerville recently died in very mysterious circumstances, apparently fleeing in terror from something which came from the moor. Dr. Mortimer is concerned that the new heir, Sir Henry, just returned from Canada, may be at risk from this supernatural beast. Holmes is intrigued, but being too busy to go himself, sends Dr. Watson to accompany Sir Henry to the ancestral home on Dartmoor and to report anything suspicious.</p><p><i>The Hound of the Baskervilles</i> is arguably the best, and certainly the most popular, of Doyle’s novels featuring his iconic detective. It has been translated into almost every language in the world and been the basis of dozens of movies (starting as early as 1914), radio plays and comic books.</p>",
     "subjects": [
       "Holmes, Sherlock",
       "Private investigators",
@@ -1200,7 +1176,6 @@ export const BOOKS: BookRecord[] = [
       "mystery"
     ],
     "tagline": "A fastidious Belgian detective solves the mystery of a murder in an English country manor.",
-    "description": "<p><i>The Mysterious Affair at Styles</i> isn’t just Agatha Christie’s first Poirot novel, it was the only Poirot novel in the public domain until 2019. It was written on a bet that Christie couldn’t write a detective novel in which the reader couldn’t deduce the criminal. Her attempt laid the foundation for one of literature’s most famous detectives.</p><p>In this novel we’re introduced to Poirot as he’s settling in to a new life in England. After a woman is murdered at the country estate he’s visiting, he has to use his detective skills to catch the criminal. <i>The Mysterious Affair at Styles</i> sets the stage for the Golden Age of Detective Fiction, and has everything you’d expect from a story rich in those classic detective fiction tropes.</p>",
     "subjects": [
       "Poirot, Hercule",
       "Private investigators"
@@ -1231,7 +1206,6 @@ export const BOOKS: BookRecord[] = [
       "adventure"
     ],
     "tagline": "Tommy and Tuppence try to solve a mystery, only to find themselves embroiled in schemes of murder, millionaires, and diplomats.",
-    "description": "<p><i>The Secret Adversary</i>, Agatha Christie’s second novel, introduces Tommy and Tuppence, the two much-loved mystery-solving adventurers.</p><p>The novel centers around a mysterious young girl, suffering from amnesia, who was present on the sinking of the <i>Lusitania</i>. As Tommy and Tuppence try to unravel the mystery, they find themselves embroiled with mysterious millionaires and the dangerous politics of nation-states.</p><p>Contemporary reviews of <i>The Secret Adversary</i> were positive, and the success of the novel paved the way not just for future Tommy and Tuppence adventures, but for a long, storied career of literary success for Christie.</p>",
     "subjects": [
       "Private investigators",
       "Detective and mystery stories",
@@ -1266,7 +1240,6 @@ export const BOOKS: BookRecord[] = [
       "classics"
     ],
     "tagline": "When a fabulous gem mysteriously goes missing, suspicion abounds and a hunt begins for the guilty party.",
-    "description": "<p>The “Moonstone” of the title is a large but flawed diamond, looted from India at the time of the Mutiny by an unscrupulous British officer. Many years later, estranged from his family due to his licentious lifestyle, the officer bequeaths the diamond to his sister’s daughter, Rachel Verrinder, to be given to her on her 18th birthday. Due to the ill-omens surrounding the gem, this may have been an act of revenge rather than reconciliation. The diamond, it appears, was taken from a statue of the Moon God worshipped by a Hindu cult, and it has long been sought by a group of Brahmins determined to return it to their temple.</p><p>On the night of the birthday party the gem mysteriously disappears from Rachel’s room. While the first suspicions naturally fall on these Indians, they are eventually exculpated. Rachel becomes hysterical and angry when questioned about the theft and refuses to assist the police. Active efforts to assist them are taken up by Rachel’s cousin (and sweetheart) Franklin Blake. These efforts simply drive Rachel into further fury, and she becomes completely estranged from him. Suspicion thus falls on her as having some secret reason for wishing to raise money on the diamond. The novel proceeds to slowly uncover the mysteries involved.</p><p>Published in 1868, <i>The Moonstone</i> is often considered as one of the precursors of the modern detective novel, though this is a label which would not have been used by its author Wilkie Collins and his contemporaries. While it is true that the plot revolves around the mystery of a theft, and that it features Sergeant Cuff “in the Detective Force of Scotland Yard,” the novel is much more about character and relationships than the mere revelation of secrets. It also has a good dose of Collins’ humour, as the story is told in large part by eccentric characters such as the old house-steward Gabriel Betteredge who regards <i>Robinson Crusoe</i> as an oracle; and the ultra-religious Miss Clack, determined to convert everyone to her views.</p><p>Immensely popular at the time of its publication in serial form, <i>The Moonstone</i> is rightly considered to be one of Collins’ best works, and remains highly regarded today.</p>",
     "subjects": [
       "England",
       "Country homes",
@@ -1302,7 +1275,6 @@ export const BOOKS: BookRecord[] = [
       "short-stories"
     ],
     "tagline": "Amateur detective and Catholic priest Father Brown solves mysteries in this first collection of Father Brown short stories.",
-    "description": "<p>Father Brown is a Catholic priest, but a slightly unusual one in that he’s <em>also</em> an amateur detective. Unlike his more famous literary cousin Sherlock, Father Brown takes a less analytical and more intuition-oriented approach to solving the many murders that he happens to come across.</p><p>This collection of short murder mysteries is Brown’s first appearance on the literary stage. In it we see him practicing his unique brand of sleuthing alongside his sometimes-partner, the reformed master criminal Flambeau.</p>",
     "subjects": [
       "England",
       "Clergy",
@@ -1338,7 +1310,6 @@ export const BOOKS: BookRecord[] = [
       "mystery"
     ],
     "tagline": "A collection of Edgar Allan Poe’s short fiction, ordered by date of publication.",
-    "description": "<p>Edgar Allan Poe is one of the primary figures of American nineteenth-century literature. His writing was heavily influenced by Romanticism ideals of emotion and feeling, and although mostly known for his Gothic-tinged horror, his tales jump between many different genres, including science-fiction, satire, humor, mystery, and even early detective fiction.</p><p>Poe mostly wrote short stories and poems, published in magazines and periodicals like the <i>Southern Literary Messenger</i> and <i>Graham’s Magazine</i>, although he also turned his hand to essays and novels (including <i>The Narrative of Arthur Gordon Pym of Nantucket</i>). He was one of the first American writers to pursue writing as a career, but was better received in France than in his native country. He struggled to make ends meet and resorted to work as a literary critic. His reputation suffered a further blow after his unfortunately early death in 1849 at the age of 40, when a rival not only wrote an extremely unflattering obituary, but bought the rights to his work and published a compilation with a hit piece for an introduction. This undeserved reputation took many decades to fade, but didn’t hinder praise from other notable authors including Arthur Conan Doyle and H. P. Lovecraft.</p><p>Collected here are all of Poe’s short fiction stories, in order of their original magazine publication. Notable stories include “The Gold-Bug,” “The Black Cat,” “The Fall of the House of Usher,” “The Masque of the Red Death,” “The Pit and the Pendulum,” “The Murders in the Rue Morgue,” and many more.</p>",
     "subjects": [
       "Short stories",
       "Fantasy fiction",
@@ -1378,7 +1349,6 @@ export const BOOKS: BookRecord[] = [
       "science-fiction"
     ],
     "tagline": "A mysterious inventor travels to a land far off in time.",
-    "description": "<p><i>The Time Machine</i> is the novel that gave us the concept of—and even the word for—a “time machine.” While it’s not Wells’ first story involving time travel, it <em>is</em> the one that most fully fleshes out the concept of a device that can send a person backwards and forwards in time with complete precision. Time machines have since become a staple of the science fiction and fantasy genres, making <i>The Time Machine</i> one of the most deeply influential science fiction novels of the era.</p>",
     "subjects": [
       "Time travel"
     ],
@@ -1404,7 +1374,6 @@ export const BOOKS: BookRecord[] = [
       "science-fiction"
     ],
     "tagline": "The first-person narrative of the Martian invasion of 19th-century Earth.",
-    "description": "<p>H. G. Wells’ classic tale of alien invasion has to this day never been out of print. Like many works of the era, it was originally published as a serial—though the publisher, <i>Pearson’s Magazine</i>, demanded to know the ending before committing to publication.</p><p><i>The War of the Worlds</i>, with its matter-of-fact narrative style and deft mixture of contemporary science and fictionalized interstellar war machines, became an instant hit. Its themes of colonialism, social Darwinism, good and evil, and total war still resonate with modern-day readers, so much so that it’s been continuously adapted for screen, radio, television, comics, and print.</p>",
     "subjects": [
       "Science fiction",
       "War stories",
@@ -1440,7 +1409,6 @@ export const BOOKS: BookRecord[] = [
       "horror"
     ],
     "tagline": "A scientist named Griffin creates a serum to render himself invisible and subsequently descends into madness.",
-    "description": "<p>Griffin, a scientist, has devoted his life to the study of optics. As his work progresses, he invents a method of making a person invisible. After testing the experiment on himself, he comes to realize that while the experiment was a complete success, he has no way of reversing his invisibility.</p><p>Written in a time of rapid scientific progress and industrial development, Wells uses Griffin’s struggle with his condition and descent into obsession and madness to reflect on the dangers of unbridled scientific progress untempered by compassion or humanity.</p><p><i>The Invisible Man</i> was initially serialized in <i>Pearson’s Weekly</i> in 1897, after which it was published as a whole novel that same year.</p>",
     "subjects": [
       "Science fiction",
       "Psychological fiction",
@@ -1472,7 +1440,6 @@ export const BOOKS: BookRecord[] = [
       "classics"
     ],
     "tagline": "A tragic scientist creates a monster in his laboratory.",
-    "description": "<p>Mary Shelley (then Godwin) and Percy Bysshe Shelley were visiting their friend Lord Byron in Geneva one rainy summer. With the weather against them, they decided to spend their time writing ghost stories for each other. <i>Frankenstein</i> is Mary Shelley’s submission to their contest, later published anonymously in 1818.</p><p>Victor Frankenstein, a strange but brilliant scientist, discovers a method of imparting life to inanimate matter. The Monster is thus born: a hideous, 8-foot-tall creature of muscle, speed, and intellect. Frankenstein’s rejection of his appalling creation sends it into a spiral of despair, and Frankenstein’s life is never the same.</p><p>Considered by many to be the first science fiction novel, <i>Frankenstein</i> is a powerful narrative that explores complex themes of belonging, morality, and the consequences of the power over life and death. This edition is based on Shelley’s revised 1831 edition.</p>",
     "subjects": [
       "Science fiction",
       "Horror tales",
@@ -1510,7 +1477,6 @@ export const BOOKS: BookRecord[] = [
       "adventure"
     ],
     "tagline": "An adventurer finds himself battling alien civilizations on the strange surface of Mars.",
-    "description": "<p>In <i>A Princess of Mars</i>, John Carter is transported to a Mars inhabited by strange civilizations and embarks on various adventures on his quest home. Often held up as a seminal example of pulp science fiction, <i>A Princess of Mars</i> is the first entry in Burroughs’ epic Martian series, and the first to feature the character of John Carter.</p><p>Though often categorized as just a pulp adventure tale, <i>A Princess of Mars</i> was hugely influential on many budding science fiction writers, professional scientists, and explorers of the day. The novel remains a light, fast-paced, and enjoyable read, and continues to inspire adaptations nearly a hundred years after its publication.</p>",
     "subjects": [
       "Carter, John",
       "Dejah Thoris",
@@ -1542,7 +1508,6 @@ export const BOOKS: BookRecord[] = [
       "adventure"
     ],
     "tagline": "A team of scientists and adventurers explores a prehistoric land.",
-    "description": "<p>Even though Doyle is most famous for his Sherlock stories, he was also a prolific novelist, and <i>The Lost World</i> is one of his more famous non-Sherlock novels. Like many novels of the day, it was first published serially.</p><p>In it we meet a group of adventurers who head to a deep South American jungle to explore rumors of long-lost dinosaurs. The plot is driven by their journey, discoveries, and subsequent narrow escape. Notably, <i>The Lost World</i> is the novel in which Doyle’s popular recurring character, Professor Challenger, is introduced.</p><p>Doyle based many of the characters and locations on people and places he was familiar with: the journalist Ed Malone was modeled on E. D. Morel, and Lord John Roxton on Roger Casement; the Lost World itself was based on descriptions of Bolivia in letters sent to Doyle by his friend Percy Harrison Fawcett.</p><p>The novel remains hugely influential and widely adapted today. The title might even remind modern readers of a certain very famous movie franchise about dinosaur theme parks!</p>",
     "subjects": [
       "Challenger, Professor",
       "Fantasy fiction",
@@ -1576,7 +1541,6 @@ export const BOOKS: BookRecord[] = [
       "classics"
     ],
     "tagline": "A thousand years in the future, the builder of a spaceship discovers his emotions.",
-    "description": "<p>D-503 is the Builder of the <i>Integral</i>, the United State’s first spaceship. A life of calculations and equations in the United State leaves little room for emotional expression outside of the pink slips that give one private time with another Number. The façade however starts to crack when I-330, a mysterious she-Number with a penchant for the Ancients, enters the picture.</p><p><i>We</i>, Yevgeny Zamyatin’s fourth novel, was written in 1920–21, but remained unpublished until its English release in 1924 due to conditions in the Soviet Union at the time (it was eventually published there in 1988). Its dystopian future setting predates Orwell’s <i>1984</i> and Huxley’s <i>Brave New World</i>, and it’s now considered a founding member of the genre. It has been translated into English and other languages many times; presented here is the original 1924 translation by Gregory Zilboorg.</p>",
     "subjects": [
       "Science fiction",
       "Dystopias",
@@ -1607,7 +1571,6 @@ export const BOOKS: BookRecord[] = [
       "childrens"
     ],
     "tagline": "A young girl follows a white rabbit into a strange land of poetry, humor, and whimsy.",
-    "description": "<p>Everyone’s familiar with Lewis Carroll’s famous children’s classic and the huge influence it’s had on modern culture. The Mad Hatter, the Duchess, the Cheshire Cat, the White Rabbit, the Caterpillar—all of these strange and familiar creatures appear in <i>Alice</i>, and the nonsensical style, memorable poems, and colorful set pieces are just as influential.</p><p>The book was originally written as gift to Alice Liddel, the daughter of one of Carroll’s friends. Carroll had told the story to Alice during a rainy-day boat trip up a river. It stuck in his mind, and a few years later the completed manuscript was published in 1865. More than 150 years later, it’s just as popular as it ever was.</p>",
     "subjects": [
       "Fantasy"
     ],
@@ -1638,7 +1601,6 @@ export const BOOKS: BookRecord[] = [
       "childrens"
     ],
     "tagline": "The adventures of a young farm girl named Dorothy in the magical Land of Oz, after she and her pet dog Toto are swept away from their Kansas home by a cyclone.",
-    "description": "<p><i>The Wonderful Wizard of Oz</i> is the classic American children’s novel about the adventures of Dorothy, a young girl who along with her dog Toto is swept away by a cyclone to the magical Land of Oz. It was written by L. Frank Baum and published in May 1900.</p><p>Dorothy lives with her Aunt Em, Uncle Henry, and Toto on a farm in the Kansas prairie. One day, Dorothy and Toto are caught up in a cyclone that deposits her farmhouse into Munchkin Country in the magical Land of Oz. The falling house has killed the Wicked Witch of the East, the evil ruler of the Munchkins. The Good Witch of the North arrives with three grateful Munchkins and gives Dorothy the magical Silver Shoes that once belonged to the Wicked Witch. The Good Witch tells Dorothy that the only way she can return home is to go to the Emerald City and ask the great and powerful Wizard of Oz to help her.</p><p>The Library of Congress has declared it “America’s greatest and best-loved homegrown fairy-tale.” Its groundbreaking success and the success of the Broadway musical adaptation led Baum to write thirteen additional Oz books which serve as sequels to the first story. The 1939 film musical adaptation starring Judy Garland is considered by many to be one of the greatest films in cinema history.</p>",
     "subjects": [
       "Oz",
       "Fantasy literature",
@@ -1680,7 +1642,6 @@ export const BOOKS: BookRecord[] = [
       "childrens"
     ],
     "tagline": "A mischievous and cocky young boy, Peter Pan, takes Wendy and her brothers on adventures on a fantasy island consisting of mermaids, pirates, Native Americans, and fairies.",
-    "description": "<p>Peter Pan, a young boy who refuses to grow up, takes Wendy to the lost boys on the fantasy island of the Neverland to be their mother. Wendy’s two brothers, John and Michael, accompany them on their many adventures, including skirmishes with the Native Americans who reside there, and battles with pirates, led by Pan’s nemesis Captain Hook, who is said to be feared even by Captain Flint and Long John Silver.</p><p><i>Peter and Wendy</i>, J. M. Barrie’s most famous work, was influenced by Barrie’s relationship with the Llewelyn Davies family and the death of his older brother, who, by dying in his youth, would remain a young boy forever. It began as a play first performed in 1904, and then was later published as a novel in 1911. A large number of adaptations including plays, television, and films have since been produced.</p>",
     "subjects": [
       "Fantasy literature",
       "Peter Pan",
@@ -1713,7 +1674,6 @@ export const BOOKS: BookRecord[] = [
       "fantasy"
     ],
     "tagline": "Four animals adventure through the bucolic English countryside.",
-    "description": "<p><i>The Wind in the Willows</i>, the story of four animals and their adventures in the idyllic English countryside, started out as bedtime stories Grahame would tell his son. He eventually started writing them down, and finally produced this much-loved childrens classic.</p><p>In continuous print since 1908, <i>The Wind in the Willows</i> has been illustrated countless times and adapted to stage, radio, and screen.</p>",
     "subjects": [
       "Fantasy fiction",
       "Animals",
@@ -1751,7 +1711,6 @@ export const BOOKS: BookRecord[] = [
       "classics"
     ],
     "tagline": "A young girl is moved to the English countryside where she starts restoring a neglected garden, and uncovers secrets in the process.",
-    "description": "<p>Mary’s parents fall ill and die, forcing her to be transplanted from India to the English countryside. She arrives at a strange and foreign country manor, where she discovers a long-neglected garden and hears strange sobbing noises at night.</p><p>Thus begins <i>The Secret Garden</i>, a children’s book with an unusually dense collection of themes, symbols, and motifs. Mary’s personal development mirrors her unraveling the secret of the hidden garden, and a subtle backdrop of magical realism adds a mysterious air to the proceedings.</p><p>Contemporary reception left <i>The Secret Garden</i> largely unnoticed, eclipsed by Hodgson’s other work, <i>Little Lord Fauntleroy</i>. Since then, however, the book’s reputation has steadily grown, with modern critics considering it one of the finest children’s books of the 20th century.</p>",
     "subjects": [
       "Orphans",
       "People with disabilities",
@@ -1782,7 +1741,6 @@ export const BOOKS: BookRecord[] = [
       "short-stories"
     ],
     "tagline": "Seven fable-like tales about jungle animals in India and the humans who live on the edges of their realm.",
-    "description": "<p><i>The Jungle Book</i> is a short collection of stories published by Kipling in various magazines between 1893 and 1894. Kipling spent both his early years and his late teenage years in India, and that upbringing is front and center in these stories—despite them being written while he was living in Vermont, in the United States.</p><p>The stories are fable-like, with most of them centering on the lives of anthropomorphised jungle animals and a few focused on human characters in India. The stories were popular from the start, and have since been adapted in countless ways in print, screen, and other media.</p>",
     "subjects": [
       "Short stories",
       "Animals",
@@ -1819,7 +1777,6 @@ export const BOOKS: BookRecord[] = [
       "classics"
     ],
     "tagline": "A coming-of-age story of a young girl growing up on a farm on Prince Edward Island.",
-    "description": "<p><i>Anne of Green Gables</i> established the career of Canadian writer Lucy Maude Montgomery. When Matthew Cuthbert sends away for an orphan boy to help on his farm, he is surprised to instead meet the captivatingly imaginative Anne Shirley. What ensues is one of the most enduringly popular coming-of-age stories, bringing the pastoral beauty of Prince Edward Island to the world.</p>",
     "subjects": [
       "Young women",
       "Domestic fiction",
@@ -1849,10 +1806,9 @@ export const BOOKS: BookRecord[] = [
     "genres": [
       "fantasy",
       "adventure",
-      "classics"
+      "humor"
     ],
     "tagline": "An Englishman travels to fictional islands where he meets tiny people, giants, magicians and talking horses.",
-    "description": "<p><i>Gulliver’s Travels</i> was published in 1726 and is probably the most famous work by Jonathan Swift. It was an instant hit—selling out within a week—and has never been out of print, as well as having been adapted many times.</p><p>Lemuel Gulliver, an English surgeon on the <i>Antelope</i>, is shipwrecked and washed up on the island of Lilliput, where the inhabitants are less than six inches tall. This part of the book is a thinly veiled attack on the political classes of the time, as the Lilliputians focus on the minutiae of life, most notably the rift which has developed according to which end of a boiled egg gets opened at breakfast—the big end or the little end.</p><p>On his second recorded journey he is abandoned on an island of giants where he is paraded as a curiosity at local markets and fairs. On his third journey he is marooned by pirates and is rescued by the inhabitants of a floating island devoted to music, mathematics and astronomy. On his final journey he meets the Houyhnhnms, a race of talking horses who have subdued the Yahoos, creatures who resemble humans.</p><p>On his return to England, Gulliver has a very different outlook on life and views the human race in a very different way.</p>",
     "subjects": [
       "Fantasy fiction",
       "Satire",
@@ -1888,7 +1844,6 @@ export const BOOKS: BookRecord[] = [
       "childrens"
     ],
     "tagline": "A young boy finds adventure on the high seas as he battles bloodthirsty pirates in search of a long-lost treasure.",
-    "description": "<p><i>Treasure Island</i> isn’t just one of the most famous coming-of-age tales in modern storytelling, it’s also the book that invented everything you know about pirates: Peg legs, parrots, treasure chests, tropical islands, Long John Silver, maps marked with an “X,” swashbuckling adventure, and “Yo-ho-ho and a bottle of rum.”</p><p>Its brisk pace and easy tone have stood the test of the time—<i>Treasure Island</i> is as readable, enjoyable, and memorable today as it ever was.</p>",
     "subjects": [
       "Buried treasure",
       "Pirates",
@@ -1918,7 +1873,6 @@ export const BOOKS: BookRecord[] = [
       "adventure"
     ],
     "tagline": "The story of a domesticated dog’s return to a primitive state in the late 19th-century Yukon.",
-    "description": "<p>Jack London spent nearly a year in Alaska and the Klondike, mining for gold and braving the Alaskan winter. There he was inspired to write what would become <i>The Call of the Wild</i>, one of his most famous novels. <i>The Call of the Wild</i> tells the tale of a domesticated dog stolen from his California family and sold to sledders in Alaska. As he adapts to the harsh and wild environment, he slowly sheds domestication and returns to his primal roots.</p><p><i>The Call of the Wild</i> was London’s first major success, ensuring he’d have a readership for his future writing and paving the way for him to become one of the first writers to amass a fortune from just his fiction.</p>",
     "subjects": [
       "Dogs",
       "Adventure stories",
@@ -1956,7 +1910,6 @@ export const BOOKS: BookRecord[] = [
       "classics"
     ],
     "tagline": "Shipwrecked on a remote tropical island, a resourceful Englishman manages to survive alone for many years.",
-    "description": "<p><i>Robinson Crusoe</i> is one of the most popular books ever written in the English language, published in innumerable editions and translated into almost every language of the world, not to mention the many versions created in film, television and even radio. First published in 1719, it can also claim to be one of the first novels ever written in English.</p><p>Written in the form of an autobiography, it describes the life of the eponymous narrator Robinson Crusoe. A wild youth, he breaks away from his family to go to sea. After many adventures including being captured and made into a slave, he is eventually shipwrecked on a remote island off the coast of South America. Crusoe is the only survivor of the wreck. He is thus forced to find ways to survive on the island without any other assistance. His first years are miserable and hard, but he ultimately manages to domesticate goats and raise crops, making his life tolerable. While suffering from an illness, he undergoes a profound religious conversion, and begins to ascribe his survival to a beneficent Providence.</p><p>Crusoe lives alone on the island for more than twenty years until his life changes dramatically after he discovers a human footprint in the sand, indicating the undeniable presence of other human beings. These, it turns out, are the native inhabitants of the mainland, who visit the island only occasionally. To Crusoe’s horror, he discovers that these people practice cannibalism. He rescues one of their prisoners, who becomes his servant (or “man”) Friday, named for the day of the week on which he rescued him, and together, their adventures continue.</p>",
     "subjects": [
       "Shipwreck survival",
       "Islands",
@@ -1992,7 +1945,6 @@ export const BOOKS: BookRecord[] = [
       "adventure"
     ],
     "tagline": "Allan Quatermain leads a group of adventurers into an unknown region of Africa in a search for fame and glory.",
-    "description": "<p><i>King Solomon’s Mines</i> was published in September 1885, becoming an immediate best seller by tapping into people’s excitement for the unknown: in this case, the unexplored regions of Africa.</p><p>Haggard wrote the novel in a very short period, between six and sixteen months, on a bet with his brother to try to match Robert Louis Stevenson’s <i>Treasure Island</i>. In the process he created a new literary genre known as the “Lost World” genre, which would later influence other writers like Arthur Conan Doyle and H. P. Lovecraft.</p><p>The book tells the tale of Allan Quatermain, an adventurer and hunter, who is approached by Sir Henry Curtis and Captain Good to help them find Curtis’ lost brother, who went missing while trying to find the fabled King Solomon’s Mines.</p><p>This book has spawned multiple adaptations in the form of movies, comics, and TV shows.</p>",
     "subjects": [
       "Africa",
       "Missing persons",
@@ -2027,7 +1979,6 @@ export const BOOKS: BookRecord[] = [
       "adventure"
     ],
     "tagline": "On a bet, an eccentric Victorian gentleman races to circumnavigate the globe.",
-    "description": "<p>Jules Verne’s most-acclaimed novel remains a cultural cornerstone to this day. The story of Phileas Fogg’s spectacular journey by then-novel technologies is a fast-paced, colorful, and thoroughly enjoyable portrait of the British empire at the height of its power.</p><p>Originally published as a serial so believable that readers at the time placed bets on whether Fogg would succeed or not, Verne’s adventure epic continues to inspire travelers and adventurers even in modern times.</p>",
     "subjects": [
       "Voyages around the world"
     ],
@@ -2057,7 +2008,6 @@ export const BOOKS: BookRecord[] = [
       "adventure"
     ],
     "tagline": "A young Gascon moves to Paris to join the King’s Musketeers where he starts to investigate the kidnapping of his landlord’s wife.",
-    "description": "<p><i>The Three Musketeers</i> is the first of three adventure novels written by Alexandre Dumas featuring the character of d’Artagnan.</p><p>The young d’Artagnan leaves home in Gascony for Paris to join the King’s Musketeers. On his way to Paris, the letter which will introduce him to the commander of the Musketeers is stolen by a mysterious man in the town of Meung. This “Man of Meung” turns out to be a confidant of the infamous Cardinal Richelieu, the chief minister of the government of France.</p><p>When he arrives in Paris and seeks an audience with the commander of the Musketeers, d’Artagnan sees this man again and rushes to confront him. As he pushes his way out he provokes three inseparable musketeers—Athos, Porthos and Aramis—and ends up setting up duels with all three of them that afternoon. At the first of the duels he discovers, to his surprise, that each of the three is a second to the other. As they start to fight, they are ambushed by the Cardinal’s men and join forces. So begins one of the most enduring partnerships in literature.</p><p>When d’Artagnan’s landlord tells him that his wife has been kidnapped, d’Artagnan investigates, falls in love and becomes embroiled in a plot to destabilize France.</p><p><i>The Three Musketeers</i> was first published in 1844 and has been adapted for stage, film, television, and animation many times; such is the endurance of its appeal. At its heart is a fast-paced tale of love and adventure.</p>",
     "subjects": [
       "Historical fiction",
       "France",
@@ -2090,7 +2040,6 @@ export const BOOKS: BookRecord[] = [
       "romance"
     ],
     "tagline": "A daring Englishman with a secret identity rescues French aristocrats from the guillotine during the French Revolution.",
-    "description": "<p>At the height of the French Revolution’s Reign of Terror, a mysterious daredevil rescues French aristocrats from execution and smuggles them out of France. This secretive escape artist is known to the French authorities only by the drawings of a flower, the scarlet pimpernel, that he leaves as his calling card.</p><p>Marguerite St. Just has avoided the worst of the revolutionary turmoil. Her recent marriage to the English baronet Sir Percy Blakeney has taken her away from the chaos in France to England, where she is quickly recognized as the most fashionable and clever lady in London. But even in England, she is unable to escape the effects of the Revolution, and she is soon blackmailed into a plot to unmask and capture the elusive Scarlet Pimpernel.</p><p>With <i>The Scarlet Pimpernel</i>, Baroness Orczy introduced the world to a talented, adventurous hero hiding behind a dull and ineffectual secret identity. Countless imitators followed, until the “secret identity” became a common feature of adventure stories.</p><p>In addition to the novel, Orczy wrote with her husband a stage play of the same name, which broke stage records and saw several revivals. Both the play and the novel received much critical and popular acclaim, and Orczy went on to write several sequels about the mysterious Pimpernel and his companions.</p>",
     "subjects": [
       "Historical fiction",
       "France",
@@ -2125,7 +2074,6 @@ export const BOOKS: BookRecord[] = [
       "classics"
     ],
     "tagline": "An ancient undead monster terrorizes Victorian London.",
-    "description": "<p><i>Dracula</i> is one of the most famous horror novels, responsible not just for introducing the eponymous Count Dracula, but for laying the foundations for many of the common tropes we see in modern horror fiction.</p><p>Count Dracula isn’t the first vampire to have graced the pages of Western literature—that honor belongs to Lord Ruthven in “The Vampire,” a short story by John William Polidori—but Dracula is the vampire on which the modern vampire trope is based.</p><p><i>Dracula</i> wasn’t as famous in its day as it is today; readers of the time seemed to enjoy it as nothing more than a good story, and Stoker died nearly penniless. But its long-lasting influence is undeniable, and for all its age <i>Dracula</i> remains a gripping, fast-paced, and enjoyable read.</p>",
     "subjects": [
       "Dracula, Count",
       "Transylvania (Romania)",
@@ -2161,7 +2109,6 @@ export const BOOKS: BookRecord[] = [
       "mystery"
     ],
     "tagline": "A London lawyer investigates the relationship between a brilliant scientist and a misshapen misanthrope.",
-    "description": "<p><i>The Strange Case of Dr. Jekyll and Mr. Hyde</i> is the classic novella of split personality. Stevenson wrote it in just a few days while sick and bedridden, and famously burned the first draft after his wife suggested it should be written as an allegory and not as a story. He re-wrote it in three to six days, and after a few weeks of editing and revision he published what would become one of his most famous and best-selling works.</p><p>The story follows a London lawyer as he investigates the relationship between a brilliant scientist and a misshapen misanthrope. As the link between the two becomes clearer, <i>Jekyll and Hyde</i> develops into an allegory on the nature of good and evil.</p>",
     "subjects": [
       "Science fiction",
       "Horror tales",
@@ -2200,7 +2147,6 @@ export const BOOKS: BookRecord[] = [
       "science-fiction"
     ],
     "tagline": "The complete U.S. public domain short fiction of horror legend H. P. Lovecraft.",
-    "description": "<p>Howard Phillips Lovecraft was one of the most influential writers of horror fiction in the early 20th century. His fame is mostly posthumous: he was only published in pulp magazines in his lifetime, and never saw financial success. Despite that, Lovecraft’s unique blend of gothicism, horror, and the supernatural, set in an imagined but eerily real New England, marked a gold standard for horror fiction for decades after his death.</p><p>Readers of modern fantasy and horror fiction will certainly recognize Cthulhu, the tentacle-mouthed god who lies asleep in a sunken Atlantean ruin; the <i>Necronomicon</i>, a grimoire of unspeakable power and horror penned by the “mad Arab” Abdul Alhazred; and the dark, twisted New England countryside of the Miskatonic Valley. These and other features take shape in Lovecraft’s stories, creating a backdrop of the bizarre and evil behind seemingly day-to-day lives. A thread of cosmic horror soon turns anything normal towards madness.</p><p>While this edition contains much of Lovecraft’s short fiction, verifying the U.S. public domain status of Lovecraft’s corpus is a difficult, if not impossible, academic exercise, and finding first-edition copies to transcribe is also difficult. This edition will be updated as more transcriptions become verified and available.</p><p>Included in this edition are some of Lovecraft’s juvenilia—in particular, “The Alchemist” was written when he was just seventeen or eighteen.</p>",
     "subjects": [
       "Horror tales, American",
       "Haunted houses",
@@ -2232,7 +2178,6 @@ export const BOOKS: BookRecord[] = [
       "horror"
     ],
     "tagline": "A governess moves in to a haunted manor.",
-    "description": "<p>One of the most famous ghost stories in literature, <i>The Turn of the Screw</i> earned its place in the annals of influential English novellas not for its qualities as a gothic ghost story, but rather for the many complex and subtle ways the reader can come to opposing conclusions as to tale’s very nature. Are the ghosts the governess sees real, or are they figments of her quiet insanity?</p><p><i>The Turn of the Screw</i> was originally published as a serial, and later went through many revisions by James himself. Though there aren’t any overt suggestion that James intended his novella to be anything but a simple ghost story, the ambiguity in the narrative has captured the imagination of generations of readers and critics.</p>",
     "subjects": [
       "Governesses",
       "Children",
@@ -2263,7 +2208,6 @@ export const BOOKS: BookRecord[] = [
       "philosophy"
     ],
     "tagline": "The personal diary of the Roman Emperor, in which he lays out his thoughts and philosophical musings on the Stoic philosophy and way of life.",
-    "description": "<p>Roman Emperor Marcus Aurelius Antoninus Augustus was the model of what we call a philosopher-king. Though his rule was troubled by war and conflict, he remained a thoughtful and even-handed ruler.</p><p><i>Meditations</i> isn’t a complete book, but rather a collection of his personal diary entries written over a ten-year campaign in Greece. The entries were never meant to be published; instead, they were a reminder to himself of how to remain calm, tranquil, and kind, even in the worst of situations. In them we see the emperor working out how to deal with the everyday problems all of us face: annoying coworkers, difficult family members, the expectations of others, unrealized goals and achievements, and, ultimately, happiness.</p><p>The episodic nature of <i>Meditations</i> makes it hard to follow at times, but in exchange we get a deeply personal window into the life of one of Rome’s most unique emperors, and more importantly, a handbook of thoughtful advice on how to live a tranquil, satisfied, and productive life.</p>",
     "subjects": [
       "Ethics",
       "Stoics"
@@ -2293,7 +2237,6 @@ export const BOOKS: BookRecord[] = [
       "philosophy"
     ],
     "tagline": "An ancient Chinese classic discussing the art of war.",
-    "description": "<p>Sun Tzu’s ancient treatise on the art of war has exerted enormous influence over both Asian and Western soldiers, covering subjects ranging from morale and discipline to the correct use of spies. Despite questions about the historicity of the author, the text has stood the test of time and remains widely read by strategists, politicians, and even business leaders today.</p><p>Though Dr. Lionel Giles was not the first to translate Sun Tzu into English, he was the first to do so in a systematic and scholarly manner. His translation was unequaled until the mid-20th century, and remains relevant today due to his copious notes.</p>",
     "subjects": [
       "Military art and science",
       "War"
@@ -2321,7 +2264,6 @@ export const BOOKS: BookRecord[] = [
       "philosophy"
     ],
     "tagline": "The classic treatise on how to tyrannize one’s subjects.",
-    "description": "<p><i>The Prince</i> is a book that was controversial before it had even been sent to the printer. Written in vernacular Italian instead of Latin, dedicated to a member of one of the most powerful Italian families of the day, and only printed after Machiavelli’s death, this treatise on how to tyrannize effectively was considered shocking even by his contemporaries. The discussion of its morality that continues to this day gives us the modern-day word <i>Machiavellian</i>.</p><p>The book is organized into several sections, each one giving direction on the ruthless rule of principalities that Machiavelli based on both reading and personal experience. Despite its controversial nature, <i>The Prince</i> is often cited as one of the first examples of modern philosophical thought, and the “advice” contained within is still quoted as relevant today.</p>",
     "subjects": [
       "Political science",
       "Political ethics",
@@ -2353,14 +2295,13 @@ export const BOOKS: BookRecord[] = [
       "philosophy"
     ],
     "tagline": "After ten years spent in solitude, Zarathustra goes back amongst men to share his accumulated wisdom and prepare humanity for the Overman.",
-    "description": "<p><i>Thus Spake Zarathustra</i> was Friedrich Nietzsche’s favorite of the books he wrote, and has been his most popular amongst general readers. Yet some scholars dislike it because of its unphilosophical nature: it eschews jargon and the scaffolding of arguments, which engage only the intellect, in favor of an artistic approach that engages the whole mind.</p><p>After ten years of solitude in a cave high in the mountains, Zarathustra wishes to share with humanity the wisdom he has accumulated during this time. He reaches the nearest town and addresses the crowd on the marketplace. He tells them of the Overman: the next step in human evolution, a being who creates their own values, freed from the weight of tradition and morality, and who takes responsibility for their own successes and failures. But the crowd doesn’t understand him; his discourse is met only with rude ignorance. Zarathustra then decides to gather a small group of disciples and share his wisdom with them.</p><p>The bulk of the book is Zarathustra’s speeches on topics such as morality, society, individualism, religion, and how suffering and its overcoming are what give meaning to our existence. While already wiser than most, Zarathustra still learns from those he talks to, re-evaluating his thoughts as he deals with disappointment (such as when his disciples prove to be mere followers), and confronting his own doubts. His greatest challenge, though, comes when he faces the existential test of the eternal recurrence of the same: the thought that our lives could repeat indefinitely without the minutest of change.</p><p>The inspiration for <i>Zarathustra</i> came to Nietzsche during one of the long hikes he often indulged in despite his failing health. It was a decade of solitude: his physical condition had worsened to the point of forcing him to retire from his position at the University of Basel, and each change of season prompted him to relocate to kinder climes in Switzerland, France, or Italy. The book took two years to write. Each of its four parts was written in a ten-day period of creative effervescence followed by months of gloom, plagued by terrible, debilitating migraines.</p><p><i>Zarathustra</i> was initially received with indifference at best and frustration at worst. It’s a work of philosophy as much as aesthetics: the language is modeled after the Luther Bible and contains numerous references to Homer, Heraclitus, Plato, Goethe, Emerson, and Wagner, to name a few. Later Nietzsche attempted to address the book’s lack of popularity by framing the same concepts in a more traditional, approachable manner in his following book, <i>Beyond Good and Evil</i>, but that book also struggled to find an audience.</p><p>With his health steadily deteriorating, Nietzsche’s mind broke down in 1889 and never recovered. His body would live on for 11 more years, and he ended up in the care of his sister, Elisabeth. A stalwart nationalist and anti-Semite, she saw in her brother’s illness the opportunity to turn him into a German hero. Despite her brother’s firm opposition to nationalism, anti-Semitism, and power politics, she perverted his work by promoting it for her own ends. Scores of commentators partook in her lie and enthusiastically used Nietzsche’s work to buttress their own contrary views. Doing so requires one to selectively ignore half the content of the book: Zarathustra’s discourses regularly touch on <i>a priori</i> dark and violent themes, but they also clearly state that these are to be directed towards oneself. Reaching the Overman requires us to know ourselves, and such introspection, given the darker side of human nature, leads to contempt. This contempt for ourselves, says Nietzsche, should be embraced as the first step towards awareness of what we could be. Cruelty, likewise, stems from that knowledge as a necessity to hammer ourselves into the proper shape. Such commentators also conveniently ignored Zarathustra’s many remarks about love: love for ourselves, he says, is what can prevent us from spreading resentment around us during this difficult process of change.</p><p>The first English translation of <i>Zarathustra</i> was by Alexander Tille, a German scholar who had emigrated to Scotland. English wasn’t his first language and his work suffered from it. Thomas Common, a Scottish scholar, used Tille’s work as the base for his own translation. Bringing <i>Zarathustra</i> to the English-speaking world was no easy task given Nietzsche’s stylistic idiosyncrasies. Just like Nietzsche, Common took risks: because the book is written in the style of the Luther Bible, Common decided to emulate the style of the King James Bible; he also tried to reproduce the musicality of the language and the new words coined by Nietzsche, some of which have been updated over time—e.g. Common’s “Superman” is nowadays known as “Overman.” While his choices have been controversial, he produced a landmark translation that faithfully tried to convert the unique flavor of <i>Zarathustra</i> into English. Published in 1909, it would take four decades until the next translation by Walter Kaufman in 1954.</p><p>But <i>Zarathustra</i> didn’t find its scholarly fame limited to Europe: soon after its publication, it reached Asia, where it was received with enthusiasm, particularly in China and Japan where it influenced the famous Kyoto School. <i>Zarathustra</i> has also received special attention from the music world. Nietzsche loved music and poetry, and it was his wish that this book be taken as music. No fewer than 87 pieces have been inspired by the book, in part or as a whole. The best known are Richard Strauss’ <i>Also Sprach Zarathustra</i>, the fourth movement of Gustav Mahler’s Symphony No. 3, and Frederick Delius’ <i>A Mass of Life</i>.</p>",
     "subjects": [
       "Superman (Philosophical concept)",
       "Philosophy, German"
     ],
     "collections": [],
-    "words": 91509,
-    "chapters": 174,
+    "words": 91578,
+    "chapters": 114,
     "readingEase": 72.6,
     "language": "en-GB",
     "cover": {
@@ -2381,7 +2322,6 @@ export const BOOKS: BookRecord[] = [
       "philosophy"
     ],
     "tagline": "Thoreau’s report on his social experiment of solitude, simplicity, and self-reliance.",
-    "description": "<p><i>Walden</i> is one of the more famous transcendentalist tracts in modern American literature. First published in 1854, <i>Walden</i> is an account of Thoreau’s famous experiment in solitude: spending over two years alone in a cabin near the wilderness.</p><p><i>Walden</i> is broken into sections that meditate on single themes: economy, reading, sounds, solitude, visitors, and so on. The style is complex, weaving back and forth between simple, home-spun prose and complex allegory, metaphor, and allusion. This makes <i>Walden</i> an interesting read because while it may seem accessible on the surface, it’s a book that requires deep and repeated reading to fully appreciate its many complexities.</p>",
     "subjects": [
       "Authors, American",
       "Thoreau, Henry David",
@@ -2412,7 +2352,6 @@ export const BOOKS: BookRecord[] = [
       "nonfiction"
     ],
     "tagline": "Frederick Douglass describes his youth as a slave in Maryland and his desire to be a free man.",
-    "description": "<p>The <i>Narrative of the Life of Frederick Douglass</i> was written in 1845, seven years after Douglass escaped slavery, and is the first of three autobiographies. It covers his life as a slave, enduring the whips of the overseers and the hopelessness of his circumstances, until his escape to the north and arrival at New Bedford, Massachusetts. The brutalities he witnessed and his slowly growing desire for freedom are presented in the vivid language he was already known for in his antislavery oration.</p><p>The eloquence of Douglass’s speeches caused some skeptics to doubt his credibility, believing that a former slave with no education could never speak so well. Thus, part of his motivation for writing the book was to dispel this suspicion and to provide a fuller history than was possible in his lectures. The abolitionists William Lloyd Garrison and Wendell Phillips provided introductions vouching for the truth of Douglass’s words.</p><p>The book was an immediate best seller. The fame brought danger to Douglass, who sailed for England shortly after the book’s publication to ensure he would not be apprehended as a fugitive slave. He spent two years touring and lecturing in Great Britain and Ireland before returning to America to continue his abolitionist work. English supporters raised funds to purchase his freedom from his former master.</p><p>The slave narrative is an autobiographical genre written by escaped slaves concerning their lives in bondage. Slave narratives not only promoted abolitionism by giving first hand evidence of the cruelty and hypocrisy of slaveholders, but also allowed African Americans to express themselves as intelligent, articulate individuals, deserving of respect and freedom. Douglass’s <i>Narrative</i> is perhaps the most important example of the genre, on the basis of its literary merits and its impact on the abolitionist movement.</p>",
     "subjects": [
       "Douglass, Frederick",
       "African American abolitionists",
@@ -2441,7 +2380,6 @@ export const BOOKS: BookRecord[] = [
       "drama"
     ],
     "tagline": "The ghost of the King of Denmark tells his son, Hamlet, to avenge his death.",
-    "description": "<p>Not only was <i>Hamlet</i> one of William Shakespeare’s most popular works during his lifetime, it is also considered among the most powerful and influential works of world literature. “To be, or not to be,” a line from one of Hamlet’s soliloquies, is one of the most widely known quotes in modern English and has been referenced in countless works of literature, theater, film, and music.</p><p>During a dark winter night Horatio and a pair of watchmen encounter a ghost that resembles the late King of Denmark, the father of Prince Hamlet. After failing to converse with the ghost, Hamlet is brought to the site of the encounter. The ghost tells the story of his death. He was murdered by King Claudius, the dead king’s brother and Hamlet’s new stepfather. Hamlet swears to avenge him and kill Claudius.</p><p>This Standard Ebooks edition is based on William George Clark and William Aldis Wright’s 1887 Victoria edition, which is taken from the Globe edition.</p>",
     "subjects": [
       "Tragedies",
       "Hamlet",
@@ -2477,7 +2415,6 @@ export const BOOKS: BookRecord[] = [
       "drama"
     ],
     "tagline": "An ambitious general murders the King of Scotland and takes the throne for himself—and then he must deal with the consequences.",
-    "description": "<p>King Duncan’s closest generals, Macbeth and Banquo, have just defeated two invading armies and the Irish rebel Macdonwald. Out across the misty moor, they encounter three witches who reveal to Macbeth a powerful prophecy: “All hail, Macbeth! hail to thee, thane of Glamis! All hail, Macbeth, hail to thee, thane of Cawdor! All hail, Macbeth, thou shalt be king hereafter!” They not only claim that Macbeth will eventually become King of Scotland, but that Banquo will father a line of Scottish kings—though ominously, Banquo will never be king himself.</p><p>This shocking tragedy—a violent caution to those seeking power for its own sake—is, to this day, one of Shakespeare’s most popular and influential masterpieces.</p><p>This Standard Ebooks edition is based on William George Clark and William Aldis Wright’s 1887 Victoria edition, which is taken from the Globe edition.</p>",
     "subjects": [
       "Tragedies",
       "Regicides",
@@ -2509,7 +2446,6 @@ export const BOOKS: BookRecord[] = [
       "romance"
     ],
     "tagline": "The children of two opposing houses fall in love.",
-    "description": "<p>Over four hundred years after it was first published, <i>Romeo and Juliet</i> remains one of Shakespeare’s most famous and most frequently performed plays. During the late 1500s many playwrights loved to base their plays off of Italian stories, and Shakespeare was no different; he was heavily influenced by the Italian tale “The Goodly History of the True and Constant Love of Romeo and Juliett.” Today <i>Romeo and Juliet</i> continues to spread its influence within literature and performing arts. It has been adapted into 24 operas, numerous films, a ballet, and has also been referenced in law. The play has entertained generations with its romance, deception, revenge, sword-fighting, creative verse, comedic relief, and tragic fate.</p><p>The prologue lays before us the fate of our star-crossed lovers: two Italian households have a long, ongoing vendetta against each other, kept under control only by Prince Escalus, the ruler of Verona. Romeo meets with his friends Benvolio and Mercutio after having his heart broken by Rosaline. Encouraged to find love elsewhere, Mercutio sneaks him into one of Capulet’s masked parties, where he encounters Juliet, Capulet’s daughter. This is the beginning of a love affair that is destined to end in tragedy.</p><p>This Standard Ebooks edition is based on William George Clark and William Aldis Wright’s 1887 Victoria edition, which is taken from the Globe edition.</p>",
     "subjects": [
       "Vendetta",
       "Youth",
@@ -2541,10 +2477,10 @@ export const BOOKS: BookRecord[] = [
     "authorSort": "Wilde, Oscar",
     "year": 1895,
     "genres": [
-      "drama"
+      "drama",
+      "humor"
     ],
     "tagline": "A comedy skewering Victorian high society.",
-    "description": "<p><i>The Importance of Being Earnest</i> is Oscar Wilde’s most popular play today, enduring thanks to its easy humor, witty dialog, and clever satire. It was also one of his more successful plays, despite its first run being prematurely ended after only 86 performances. The main characters pretend to be other people in order to escape social obligations, with the resulting confusion of identities driving the plot and the humor behind it.</p><p><i>Earnest</i> also holds the sad distinction of being Wilde’s last published play. A feud with an aristocrat whose son was Wilde’s lover led to a court case revealing Wilde as a homosexual—a crime in those days, and punishable by imprisonment with hard labor.</p>",
     "subjects": [
       "Comedies",
       "England",
@@ -2575,7 +2511,6 @@ export const BOOKS: BookRecord[] = [
       "adventure"
     ],
     "tagline": "An epic poem following a Greek hero trying to return home after the Trojan war.",
-    "description": "<p>The <i>Odyssey</i> is one of the oldest works of Western literature, dating back to classical antiquity. Homer’s epic poem belongs in a collection called the Epic Cycle, which includes the <i>Iliad</i>. It was originally written in ancient Greek, utilizing a dactylic hexameter rhyme scheme. Although this rhyme scheme sounds beautiful in its native language, in modern English it can sound awkward and, as Eric McMillan humorously describes it, resembles “pumpkins rolling on a barn floor.” William Cullen Bryant avoided this problem by composing his translation in blank verse, a rhyme scheme that sounds natural in English.</p><p>This epic poem follows Ulysses, one of the Greek leaders that brought an end to the ten-year-long Trojan war. Longing for home, he travels across the Mediterranean Sea to return to his kingdom in Ithaca; unfortunately, our hero manages to anger Neptune, the god of the sea, making his trip home agonizingly slow and extremely dangerous. While Ulysses is trying to return home, his family in Ithaca is also in danger. Suitors have traveled to the home of Ulysses to marry his wife, Penelope, believing that her husband did not survive the war. These men are willing to kill anyone who stands in their way.</p>",
     "subjects": [
       "Homer",
       "Epic poetry, Greek",
@@ -2605,7 +2540,6 @@ export const BOOKS: BookRecord[] = [
       "poetry"
     ],
     "tagline": "A collection of John Keats’ published poems, and a selection of unpublished fragments and posthumous verse.",
-    "description": "<p>John Keats’ poems are a major part of the second wave of English Romantic poetry. They portray settings loaded with symbolism and sensuality, and draw heavily on Greek and Roman myth along with romanticised tales of chivalry. Keats died in 1821 at the young age of 25, having written the majority of his work in less than four years. While not appreciated during his lifetime, he has gone on to become one of the most loved of the Romantic poets, and has provided inspiration to authors as diverse as Oscar Wilde, Wilfred Owen and Neil Gaiman.</p><p>This collection includes among others early work such as “On Death,” the six odes written in 1819, his two epics <i>Hyperion</i> and <i>Endymion</i>, and “To Autumn,” now widely considered to be one of the best English short poems. Keats’ works are presented here in chronological order, and include the poems published in his lifetime and other unfinished fragments and posthumous verse.</p>",
     "subjects": [
       "English poetry",
       "Endymion (Greek mythology)",
@@ -2613,7 +2547,7 @@ export const BOOKS: BookRecord[] = [
     ],
     "collections": [],
     "words": 94116,
-    "chapters": 130,
+    "chapters": 133,
     "readingEase": 69.8,
     "language": "en-GB",
     "cover": {
@@ -2633,7 +2567,6 @@ export const BOOKS: BookRecord[] = [
       "poetry"
     ],
     "tagline": "A collection of poems by W. B. Yeats.",
-    "description": "<p>W. B. Yeats played many roles in Ireland at the turn of the twentieth century: playwright, essayist, critic, mystic, theater manager, revolutionary, and politician. But he was first and foremost a poet—perhaps the most famous poet Ireland has yet produced.</p><p>This collection contains Yeats’ verse from his first published poem, “Song of the Fairies,” which appeared in a Dublin literary magazine in 1885, through 1928’s <i>The Tower</i>. In them the reader can trace the growth of the poet’s voice and the influences on his writing, from Irish nationalism to esoteric metaphysics.</p><p>Included are some of Yeats’ most enduringly popular works: “The Second Coming,” “The Lake Isle of Innisfree,” and “The Wild Swans at Coole.”</p>",
     "subjects": [
       "English poetry",
       "Ireland"
@@ -2661,7 +2594,6 @@ export const BOOKS: BookRecord[] = [
       "horror"
     ],
     "tagline": "A collection of Edgar Allan Poe’s poetry.",
-    "description": "<p>Edgar Allan Poe is one of the most celebrated of American poets. His early work is firmly rooted in the Romanticist tradition, but he quickly found fertile ground in Gothic horror, leading to such renowned poems as “The Raven,” “Lenore,” “Tamerlane,” “The Bells,” “Annabel Lee,” “Eulalie,” and many more.</p><p>Poe started his literary career with an underappreciated collection of poetry entitled <i>Tamerlane and Other Poems</i>. The volume sold a mere fifty copies, and his critical success wasn’t assured until the publication of “The Raven,” which made Poe a cross-Atlantic household name. Despite Poe’s prolific output of short stories, and even a well-regarded novel in <i>The Narrative of Arthur Gordon Pym of Nantucket</i>, poetry remained at the core of his writing all the way up until his untimely death at the age of forty.</p><p>Collected here is all of Poe’s completed poetry in the public domain, in chronological order of writing. Where poems were originally collected into a single volume and individual writing dates are not available, volume ordering has been preserved.</p>",
     "subjects": [
       "Fantasy fiction",
       "American poetry",
@@ -2692,15 +2624,14 @@ export const BOOKS: BookRecord[] = [
       "philosophy"
     ],
     "tagline": "Prose poems of offering translated by the author from the original Bengali.",
-    "description": "<p>Widely regarded as one of the most important figures in Indian (and more specifically Bengali) literary history, Rabindranath Tagore was the first Indian—indeed, the first person outside Europe—to win the Nobel Prize in Literature, largely in recognition of his “spiritual offering of songs,” <i>Gitanjali</i>.</p><p>Tagore himself translated the poems from the original Bengali, taking many liberties in the process. His English translation is rightly recognized as a work distinct from the Bengali original, consisting of major revisions, many elisions, and many poems originally published in other collections.</p><p>Tagore’s lyrical simplicity, vivid imagery, and themes of nature, spirituality, death, and transcendence combine to produce a truly unique, powerfully moving work of thoughtful beauty. For many who read it, Tagore’s words in Song XCVI ring true: “What I have seen is unsurpassable. I have tasted of the hidden honey of this lotus that expands on the ocean of light, and thus I am blessed.”</p>",
     "subjects": [
       "Indic poetry",
       "Tagore, Rabindranath",
       "Bengali poetry"
     ],
     "collections": [],
-    "words": 14497,
-    "chapters": 106,
+    "words": 14600,
+    "chapters": 11,
     "readingEase": 77.3,
     "language": "en-GB",
     "cover": {
@@ -2721,7 +2652,6 @@ export const BOOKS: BookRecord[] = [
       "philosophy"
     ],
     "tagline": "A collection of prose poetry on themes such as love, beauty, and religion.",
-    "description": "<p><i>The Prophet</i> is Lebanese-American writer Kahlil Gibran’s best known work. In the book, the prophet Almustafa is returning home after 12 years in the fictional city of Orphalese. Before he boards his ship, he speaks to the people of Orphalese on a number of universal themes such as love, work, marriage, beauty, and death, which form this collection of 26 short fables or prose poetry. First published in 1923, <i>The Prophet</i> has never been out of print since, and has been translated into over a hundred languages.</p>",
     "subjects": [
       "Mysticism",
       "Prose poems, American"
@@ -2736,5 +2666,2998 @@ export const BOOKS: BookRecord[] = [
       "accent": "#dbc4b3"
     },
     "source": "https://standardebooks.org/ebooks/kahlil-gibran/the-prophet"
+  },
+  {
+    "id": "war-and-peace",
+    "title": "War and Peace",
+    "author": "Leo Tolstoy",
+    "authorId": "leo-tolstoy",
+    "authorSort": "Tolstoy, Leo",
+    "translator": "Louise Maude & Aylmer Maude",
+    "year": 1869,
+    "genres": [
+      "historical",
+      "classics"
+    ],
+    "tagline": "The story of five families in Russia during the Napoleonic Wars.",
+    "subjects": [
+      "Historical fiction",
+      "War stories",
+      "Napoleonic Wars",
+      "Russia",
+      "Aristocracy (Social class)"
+    ],
+    "collections": [
+      "Encyclopædia Britannica’s Great Books of the Western World",
+      "The Guardian’s 100 Best Novels of All Time (2026)"
+    ],
+    "words": 564701,
+    "chapters": 365,
+    "readingEase": 69.4,
+    "language": "en-US",
+    "cover": {
+      "color": "#343233",
+      "accent": "#c8c6c7"
+    },
+    "source": "https://standardebooks.org/ebooks/leo-tolstoy/war-and-peace/louise-maude_aylmer-maude"
+  },
+  {
+    "id": "les-miserables",
+    "title": "Les Misérables",
+    "author": "Victor Hugo",
+    "authorId": "victor-hugo",
+    "authorSort": "Hugo, Victor",
+    "translator": "Isabel F. Hapgood",
+    "year": 1862,
+    "genres": [
+      "classics",
+      "historical"
+    ],
+    "tagline": "An escaped convict steals two candlesticks and uses the proceeds to redeem himself and become an honest man.",
+    "subjects": [
+      "Historical fiction",
+      "Orphans",
+      "Paris (France)",
+      "Epic literature",
+      "Ex-convicts"
+    ],
+    "collections": [
+      "Haycraft-Queen Cornerstones"
+    ],
+    "words": 560113,
+    "chapters": 366,
+    "readingEase": 71.4,
+    "language": "en-US",
+    "cover": {
+      "color": "#403226",
+      "accent": "#d3c6bb"
+    },
+    "source": "https://standardebooks.org/ebooks/victor-hugo/les-miserables/isabel-f-hapgood"
+  },
+  {
+    "id": "the-count-of-monte-cristo",
+    "title": "The Count of Monte Cristo",
+    "author": "Alexandre Dumas",
+    "authorId": "alexandre-dumas",
+    "authorSort": "Dumas, Alexandre",
+    "translator": "Chapman and Hall",
+    "year": 1844,
+    "genres": [
+      "adventure",
+      "historical"
+    ],
+    "tagline": "A man seeks revenge for having been falsely imprisoned years earlier.",
+    "subjects": [
+      "Historical fiction",
+      "Revenge",
+      "Adventure stories",
+      "Prisoners",
+      "France",
+      "Pirates",
+      "Dantès, Edmond"
+    ],
+    "collections": [
+      "The Guardian’s 100 Greatest Novels of All Time (2003)"
+    ],
+    "words": 463820,
+    "chapters": 117,
+    "readingEase": 69.7,
+    "language": "en-US",
+    "cover": {
+      "color": "#462020",
+      "accent": "#e3abab"
+    },
+    "source": "https://standardebooks.org/ebooks/alexandre-dumas/the-count-of-monte-cristo/chapman-and-hall"
+  },
+  {
+    "id": "don-quixote",
+    "title": "Don Quixote",
+    "author": "Miguel de Cervantes Saavedra",
+    "authorId": "miguel-de-cervantes-saavedra",
+    "authorSort": "Cervantes Saavedra, Miguel",
+    "translator": "John Ormsby",
+    "year": 1605,
+    "genres": [
+      "classics",
+      "adventure",
+      "humor"
+    ],
+    "tagline": "A mad knight-errant and his down-to-earth squire encounter adventure in the Spanish countryside.",
+    "subjects": [
+      "Spain",
+      "Knights and knighthood",
+      "Picaresque literature",
+      "Romances"
+    ],
+    "collections": [
+      "Encyclopædia Britannica’s Great Books of the Western World",
+      "The Guardian’s 100 Best Novels of All Time (2026)",
+      "The Guardian’s 100 Greatest Novels of All Time (2003)"
+    ],
+    "words": 424931,
+    "chapters": 133,
+    "readingEase": 45.3,
+    "language": "en-GB",
+    "cover": {
+      "color": "#463520",
+      "accent": "#dbc9b3"
+    },
+    "source": "https://standardebooks.org/ebooks/miguel-de-cervantes-saavedra/don-quixote/john-ormsby"
+  },
+  {
+    "id": "the-brothers-karamazov",
+    "title": "The Brothers Karamazov",
+    "author": "Fyodor Dostoevsky",
+    "authorId": "fyodor-dostoevsky",
+    "authorSort": "Dostoevsky, Fyodor",
+    "translator": "Constance Garnett",
+    "year": 1880,
+    "genres": [
+      "classics",
+      "philosophy"
+    ],
+    "tagline": "A dispute over inheritance between father and son escalates into a family feud.",
+    "subjects": [
+      "Didactic fiction",
+      "Fathers and sons",
+      "Russia",
+      "Brothers"
+    ],
+    "collections": [
+      "Encyclopædia Britannica’s Great Books of the Western World",
+      "The Guardian’s 100 Best Novels of All Time (2026)",
+      "The Guardian’s 100 Greatest Novels of All Time (2003)"
+    ],
+    "words": 350768,
+    "chapters": 96,
+    "readingEase": 73.3,
+    "language": "en-US",
+    "cover": {
+      "color": "#303136",
+      "accent": "#c4c5ca"
+    },
+    "source": "https://standardebooks.org/ebooks/fyodor-dostoevsky/the-brothers-karamazov/constance-garnett"
+  },
+  {
+    "id": "the-idiot",
+    "title": "The Idiot",
+    "author": "Fyodor Dostoevsky",
+    "authorId": "fyodor-dostoevsky",
+    "authorSort": "Dostoevsky, Fyodor",
+    "translator": "Eva M. Martin",
+    "year": 1869,
+    "genres": [
+      "classics"
+    ],
+    "tagline": "An epileptic prince becomes entangled in Russian high society.",
+    "subjects": [
+      "Historical fiction",
+      "Russia"
+    ],
+    "collections": [],
+    "words": 244673,
+    "chapters": 50,
+    "readingEase": 72.2,
+    "language": "en-GB",
+    "cover": {
+      "color": "#463d20",
+      "accent": "#d9d1b5"
+    },
+    "source": "https://standardebooks.org/ebooks/fyodor-dostoevsky/the-idiot/eva-m-martin"
+  },
+  {
+    "id": "notes-from-underground",
+    "title": "Notes from Underground",
+    "author": "Fyodor Dostoevsky",
+    "authorId": "fyodor-dostoevsky",
+    "authorSort": "Dostoevsky, Fyodor",
+    "translator": "Constance Garnett",
+    "year": 1864,
+    "genres": [
+      "classics",
+      "philosophy"
+    ],
+    "tagline": "A man living alone in St. Petersburg writes memoirs describing his alienation from modern society.",
+    "subjects": [
+      "Political fiction",
+      "Russia"
+    ],
+    "collections": [],
+    "words": 44122,
+    "chapters": 22,
+    "readingEase": 69.9,
+    "language": "en-US",
+    "cover": {
+      "color": "#372f2f",
+      "accent": "#cbc3c3"
+    },
+    "source": "https://standardebooks.org/ebooks/fyodor-dostoevsky/notes-from-underground/constance-garnett"
+  },
+  {
+    "id": "middlemarch",
+    "title": "Middlemarch",
+    "subtitle": "A Study of Provincial Life",
+    "author": "George Eliot",
+    "authorId": "george-eliot",
+    "authorSort": "Eliot, George",
+    "year": 1871,
+    "genres": [
+      "classics",
+      "romance"
+    ],
+    "tagline": "In the neighborhood of a rural English town in the 1830s, several men and women struggle with love, marriage and fortune.",
+    "subjects": [
+      "Didactic fiction",
+      "City and town life",
+      "England",
+      "Young women",
+      "Love stories",
+      "Domestic fiction",
+      "Married people",
+      "Bildungsromans"
+    ],
+    "collections": [
+      "The Guardian’s Best 100 Novels in English (2015)",
+      "The BBC’s 100 Greatest British Novels (2015)",
+      "Encyclopædia Britannica’s Great Books of the Western World",
+      "The Guardian’s 100 Best Novels of All Time (2026)"
+    ],
+    "words": 319440,
+    "chapters": 88,
+    "readingEase": 68.4,
+    "language": "en-US",
+    "cover": {
+      "color": "#3e3c28",
+      "accent": "#d2d0bc"
+    },
+    "source": "https://standardebooks.org/ebooks/george-eliot/middlemarch"
+  },
+  {
+    "id": "oliver-twist",
+    "title": "Oliver Twist",
+    "subtitle": "Or, the Parish Boy’s Progress",
+    "author": "Charles Dickens",
+    "authorId": "charles-dickens",
+    "authorSort": "Dickens, Charles",
+    "year": 1838,
+    "genres": [
+      "classics"
+    ],
+    "tagline": "A poor boy, born and raised in a workhouse in Victorian England, falls into the control of a gang of heartless criminals.",
+    "subjects": [
+      "Orphans",
+      "London (England)",
+      "Bildungsromans",
+      "Boys",
+      "Criminals",
+      "Kidnapping victims"
+    ],
+    "collections": [
+      "The Telegraph’s Greatest Villains in Literature"
+    ],
+    "words": 157870,
+    "chapters": 53,
+    "readingEase": 70.3,
+    "language": "en-GB",
+    "cover": {
+      "color": "#3e282d",
+      "accent": "#d2bcc1"
+    },
+    "source": "https://standardebooks.org/ebooks/charles-dickens/oliver-twist"
+  },
+  {
+    "id": "david-copperfield",
+    "title": "David Copperfield",
+    "author": "Charles Dickens",
+    "authorId": "charles-dickens",
+    "authorSort": "Dickens, Charles",
+    "year": 1850,
+    "genres": [
+      "classics"
+    ],
+    "tagline": "The semi-autobiographical tale of a young boy who rises up to become a successful novelist.",
+    "subjects": [
+      "England",
+      "Boys",
+      "Orphans",
+      "Young men",
+      "Stepfathers",
+      "Child labor",
+      "Autobiographical fiction",
+      "Bildungsromans"
+    ],
+    "collections": [
+      "The Guardian’s Best 100 Novels in English (2015)",
+      "The BBC’s 100 Greatest British Novels (2015)",
+      "Harvard Classics Shelf of Fiction",
+      "The Guardian’s 100 Best Novels of All Time (2026)",
+      "The Guardian’s 100 Greatest Novels of All Time (2003)"
+    ],
+    "words": 358047,
+    "chapters": 66,
+    "readingEase": 70.1,
+    "language": "en-GB",
+    "cover": {
+      "color": "#463620",
+      "accent": "#dccbb1"
+    },
+    "source": "https://standardebooks.org/ebooks/charles-dickens/david-copperfield"
+  },
+  {
+    "id": "northanger-abbey",
+    "title": "Northanger Abbey",
+    "author": "Jane Austen",
+    "authorId": "jane-austen",
+    "authorSort": "Austen, Jane",
+    "year": 1817,
+    "genres": [
+      "romance",
+      "classics",
+      "humor"
+    ],
+    "tagline": "A young girl with an overactive imagination comes of age.",
+    "subjects": [
+      "England",
+      "Satire",
+      "Young women",
+      "Love stories",
+      "Gothic fiction",
+      "Horror tales",
+      "Books and reading",
+      "Gentry",
+      "Marriage"
+    ],
+    "collections": [],
+    "words": 77595,
+    "chapters": 32,
+    "readingEase": 66.9,
+    "language": "en-GB",
+    "cover": {
+      "color": "#2f3437",
+      "accent": "#c3c8cb"
+    },
+    "source": "https://standardebooks.org/ebooks/jane-austen/northanger-abbey"
+  },
+  {
+    "id": "mansfield-park",
+    "title": "Mansfield Park",
+    "author": "Jane Austen",
+    "authorId": "jane-austen",
+    "authorSort": "Austen, Jane",
+    "year": 1814,
+    "genres": [
+      "romance",
+      "classics"
+    ],
+    "tagline": "A young girl is sent to live with her wealthy relatives at a country estate, where she must navigate adolescence and young adulthood.",
+    "subjects": [
+      "England",
+      "Young women",
+      "Love stories",
+      "Domestic fiction",
+      "Country homes",
+      "Adoptees",
+      "Children of the rich",
+      "Cousins",
+      "Uncles"
+    ],
+    "collections": [
+      "The Guardian’s 100 Best Novels of All Time (2026)"
+    ],
+    "words": 160311,
+    "chapters": 48,
+    "readingEase": 66.3,
+    "language": "en-GB",
+    "cover": {
+      "color": "#3e3a28",
+      "accent": "#d2cdbc"
+    },
+    "source": "https://standardebooks.org/ebooks/jane-austen/mansfield-park"
+  },
+  {
+    "id": "far-from-the-madding-crowd",
+    "title": "Far from the Madding Crowd",
+    "author": "Thomas Hardy",
+    "authorId": "thomas-hardy",
+    "authorSort": "Hardy, Thomas",
+    "year": 1874,
+    "genres": [
+      "classics",
+      "romance"
+    ],
+    "tagline": "A young shepherd falls in love with a young, seemingly independent and strong-willed lady farmer.",
+    "subjects": [
+      "Didactic fiction",
+      "Love stories",
+      "Triangles (Interpersonal relations)",
+      "Pastoral fiction",
+      "Farm life",
+      "Women farmers",
+      "Wessex (England)"
+    ],
+    "collections": [
+      "Wessex"
+    ],
+    "words": 138651,
+    "chapters": 58,
+    "readingEase": 70.8,
+    "language": "en-GB",
+    "cover": {
+      "color": "#363c2a",
+      "accent": "#cad0be"
+    },
+    "source": "https://standardebooks.org/ebooks/thomas-hardy/far-from-the-madding-crowd"
+  },
+  {
+    "id": "the-portrait-of-a-lady",
+    "title": "The Portrait of a Lady",
+    "author": "Henry James",
+    "authorId": "henry-james",
+    "authorSort": "James, Henry",
+    "year": 1881,
+    "genres": [
+      "classics"
+    ],
+    "tagline": "A young American woman travelling through Europe excites both admiration and intrigue.",
+    "subjects": [
+      "Inheritance and succession",
+      "Psychological fiction",
+      "Love stories",
+      "Fathers and daughters",
+      "Married women",
+      "Triangles (Interpersonal relations)",
+      "Italy",
+      "Archer, Isabel",
+      "Americans"
+    ],
+    "collections": [
+      "Harvard Classics Shelf of Fiction",
+      "The Guardian’s 100 Best Novels of All Time (2026)",
+      "The Guardian’s 100 Greatest Novels of All Time (2003)"
+    ],
+    "words": 232426,
+    "chapters": 56,
+    "readingEase": 72.4,
+    "language": "en-GB",
+    "cover": {
+      "color": "#353b2b",
+      "accent": "#c9cfbf"
+    },
+    "source": "https://standardebooks.org/ebooks/henry-james/the-portrait-of-a-lady"
+  },
+  {
+    "id": "the-house-of-the-seven-gables",
+    "title": "The House of the Seven Gables",
+    "author": "Nathaniel Hawthorne",
+    "authorId": "nathaniel-hawthorne",
+    "authorSort": "Hawthorne, Nathaniel",
+    "year": 1851,
+    "genres": [
+      "classics",
+      "horror"
+    ],
+    "tagline": "A dignified but poor woman and her young relative open a shop in a room of a house with a dark history.",
+    "subjects": [
+      "Historical fiction",
+      "Domestic fiction",
+      "Paranormal fiction",
+      "Haunted houses",
+      "Salem (Mass.)"
+    ],
+    "collections": [],
+    "words": 104843,
+    "chapters": 22,
+    "readingEase": 56.4,
+    "language": "en-US",
+    "cover": {
+      "color": "#363530",
+      "accent": "#cac9c4"
+    },
+    "source": "https://standardebooks.org/ebooks/nathaniel-hawthorne/the-house-of-the-seven-gables"
+  },
+  {
+    "id": "the-house-of-mirth",
+    "title": "The House of Mirth",
+    "author": "Edith Wharton",
+    "authorId": "edith-wharton",
+    "authorSort": "Wharton, Edith",
+    "year": 1905,
+    "genres": [
+      "classics"
+    ],
+    "tagline": "A New York socialite struggles to maintain a place among her wealthy friends in the face of her own diminished finances and fading youth.",
+    "subjects": [
+      "New York (N.Y.)",
+      "Psychological fiction",
+      "Single women",
+      "Social classes"
+    ],
+    "collections": [
+      "Modern Library’s 100 Best Novels"
+    ],
+    "words": 130839,
+    "chapters": 29,
+    "readingEase": 66.7,
+    "language": "en-GB",
+    "cover": {
+      "color": "#463820",
+      "accent": "#e3ceab"
+    },
+    "source": "https://standardebooks.org/ebooks/edith-wharton/the-house-of-mirth"
+  },
+  {
+    "id": "ethan-frome",
+    "title": "Ethan Frome",
+    "author": "Edith Wharton",
+    "authorId": "edith-wharton",
+    "authorSort": "Wharton, Edith",
+    "year": 1911,
+    "genres": [
+      "classics",
+      "romance"
+    ],
+    "tagline": "A young man living a joyless life trapped in a loveless marriage gets a taste of true passion.",
+    "subjects": [
+      "Domestic fiction",
+      "New England",
+      "Married people",
+      "Triangles (Interpersonal relations)",
+      "Accident victims",
+      "Rural poor"
+    ],
+    "collections": [],
+    "words": 35991,
+    "chapters": 12,
+    "readingEase": 76.1,
+    "language": "en-GB",
+    "cover": {
+      "color": "#313235",
+      "accent": "#c5c6c8"
+    },
+    "source": "https://standardebooks.org/ebooks/edith-wharton/ethan-frome"
+  },
+  {
+    "id": "lord-jim",
+    "title": "Lord Jim",
+    "author": "Joseph Conrad",
+    "authorId": "joseph-conrad",
+    "authorSort": "Conrad, Joseph",
+    "year": 1900,
+    "genres": [
+      "classics",
+      "adventure"
+    ],
+    "tagline": "Haunted by the part he played in a shipping disaster, young British seaman Jim escapes to an island in the South Seas to build his future.",
+    "subjects": [
+      "Psychological fiction",
+      "Atonement",
+      "Merchant marine",
+      "British",
+      "Cowardice",
+      "Indonesia"
+    ],
+    "collections": [
+      "Modern Library’s 100 Best Novels",
+      "Le Monde’s 100 Books of the Century"
+    ],
+    "words": 132176,
+    "chapters": 46,
+    "readingEase": 69.8,
+    "language": "en-GB",
+    "cover": {
+      "color": "#37362f",
+      "accent": "#cbcac3"
+    },
+    "source": "https://standardebooks.org/ebooks/joseph-conrad/lord-jim"
+  },
+  {
+    "id": "joseph-conrad-short-fiction",
+    "title": "Short Fiction",
+    "author": "Joseph Conrad",
+    "authorId": "joseph-conrad",
+    "authorSort": "Conrad, Joseph",
+    "year": 1899,
+    "genres": [
+      "short-stories",
+      "classics"
+    ],
+    "tagline": "The complete short fiction of Joseph Conrad.",
+    "subjects": [
+      "Adventure and adventurers",
+      "Adventure stories",
+      "Adventure stories, English",
+      "Africa",
+      "Degeneration",
+      "English fiction",
+      "Europeans",
+      "Fiction",
+      "Imperialism",
+      "Indian Ocean",
+      "Man-woman relationships",
+      "Psychological fiction",
+      "Sea stories",
+      "Seafaring life",
+      "Ship captains",
+      "Short stories",
+      "Short stories, English",
+      "Trading posts",
+      "Typhoons"
+    ],
+    "collections": [
+      "Modern Library’s 100 Best Novels",
+      "The Guardian’s Best 100 Novels in English (2015)",
+      "The BBC’s 100 Greatest British Novels (2015)",
+      "The Telegraph’s Greatest Villains in Literature",
+      "Encyclopædia Britannica’s Great Books of the Western World",
+      "The Guardian’s 100 Best Novels of All Time (2026)",
+      "Encyclopædia Britannica’s Gateway to the Great Books"
+    ],
+    "words": 458302,
+    "chapters": 91,
+    "readingEase": 72.1,
+    "language": "en-US",
+    "cover": {
+      "color": "#38382e",
+      "accent": "#ccccc2"
+    },
+    "source": "https://standardebooks.org/ebooks/joseph-conrad/short-fiction"
+  },
+  {
+    "id": "howards-end",
+    "title": "Howards End",
+    "author": "E. M. Forster",
+    "authorId": "e-m-forster",
+    "authorSort": "Forster, E. M.",
+    "year": 1910,
+    "genres": [
+      "classics"
+    ],
+    "tagline": "The lives of three families of different classes intertwine in Edwardian England.",
+    "subjects": [
+      "Inheritance and succession",
+      "England",
+      "Sisters",
+      "Domestic fiction",
+      "Country homes",
+      "Illegitimate children",
+      "Social classes",
+      "Remarried people"
+    ],
+    "collections": [
+      "Modern Library’s 100 Best Novels",
+      "The BBC’s 100 Greatest British Novels (2015)",
+      "The Guardian’s 100 Best Novels of All Time (2026)"
+    ],
+    "words": 110008,
+    "chapters": 44,
+    "readingEase": 75.9,
+    "language": "en-GB",
+    "cover": {
+      "color": "#3b3f27",
+      "accent": "#cfd3bb"
+    },
+    "source": "https://standardebooks.org/ebooks/e-m-forster/howards-end"
+  },
+  {
+    "id": "a-passage-to-india",
+    "title": "A Passage to India",
+    "author": "E. M. Forster",
+    "authorId": "e-m-forster",
+    "authorSort": "Forster, E. M.",
+    "year": 1924,
+    "genres": [
+      "classics"
+    ],
+    "tagline": "A suspected assault brings racial tensions to a boil in British Raj India.",
+    "subjects": [
+      "Political fiction",
+      "British",
+      "Race relations",
+      "India"
+    ],
+    "collections": [
+      "Modern Library’s 100 Best Novels",
+      "The Guardian’s Best 100 Novels in English (2015)",
+      "The BBC’s 100 Greatest British Novels (2015)",
+      "James Tait Black Memorial Fiction Prize Winners",
+      "Prix Femina—Vie Heureuse Winners",
+      "The Guardian’s 100 Greatest Novels of All Time (2003)"
+    ],
+    "words": 101282,
+    "chapters": 37,
+    "readingEase": 73.9,
+    "language": "en-GB",
+    "cover": {
+      "color": "#3e3328",
+      "accent": "#d2c7bc"
+    },
+    "source": "https://standardebooks.org/ebooks/e-m-forster/a-passage-to-india"
+  },
+  {
+    "id": "to-the-lighthouse",
+    "title": "To the Lighthouse",
+    "author": "Virginia Woolf",
+    "authorId": "virginia-woolf",
+    "authorSort": "Woolf, Virginia",
+    "year": 1927,
+    "genres": [
+      "classics"
+    ],
+    "tagline": "Over the course of a day—and again another day ten years later—the Ramsays and their friends plan a boating trip to the nearby lighthouse.",
+    "subjects": [
+      "English",
+      "Loss (Psychology)",
+      "Mothers"
+    ],
+    "collections": [
+      "Modern Library’s 100 Best Novels",
+      "Encyclopædia Britannica’s Great Books of the Western World",
+      "The BBC’s 100 Greatest British Novels (2015)",
+      "Prix Femina—Vie Heureuse Winners",
+      "The Guardian’s 100 Best Novels of All Time (2026)"
+    ],
+    "words": 69871,
+    "chapters": 42,
+    "readingEase": 77.9,
+    "language": "en-GB",
+    "cover": {
+      "color": "#463d20",
+      "accent": "#dad1b3"
+    },
+    "source": "https://standardebooks.org/ebooks/virginia-woolf/to-the-lighthouse"
+  },
+  {
+    "id": "ulysses",
+    "title": "Ulysses",
+    "author": "James Joyce",
+    "authorId": "james-joyce",
+    "authorSort": "Joyce, James",
+    "year": 1922,
+    "genres": [
+      "classics"
+    ],
+    "tagline": "A man passes a day in early twentieth-century Dublin, in a journey patterned on Homer’s Odyssey.",
+    "subjects": [
+      "City and town life",
+      "Psychological fiction",
+      "Domestic fiction",
+      "Married people",
+      "Male friendship",
+      "Dublin (Ireland)",
+      "Epic literature",
+      "Artists",
+      "Jewish men",
+      "Alienation (Social psychology)"
+    ],
+    "collections": [
+      "Modern Library’s 100 Best Novels",
+      "Le Monde’s 100 Books of the Century",
+      "The Guardian’s Best 100 Novels in English (2015)",
+      "The Guardian’s 100 Best Novels of All Time (2026)",
+      "The Guardian’s 100 Greatest Novels of All Time (2003)"
+    ],
+    "words": 264529,
+    "chapters": 32,
+    "readingEase": 74.9,
+    "language": "en-GB",
+    "cover": {
+      "color": "#3f2c27",
+      "accent": "#d2c0bb"
+    },
+    "source": "https://standardebooks.org/ebooks/james-joyce/ulysses"
+  },
+  {
+    "id": "this-side-of-paradise",
+    "title": "This Side of Paradise",
+    "author": "F. Scott Fitzgerald",
+    "authorId": "f-scott-fitzgerald",
+    "authorSort": "Fitzgerald, F. Scott",
+    "year": 1920,
+    "genres": [
+      "classics",
+      "romance"
+    ],
+    "tagline": "A young man comes of age during America’s Jazz Age.",
+    "subjects": [
+      "Love Stories",
+      "Bildungsromans",
+      "Young men",
+      "Children of the rich",
+      "Advertising",
+      "College students",
+      "World War"
+    ],
+    "collections": [],
+    "words": 81913,
+    "chapters": 11,
+    "readingEase": 72.3,
+    "language": "en-US",
+    "cover": {
+      "color": "#343432",
+      "accent": "#c8c8c6"
+    },
+    "source": "https://standardebooks.org/ebooks/f-scott-fitzgerald/this-side-of-paradise"
+  },
+  {
+    "id": "the-beautiful-and-damned",
+    "title": "The Beautiful and Damned",
+    "author": "F. Scott Fitzgerald",
+    "authorId": "f-scott-fitzgerald",
+    "authorSort": "Fitzgerald, F. Scott",
+    "year": 1922,
+    "genres": [
+      "classics"
+    ],
+    "tagline": "The marriage between a down-and-out aesthete and a self-indulgent flapper begins to crumble against the backdrop of World War I and America’s Jazz Age.",
+    "subjects": [
+      "New York (N.Y.)",
+      "Inheritance and succession",
+      "Psychological fiction",
+      "Domestic fiction",
+      "Married people",
+      "Alcoholics",
+      "Young men",
+      "Socialites"
+    ],
+    "collections": [],
+    "words": 125445,
+    "chapters": 13,
+    "readingEase": 63.8,
+    "language": "en-US",
+    "cover": {
+      "color": "#413625",
+      "accent": "#d5cab9"
+    },
+    "source": "https://standardebooks.org/ebooks/f-scott-fitzgerald/the-beautiful-and-damned"
+  },
+  {
+    "id": "the-sun-also-rises",
+    "title": "The Sun Also Rises",
+    "author": "Ernest Hemingway",
+    "authorId": "ernest-hemingway",
+    "authorSort": "Hemingway, Ernest",
+    "year": 1926,
+    "genres": [
+      "classics"
+    ],
+    "tagline": "An American expatriate socializes in Paris and Spain as one of the Lost Generation.",
+    "subjects": [
+      "Ashley, Brett",
+      "Americans",
+      "Expatriation",
+      "Spain"
+    ],
+    "collections": [
+      "Modern Library’s 100 Best Novels",
+      "The Guardian’s Best 100 Novels in English (2015)"
+    ],
+    "words": 68093,
+    "chapters": 20,
+    "readingEase": 87.3,
+    "language": "en-US",
+    "cover": {
+      "color": "#3c372b",
+      "accent": "#cfcbbf"
+    },
+    "source": "https://standardebooks.org/ebooks/ernest-hemingway/the-sun-also-rises"
+  },
+  {
+    "id": "my-antonia",
+    "title": "My Ántonia",
+    "author": "Willa Cather",
+    "authorId": "willa-cather",
+    "authorSort": "Cather, Willa",
+    "year": 1918,
+    "genres": [
+      "classics"
+    ],
+    "tagline": "Orphaned boy Jim meets Ántonia, the daughter of a Czech family who has immigrated to Nebraska.",
+    "subjects": [
+      "Nebraska",
+      "Frontier and pioneer life",
+      "Western stories",
+      "Domestic fiction",
+      "Friendship",
+      "Married women",
+      "Farm life",
+      "Women pioneers",
+      "Women immigrants",
+      "Farmers’ spouses",
+      "Czech Americans"
+    ],
+    "collections": [
+      "Prairie Trilogy",
+      "The Guardian’s 100 Best Novels of All Time (2026)"
+    ],
+    "words": 81952,
+    "chapters": 46,
+    "readingEase": 80.3,
+    "language": "en-US",
+    "cover": {
+      "color": "#463c20",
+      "accent": "#ded1b0"
+    },
+    "source": "https://standardebooks.org/ebooks/willa-cather/my-antonia"
+  },
+  {
+    "id": "o-pioneers",
+    "title": "O Pioneers!",
+    "author": "Willa Cather",
+    "authorId": "willa-cather",
+    "authorSort": "Cather, Willa",
+    "year": 1913,
+    "genres": [
+      "classics"
+    ],
+    "tagline": "A Swedish-American immigrant family builds a farm and community on the Nebraska prairie.",
+    "subjects": [
+      "Nebraska",
+      "Frontier and pioneer life",
+      "Brothers and sisters",
+      "Farm life",
+      "Women pioneers",
+      "Women farmers",
+      "Women immigrants",
+      "Swedish Americans",
+      "Historical fiction",
+      "Domestic fiction"
+    ],
+    "collections": [
+      "Prairie Trilogy"
+    ],
+    "words": 55729,
+    "chapters": 30,
+    "readingEase": 82.3,
+    "language": "en-US",
+    "cover": {
+      "color": "#3a382c",
+      "accent": "#ceccc0"
+    },
+    "source": "https://standardebooks.org/ebooks/willa-cather/o-pioneers"
+  },
+  {
+    "id": "main-street",
+    "title": "Main Street",
+    "author": "Sinclair Lewis",
+    "authorId": "sinclair-lewis",
+    "authorSort": "Lewis, Sinclair",
+    "year": 1920,
+    "genres": [
+      "classics",
+      "humor"
+    ],
+    "tagline": "An ambitious young woman chafes against the constraints of small-town America.",
+    "subjects": [
+      "Satire",
+      "City and town life",
+      "Domestic fiction",
+      "Married women",
+      "Minnesota",
+      "Physicians' spouses",
+      "Women college graduates"
+    ],
+    "collections": [
+      "Modern Library’s 100 Best Novels"
+    ],
+    "words": 169200,
+    "chapters": 169,
+    "readingEase": 73.1,
+    "language": "en-US",
+    "cover": {
+      "color": "#453c21",
+      "accent": "#d9d0b5"
+    },
+    "source": "https://standardebooks.org/ebooks/sinclair-lewis/main-street"
+  },
+  {
+    "id": "the-jungle",
+    "title": "The Jungle",
+    "author": "Upton Sinclair",
+    "authorId": "upton-sinclair",
+    "authorSort": "Sinclair, Upton",
+    "year": 1906,
+    "genres": [
+      "classics"
+    ],
+    "tagline": "A working-class Lithuanian immigrant family’s struggle to make a living in the turn-of-the-century Chicago stockyards.",
+    "subjects": [
+      "Lithuanian Americans",
+      "Chicago (Ill.)",
+      "Working class",
+      "Stockyards",
+      "Immigrants"
+    ],
+    "collections": [],
+    "words": 150905,
+    "chapters": 31,
+    "readingEase": 72.8,
+    "language": "en-US",
+    "cover": {
+      "color": "#453821",
+      "accent": "#d8ccb6"
+    },
+    "source": "https://standardebooks.org/ebooks/upton-sinclair/the-jungle"
+  },
+  {
+    "id": "the-red-badge-of-courage",
+    "title": "The Red Badge of Courage",
+    "author": "Stephen Crane",
+    "authorId": "stephen-crane",
+    "authorSort": "Crane, Stephen",
+    "year": 1895,
+    "genres": [
+      "historical",
+      "classics"
+    ],
+    "tagline": "A Union soldier in the American Civil War longs to prove his courage in battle.",
+    "subjects": [
+      "Historical fiction",
+      "War stories",
+      "United States",
+      "Virginia",
+      "Chancellorsville, Battle of, Chancellorsville, Va., 1863"
+    ],
+    "collections": [
+      "The Guardian’s Best 100 Novels in English (2015)"
+    ],
+    "words": 46339,
+    "chapters": 24,
+    "readingEase": 74.9,
+    "language": "en-US",
+    "cover": {
+      "color": "#462c20",
+      "accent": "#dac0b4"
+    },
+    "source": "https://standardebooks.org/ebooks/stephen-crane/the-red-badge-of-courage"
+  },
+  {
+    "id": "siddhartha",
+    "title": "Siddhartha",
+    "subtitle": "An Indian Tale",
+    "author": "Hermann Hesse",
+    "authorId": "hermann-hesse",
+    "authorSort": "Hesse, Hermann",
+    "translator": "Gunther Olesch & Anke Dreher & Amy Coulter & Stefan Langer & Semyon Chaichenets",
+    "year": 1922,
+    "genres": [
+      "classics",
+      "philosophy"
+    ],
+    "tagline": "A man embarks on a spiritual journey through India.",
+    "subjects": [
+      "India",
+      "Gautama Buddha",
+      "Religious fiction",
+      "Buddhism",
+      "Buddhist philosophy"
+    ],
+    "collections": [],
+    "words": 39229,
+    "chapters": 12,
+    "readingEase": 66.6,
+    "language": "en-GB",
+    "cover": {
+      "color": "#432b23",
+      "accent": "#d6bfb8"
+    },
+    "source": "https://standardebooks.org/ebooks/hermann-hesse/siddhartha/various-translators"
+  },
+  {
+    "id": "the-memoirs-of-sherlock-holmes",
+    "title": "The Memoirs of Sherlock Holmes",
+    "author": "Arthur Conan Doyle",
+    "authorId": "arthur-conan-doyle",
+    "authorSort": "Doyle, Arthur Conan",
+    "year": 1894,
+    "genres": [
+      "mystery",
+      "short-stories"
+    ],
+    "tagline": "The world’s first consulting detective and his companion investigate further crimes and mysteries, culminating in a life-or-death struggle with an evil nemesis.",
+    "subjects": [
+      "Holmes, Sherlock",
+      "Private investigators",
+      "Detective and mystery stories, English"
+    ],
+    "collections": [
+      "Sherlock Holmes",
+      "The Telegraph’s Greatest Villains in Literature",
+      "Haycraft-Queen Cornerstones",
+      "The Crime Writers’ Association Top 100 Crime Novels of All Time",
+      "Mystery Writers of America Top 100 Mysteries of All Time"
+    ],
+    "words": 96415,
+    "chapters": 12,
+    "readingEase": 80,
+    "language": "en-US",
+    "cover": {
+      "color": "#463520",
+      "accent": "#e1c9ad"
+    },
+    "source": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-memoirs-of-sherlock-holmes"
+  },
+  {
+    "id": "the-return-of-sherlock-holmes",
+    "title": "The Return of Sherlock Holmes",
+    "author": "Arthur Conan Doyle",
+    "authorId": "arthur-conan-doyle",
+    "authorSort": "Doyle, Arthur Conan",
+    "year": 1905,
+    "genres": [
+      "mystery",
+      "short-stories"
+    ],
+    "tagline": "The world’s first consulting detective returns to London after having faked his death some years before, and investigates a series of baffling mysteries.",
+    "subjects": [
+      "Holmes, Sherlock",
+      "Detective and mystery stories, English"
+    ],
+    "collections": [
+      "Sherlock Holmes",
+      "Haycraft-Queen Cornerstones",
+      "The Crime Writers’ Association Top 100 Crime Novels of All Time",
+      "Mystery Writers of America Top 100 Mysteries of All Time"
+    ],
+    "words": 112956,
+    "chapters": 13,
+    "readingEase": 73.4,
+    "language": "en-GB",
+    "cover": {
+      "color": "#463720",
+      "accent": "#e1cdad"
+    },
+    "source": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-return-of-sherlock-holmes"
+  },
+  {
+    "id": "the-valley-of-fear",
+    "title": "The Valley of Fear",
+    "author": "Arthur Conan Doyle",
+    "authorId": "arthur-conan-doyle",
+    "authorSort": "Doyle, Arthur Conan",
+    "year": 1915,
+    "genres": [
+      "mystery"
+    ],
+    "tagline": "The final novel in Sir Arthur Conan Doyle’s Sherlock Holmes series follows the eponymous hero as he investigates a Sussex murder seemingly connected with a secret society.",
+    "subjects": [
+      "Holmes, Sherlock",
+      "Private investigators",
+      "Detective and mystery stories"
+    ],
+    "collections": [
+      "Sherlock Holmes",
+      "Haycraft-Queen Cornerstones",
+      "Mystery Writers of America Top 100 Mysteries of All Time"
+    ],
+    "words": 57895,
+    "chapters": 15,
+    "readingEase": 82.7,
+    "language": "en-GB",
+    "cover": {
+      "color": "#38372e",
+      "accent": "#cccbc2"
+    },
+    "source": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-valley-of-fear"
+  },
+  {
+    "id": "the-murder-of-roger-ackroyd",
+    "title": "The Murder of Roger Ackroyd",
+    "author": "Agatha Christie",
+    "authorId": "agatha-christie",
+    "authorSort": "Christie, Agatha",
+    "year": 1926,
+    "genres": [
+      "mystery"
+    ],
+    "tagline": "A legendary Belgian detective comes out of retirement to investigate a friend’s murder.",
+    "subjects": [
+      "Private investigators",
+      "Detective and mystery stories, English",
+      "Belgians",
+      "Poirot, Hercule"
+    ],
+    "collections": [
+      "Poirot",
+      "Le Monde’s 100 Books of the Century",
+      "Haycraft-Queen Cornerstones",
+      "The Crime Writers’ Association Top 100 Crime Novels of All Time",
+      "Mystery Writers of America Top 100 Mysteries of All Time"
+    ],
+    "words": 70162,
+    "chapters": 27,
+    "readingEase": 77.8,
+    "language": "en-GB",
+    "cover": {
+      "color": "#432f23",
+      "accent": "#d6c3b7"
+    },
+    "source": "https://standardebooks.org/ebooks/agatha-christie/the-murder-of-roger-ackroyd"
+  },
+  {
+    "id": "the-murder-on-the-links",
+    "title": "The Murder on the Links",
+    "author": "Agatha Christie",
+    "authorId": "agatha-christie",
+    "authorSort": "Christie, Agatha",
+    "year": 1923,
+    "genres": [
+      "mystery"
+    ],
+    "tagline": "A famous Belgian detective and his sidekick are summoned to France to investigate the mysterious murder of a rich businessman.",
+    "subjects": [
+      "Poirot, Hercule",
+      "Private investigators"
+    ],
+    "collections": [
+      "Poirot"
+    ],
+    "words": 64966,
+    "chapters": 28,
+    "readingEase": 77.3,
+    "language": "en-GB",
+    "cover": {
+      "color": "#413625",
+      "accent": "#d4caba"
+    },
+    "source": "https://standardebooks.org/ebooks/agatha-christie/the-murder-on-the-links"
+  },
+  {
+    "id": "the-maltese-falcon",
+    "title": "The Maltese Falcon",
+    "author": "Dashiell Hammett",
+    "authorId": "dashiell-hammett",
+    "authorSort": "Hammett, Dashiell",
+    "year": 1930,
+    "genres": [
+      "mystery"
+    ],
+    "tagline": "A detective becomes embroiled in a series of murders and intrigues, all seemingly related to a mysterious figurine.",
+    "subjects": [
+      "Spade, Sam",
+      "Private investigators",
+      "San Francisco (Calif.)"
+    ],
+    "collections": [
+      "Haycraft-Queen Cornerstones",
+      "The Crime Writers’ Association Top 100 Crime Novels of All Time",
+      "Mystery Writers of America Top 100 Mysteries of All Time",
+      "Modern Library’s 100 Best Novels",
+      "The Guardian’s Best 100 Novels in English (2015)"
+    ],
+    "words": 67491,
+    "chapters": 20,
+    "readingEase": 85,
+    "language": "en-US",
+    "cover": {
+      "color": "#423e24",
+      "accent": "#d6d1b8"
+    },
+    "source": "https://standardebooks.org/ebooks/dashiell-hammett/the-maltese-falcon"
+  },
+  {
+    "id": "red-harvest",
+    "title": "Red Harvest",
+    "author": "Dashiell Hammett",
+    "authorId": "dashiell-hammett",
+    "authorSort": "Hammett, Dashiell",
+    "year": 1929,
+    "genres": [
+      "mystery"
+    ],
+    "tagline": "A hard-boiled detective arrives at a small mining town only to find his client murdered and the inhabitants embroiled in complex webs of corruption.",
+    "subjects": [
+      "Continental Op",
+      "Private investigators"
+    ],
+    "collections": [
+      "Continental Op",
+      "The Crime Writers’ Association Top 100 Crime Novels of All Time",
+      "Mystery Writers of America Top 100 Mysteries of All Time"
+    ],
+    "words": 61226,
+    "chapters": 27,
+    "readingEase": 84.9,
+    "language": "en-US",
+    "cover": {
+      "color": "#462f20",
+      "accent": "#e3c1ab"
+    },
+    "source": "https://standardebooks.org/ebooks/dashiell-hammett/red-harvest"
+  },
+  {
+    "id": "the-man-who-was-thursday",
+    "title": "The Man Who Was Thursday",
+    "subtitle": "A Nightmare",
+    "author": "G. K. Chesterton",
+    "authorId": "g-k-chesterton",
+    "authorSort": "Chesterton, G. K.",
+    "year": 1908,
+    "genres": [
+      "mystery",
+      "fantasy"
+    ],
+    "tagline": "An undercover policeman infiltrates a mysterious Anarchist group.",
+    "subjects": [
+      "Fantasy fiction",
+      "Detective and mystery stories",
+      "London (England)",
+      "Anarchists",
+      "Allegories",
+      "Police"
+    ],
+    "collections": [
+      "Haycraft-Queen Cornerstones"
+    ],
+    "words": 58174,
+    "chapters": 16,
+    "readingEase": 71.7,
+    "language": "en-GB",
+    "cover": {
+      "color": "#382f2e",
+      "accent": "#ccc3c2"
+    },
+    "source": "https://standardebooks.org/ebooks/g-k-chesterton/the-man-who-was-thursday"
+  },
+  {
+    "id": "the-thirty-nine-steps",
+    "title": "The Thirty-Nine Steps",
+    "author": "John Buchan",
+    "authorId": "john-buchan",
+    "authorSort": "Buchan, John",
+    "year": 1915,
+    "genres": [
+      "adventure",
+      "mystery"
+    ],
+    "tagline": "An expatriate returning to England after many years in South Africa is accused of a murder he did not commit, and has to flee from the police and other more dangerous pursuers.",
+    "subjects": [
+      "World War",
+      "Spy stories",
+      "Hannay, Richard",
+      "Intelligence service"
+    ],
+    "collections": [
+      "Richard Hannay",
+      "The Guardian’s Best 100 Novels in English (2015)",
+      "Haycraft-Queen Cornerstones",
+      "The Crime Writers’ Association Top 100 Crime Novels of All Time",
+      "Mystery Writers of America Top 100 Mysteries of All Time",
+      "The Guardian’s 100 Greatest Novels of All Time (2003)"
+    ],
+    "words": 41221,
+    "chapters": 11,
+    "readingEase": 80.6,
+    "language": "en-GB",
+    "cover": {
+      "color": "#442f22",
+      "accent": "#d8c3b6"
+    },
+    "source": "https://standardebooks.org/ebooks/john-buchan/the-thirty-nine-steps"
+  },
+  {
+    "id": "the-island-of-doctor-moreau",
+    "title": "The Island of Doctor Moreau",
+    "subtitle": "A Possibility",
+    "author": "H. G. Wells",
+    "authorId": "h-g-wells",
+    "authorSort": "Wells, H. G.",
+    "year": 1896,
+    "genres": [
+      "science-fiction",
+      "horror"
+    ],
+    "tagline": "A shipwrecked man is rescued by a boat and left on a strange island owned by a physiologist who experiments in vivisection.",
+    "subjects": [
+      "Science fiction",
+      "Shipwreck survival",
+      "Animal experimentation",
+      "Islands"
+    ],
+    "collections": [],
+    "words": 43857,
+    "chapters": 23,
+    "readingEase": 72.4,
+    "language": "en-GB",
+    "cover": {
+      "color": "#313533",
+      "accent": "#c5c9c7"
+    },
+    "source": "https://standardebooks.org/ebooks/h-g-wells/the-island-of-doctor-moreau"
+  },
+  {
+    "id": "the-first-men-in-the-moon",
+    "title": "The First Men in the Moon",
+    "author": "H. G. Wells",
+    "authorId": "h-g-wells",
+    "authorSort": "Wells, H. G.",
+    "year": 1901,
+    "genres": [
+      "science-fiction",
+      "adventure"
+    ],
+    "tagline": "Two British men become the first humans to reach the Moon.",
+    "subjects": [
+      "Science fiction",
+      "Satire",
+      "Utopias",
+      "Imperialism",
+      "Utopian fiction",
+      "Space flight to the moon",
+      "Moon"
+    ],
+    "collections": [],
+    "words": 68720,
+    "chapters": 26,
+    "readingEase": 71.6,
+    "language": "en-GB",
+    "cover": {
+      "color": "#28353e",
+      "accent": "#bcc9d2"
+    },
+    "source": "https://standardebooks.org/ebooks/h-g-wells/the-first-men-in-the-moon"
+  },
+  {
+    "id": "flatland",
+    "title": "Flatland",
+    "subtitle": "A Romance of Many Dimensions",
+    "author": "Edwin A. Abbott",
+    "authorId": "edwin-a-abbott",
+    "authorSort": "Abbott, Edwin A.",
+    "year": 1884,
+    "genres": [
+      "science-fiction",
+      "humor"
+    ],
+    "tagline": "A square is pulled out of his reality by a sphere, and shown the meaning of three dimensions.",
+    "subjects": [
+      "Fourth dimension"
+    ],
+    "collections": [],
+    "words": 33485,
+    "chapters": 24,
+    "readingEase": 52.1,
+    "language": "en-GB",
+    "cover": {
+      "color": "#453b21",
+      "accent": "#d9ceb5"
+    },
+    "source": "https://standardebooks.org/ebooks/edwin-a-abbott/flatland"
+  },
+  {
+    "id": "r-u-r",
+    "title": "R.U.R.",
+    "subtitle": "Or, Rossum’s Universal Robots",
+    "author": "Karel Čapek",
+    "authorId": "karel-capek",
+    "authorSort": "Čapek, Karel",
+    "translator": "Paul Selver & Nigel Playfair",
+    "year": 1920,
+    "genres": [
+      "science-fiction",
+      "drama"
+    ],
+    "tagline": "The development of artificial beings in huge quantities to act as workers and soldiers leads to disaster for mankind.",
+    "subjects": [
+      "Robots",
+      "Science fiction plays",
+      "Czech drama"
+    ],
+    "collections": [],
+    "words": 19983,
+    "chapters": 5,
+    "readingEase": 80.9,
+    "language": "en-US",
+    "cover": {
+      "color": "#333432",
+      "accent": "#c7c8c6"
+    },
+    "source": "https://standardebooks.org/ebooks/karel-capek/r-u-r/paul-selver_nigel-playfair"
+  },
+  {
+    "id": "the-worm-ouroboros",
+    "title": "The Worm Ouroboros",
+    "subtitle": "A Romance",
+    "author": "E. R. Eddison",
+    "authorId": "e-r-eddison",
+    "authorSort": "Eddison, E. R.",
+    "year": 1922,
+    "genres": [
+      "fantasy"
+    ],
+    "tagline": "The King Gorice of Witchland and the lords of Demonland wage war in the high-fantasy lands of Mercury.",
+    "subjects": [
+      "Fantasy fiction",
+      "Imaginary wars and battles"
+    ],
+    "collections": [],
+    "words": 170388,
+    "chapters": 38,
+    "readingEase": 74.6,
+    "language": "en-GB",
+    "cover": {
+      "color": "#38342e",
+      "accent": "#ccc8c2"
+    },
+    "source": "https://standardebooks.org/ebooks/e-r-eddison/the-worm-ouroboros"
+  },
+  {
+    "id": "the-king-of-elflands-daughter",
+    "title": "The King of Elfland’s Daughter",
+    "author": "Lord Dunsany",
+    "authorId": "lord-dunsany",
+    "authorSort": "Dunsany",
+    "year": 1924,
+    "genres": [
+      "fantasy"
+    ],
+    "tagline": "The people of Erl want magic, and get their wish.",
+    "subjects": [
+      "Fantasy fiction"
+    ],
+    "collections": [],
+    "words": 69478,
+    "chapters": 35,
+    "readingEase": 67.9,
+    "language": "en-GB",
+    "cover": {
+      "color": "#3f4026",
+      "accent": "#d2d4ba"
+    },
+    "source": "https://standardebooks.org/ebooks/lord-dunsany/the-king-of-elflands-daughter"
+  },
+  {
+    "id": "phantastes",
+    "title": "Phantastes",
+    "subtitle": "A Faerie Romance for Men and Women",
+    "author": "George MacDonald",
+    "authorId": "george-macdonald",
+    "authorSort": "MacDonald, George",
+    "year": 1858,
+    "genres": [
+      "fantasy"
+    ],
+    "tagline": "A young man awakes in Fairy Land, where he takes part in a series of strange adventures.",
+    "subjects": [
+      "Fantasy fiction"
+    ],
+    "collections": [],
+    "words": 69348,
+    "chapters": 26,
+    "readingEase": 74.2,
+    "language": "en-US",
+    "cover": {
+      "color": "#464520",
+      "accent": "#dfdeaf"
+    },
+    "source": "https://standardebooks.org/ebooks/george-macdonald/phantastes"
+  },
+  {
+    "id": "she",
+    "title": "She",
+    "subtitle": "A History of Adventure",
+    "author": "H. Rider Haggard",
+    "authorId": "h-rider-haggard",
+    "authorSort": "Haggard, H. Rider",
+    "illustrator": "Maurice Greiffenhagen & Charles H. M. Kerr",
+    "year": 1887,
+    "genres": [
+      "adventure",
+      "fantasy"
+    ],
+    "tagline": "Three men travel to Africa and encounter a 2000-year old woman.",
+    "subjects": [
+      "Africa",
+      "Fantasy fiction",
+      "Love stories",
+      "Adventure stories",
+      "Ayesha (Fictitious character : Haggard)",
+      "Immortalism",
+      "Reincarnation",
+      "Women"
+    ],
+    "collections": [
+      "Ayesha"
+    ],
+    "words": 110555,
+    "chapters": 29,
+    "readingEase": 72,
+    "language": "en-GB",
+    "cover": {
+      "color": "#3b302b",
+      "accent": "#cfc4bf"
+    },
+    "source": "https://standardebooks.org/ebooks/h-rider-haggard/she"
+  },
+  {
+    "id": "the-phantom-of-the-opera",
+    "title": "The Phantom of the Opera",
+    "author": "Gaston Leroux",
+    "authorId": "gaston-leroux",
+    "authorSort": "Leroux, Gaston",
+    "translator": "Alexander Teixeira de Mattos",
+    "year": 1910,
+    "genres": [
+      "horror",
+      "romance"
+    ],
+    "tagline": "A mysterious presence terrorizes the Paris Opera.",
+    "subjects": [
+      "Horror tales",
+      "Musical fiction",
+      "Opera",
+      "Paris (France)",
+      "Composers",
+      "Phantom of the Opera",
+      "French fiction"
+    ],
+    "collections": [],
+    "words": 82585,
+    "chapters": 28,
+    "readingEase": 73.3,
+    "language": "en-US",
+    "cover": {
+      "color": "#423724",
+      "accent": "#d5cbb9"
+    },
+    "source": "https://standardebooks.org/ebooks/gaston-leroux/the-phantom-of-the-opera/alexander-teixeira-de-mattos"
+  },
+  {
+    "id": "the-king-in-yellow",
+    "title": "The King in Yellow",
+    "author": "Robert W. Chambers",
+    "authorId": "robert-w-chambers",
+    "authorSort": "Chambers, Robert W.",
+    "year": 1895,
+    "genres": [
+      "horror",
+      "short-stories"
+    ],
+    "tagline": "Ten short stories of madness, hauntings, romance, and art.",
+    "subjects": [
+      "Short stories, American",
+      "Horror tales, American",
+      "United States"
+    ],
+    "collections": [],
+    "words": 72169,
+    "chapters": 39,
+    "readingEase": 71.6,
+    "language": "en-GB",
+    "cover": {
+      "color": "#463920",
+      "accent": "#decfb0"
+    },
+    "source": "https://standardebooks.org/ebooks/robert-w-chambers/the-king-in-yellow"
+  },
+  {
+    "id": "m-r-james-short-fiction",
+    "title": "Short Fiction",
+    "author": "M. R. James",
+    "authorId": "m-r-james",
+    "authorSort": "James, Montague Rhodes",
+    "year": 1904,
+    "genres": [
+      "horror",
+      "short-stories"
+    ],
+    "tagline": "A collection of ghost stories written by M. R. James.",
+    "subjects": [
+      "Horror tales, English",
+      "Short stories, English",
+      "Ghost stories, English"
+    ],
+    "collections": [],
+    "words": 161398,
+    "chapters": 34,
+    "readingEase": 76.6,
+    "language": "en-GB",
+    "cover": {
+      "color": "#463520",
+      "accent": "#e3caab"
+    },
+    "source": "https://standardebooks.org/ebooks/m-r-james/short-fiction"
+  },
+  {
+    "id": "j-sheridan-le-fanu-short-fiction",
+    "title": "Short Fiction",
+    "author": "J. Sheridan Le Fanu",
+    "authorId": "j-sheridan-le-fanu",
+    "authorSort": "Le Fanu, J. Sheridan",
+    "year": 1872,
+    "genres": [
+      "horror",
+      "short-stories"
+    ],
+    "tagline": "A collection of J. Sheridan Le Fanu’s short fiction, including some of his famous ghost stories, gothic horror and sensation.",
+    "subjects": [
+      "Short stories",
+      "Ghost stories",
+      "Ireland",
+      "Fantasy fiction, English",
+      "Paranormal fiction",
+      "Horror tales"
+    ],
+    "collections": [],
+    "words": 365498,
+    "chapters": 118,
+    "readingEase": 63,
+    "language": "en-GB",
+    "cover": {
+      "color": "#3c2c2a",
+      "accent": "#d0c0be"
+    },
+    "source": "https://standardebooks.org/ebooks/j-sheridan-le-fanu/short-fiction"
+  },
+  {
+    "id": "arthur-machen-short-fiction",
+    "title": "Short Fiction",
+    "author": "Arthur Machen",
+    "authorId": "arthur-machen",
+    "authorSort": "Machen, Arthur",
+    "year": 1894,
+    "genres": [
+      "horror",
+      "short-stories"
+    ],
+    "tagline": "A collection of nine short fiction works by influential supernatural and horror author Arthur Machen.",
+    "subjects": [
+      "Horror tales, English",
+      "Paranormal fiction",
+      "World War",
+      "War stories, English"
+    ],
+    "collections": [],
+    "words": 141378,
+    "chapters": 45,
+    "readingEase": 73.4,
+    "language": "en-GB",
+    "cover": {
+      "color": "#452921",
+      "accent": "#d8bdb6"
+    },
+    "source": "https://standardebooks.org/ebooks/arthur-machen/short-fiction"
+  },
+  {
+    "id": "a-connecticut-yankee-in-king-arthurs-court",
+    "title": "A Connecticut Yankee in King Arthur’s Court",
+    "author": "Mark Twain",
+    "authorId": "mark-twain",
+    "authorSort": "Twain, Mark",
+    "year": 1889,
+    "genres": [
+      "humor",
+      "fantasy"
+    ],
+    "tagline": "An engineer from 19th-century Connecticut is sent back in time to King Arthur’s medieval England.",
+    "subjects": [
+      "Fantasy fiction",
+      "Satire",
+      "Knights and knighthood",
+      "Arthurian romances",
+      "Time travel",
+      "Americans",
+      "Kings and rulers",
+      "Britons"
+    ],
+    "collections": [],
+    "words": 118752,
+    "chapters": 47,
+    "readingEase": 75.6,
+    "language": "en-US",
+    "cover": {
+      "color": "#423024",
+      "accent": "#d5c4b8"
+    },
+    "source": "https://standardebooks.org/ebooks/mark-twain/a-connecticut-yankee-in-king-arthurs-court"
+  },
+  {
+    "id": "tarzan-of-the-apes",
+    "title": "Tarzan of the Apes",
+    "author": "Edgar Rice Burroughs",
+    "authorId": "edgar-rice-burroughs",
+    "authorSort": "Burroughs, Edgar Rice",
+    "year": 1912,
+    "genres": [
+      "adventure"
+    ],
+    "tagline": "An orphan is raised by apes in Africa and goes on various adventures.",
+    "subjects": [
+      "Tarzan",
+      "Africa",
+      "Fantasy fiction",
+      "Adventure stories",
+      "British",
+      "Wild men"
+    ],
+    "collections": [
+      "Tarzan"
+    ],
+    "words": 86131,
+    "chapters": 28,
+    "readingEase": 68,
+    "language": "en-US",
+    "cover": {
+      "color": "#263c40",
+      "accent": "#bad0d4"
+    },
+    "source": "https://standardebooks.org/ebooks/edgar-rice-burroughs/tarzan-of-the-apes"
+  },
+  {
+    "id": "white-fang",
+    "title": "White Fang",
+    "author": "Jack London",
+    "authorId": "jack-london",
+    "authorSort": "London, Jack",
+    "year": 1906,
+    "genres": [
+      "adventure"
+    ],
+    "tagline": "A wild half-wolf survives a harsh existence before finding love and domestication in civilization.",
+    "subjects": [
+      "Wolfdogs",
+      "Adventure stories",
+      "Canada, Northern"
+    ],
+    "collections": [],
+    "words": 72651,
+    "chapters": 25,
+    "readingEase": 81.2,
+    "language": "en-GB",
+    "cover": {
+      "color": "#204246",
+      "accent": "#b2d8dc"
+    },
+    "source": "https://standardebooks.org/ebooks/jack-london/white-fang"
+  },
+  {
+    "id": "kidnapped",
+    "title": "Kidnapped",
+    "subtitle": "Being Memoirs of the Adventures of David Balfour in the Year 1751",
+    "author": "Robert Louis Stevenson",
+    "authorId": "robert-louis-stevenson",
+    "authorSort": "Stevenson, Robert Louis",
+    "year": 1886,
+    "genres": [
+      "adventure",
+      "historical"
+    ],
+    "tagline": "After his parents die, a young Scottish man travels to see his only remaining relative, expecting to be welcomed, but instead finds his life and liberty in grave danger.",
+    "subjects": [
+      "Historical fiction",
+      "Scotland",
+      "Adventure and adventurers",
+      "Kidnapping"
+    ],
+    "collections": [
+      "The Guardian’s Best 100 Novels in English (2015)"
+    ],
+    "words": 80675,
+    "chapters": 32,
+    "readingEase": 74.9,
+    "language": "en-GB",
+    "cover": {
+      "color": "#463720",
+      "accent": "#dbcbb3"
+    },
+    "source": "https://standardebooks.org/ebooks/robert-louis-stevenson/kidnapped"
+  },
+  {
+    "id": "kim",
+    "title": "Kim",
+    "author": "Rudyard Kipling",
+    "authorId": "rudyard-kipling",
+    "authorSort": "Kipling, Rudyard",
+    "year": 1901,
+    "genres": [
+      "adventure",
+      "classics"
+    ],
+    "tagline": "An orphaned street-urchin follows a holy man across India during the time of the British Raj, eventually gaining an education and becoming a recruit to the Great Game of espionage against the Russians.",
+    "subjects": [
+      "Orphans",
+      "India",
+      "Boys",
+      "Adventure stories",
+      "Spy stories",
+      "Lamas",
+      "Irish"
+    ],
+    "collections": [
+      "Modern Library’s 100 Best Novels",
+      "The Guardian’s Best 100 Novels in English (2015)"
+    ],
+    "words": 107250,
+    "chapters": 15,
+    "readingEase": 82.9,
+    "language": "en-GB",
+    "cover": {
+      "color": "#3d3229",
+      "accent": "#d0c6be"
+    },
+    "source": "https://standardebooks.org/ebooks/rudyard-kipling/kim"
+  },
+  {
+    "id": "the-prisoner-of-zenda",
+    "title": "The Prisoner of Zenda",
+    "subtitle": "Being the History of Three Months in the Life of an English Gentleman",
+    "author": "Anthony Hope",
+    "authorId": "anthony-hope",
+    "authorSort": "Hope, Anthony",
+    "year": 1894,
+    "genres": [
+      "adventure",
+      "romance"
+    ],
+    "tagline": "King Rudolph V of Ruritania is drugged and abducted on the eve of his coronation, and a gentleman on holiday who happens to look like the king has to stop the sinister plot.",
+    "subjects": [
+      "Impostors and imposture",
+      "Adventure stories",
+      "British"
+    ],
+    "collections": [
+      "Ruritania Trilogy"
+    ],
+    "words": 53944,
+    "chapters": 22,
+    "readingEase": 81.7,
+    "language": "en-GB",
+    "cover": {
+      "color": "#3a342c",
+      "accent": "#cec8c0"
+    },
+    "source": "https://standardebooks.org/ebooks/anthony-hope/the-prisoner-of-zenda"
+  },
+  {
+    "id": "captain-blood",
+    "title": "Captain Blood",
+    "author": "Rafael Sabatini",
+    "authorId": "rafael-sabatini",
+    "authorSort": "Sabatini, Rafael",
+    "year": 1922,
+    "genres": [
+      "adventure",
+      "historical"
+    ],
+    "tagline": "An English doctor is caught up in a rebellion and sentenced to transportation to the Caribbean, but later escapes slavery to become a pirate.",
+    "subjects": [
+      "Historical fiction",
+      "Sea stories",
+      "Physicians",
+      "Adventure stories",
+      "Pirates",
+      "Caribbean Area",
+      "British"
+    ],
+    "collections": [],
+    "words": 113904,
+    "chapters": 31,
+    "readingEase": 72.6,
+    "language": "en-GB",
+    "cover": {
+      "color": "#462120",
+      "accent": "#e3adab"
+    },
+    "source": "https://standardebooks.org/ebooks/rafael-sabatini/captain-blood"
+  },
+  {
+    "id": "scaramouche",
+    "title": "Scaramouche",
+    "subtitle": "A Romance of the French Revolution",
+    "author": "Rafael Sabatini",
+    "authorId": "rafael-sabatini",
+    "authorSort": "Sabatini, Rafael",
+    "year": 1921,
+    "genres": [
+      "historical",
+      "adventure"
+    ],
+    "tagline": "A country lawyer finds love and adventure as he seeks revenge during the French Revolution.",
+    "subjects": [
+      "France",
+      "War stories",
+      "Love stories",
+      "Adventure stories"
+    ],
+    "collections": [],
+    "words": 131030,
+    "chapters": 38,
+    "readingEase": 73.7,
+    "language": "en-GB",
+    "cover": {
+      "color": "#463720",
+      "accent": "#dbcbb3"
+    },
+    "source": "https://standardebooks.org/ebooks/rafael-sabatini/scaramouche"
+  },
+  {
+    "id": "the-elusive-pimpernel",
+    "title": "The Elusive Pimpernel",
+    "author": "Baroness Orczy",
+    "authorId": "baroness-orczy",
+    "authorSort": "Orczy, Baroness",
+    "year": 1908,
+    "genres": [
+      "historical",
+      "adventure"
+    ],
+    "tagline": "A French official schemes to finally catch the Scarlet Pimpernel.",
+    "subjects": [
+      "Historical fiction",
+      "France",
+      "Adventure stories",
+      "Blakeney, Percy, Sir",
+      "Nobility"
+    ],
+    "collections": [
+      "Scarlet Pimpernel"
+    ],
+    "words": 83947,
+    "chapters": 35,
+    "readingEase": 66.2,
+    "language": "en-GB",
+    "cover": {
+      "color": "#463a20",
+      "accent": "#dcceb2"
+    },
+    "source": "https://standardebooks.org/ebooks/baroness-orczy/the-elusive-pimpernel"
+  },
+  {
+    "id": "winnie-the-pooh",
+    "title": "Winnie-the-Pooh",
+    "author": "A. A. Milne",
+    "authorId": "a-a-milne",
+    "authorSort": "Milne, A. A.",
+    "year": 1926,
+    "genres": [
+      "childrens",
+      "humor"
+    ],
+    "tagline": "A father tells stories to his son about the son’s stuffed animals come to life.",
+    "subjects": [
+      "Children's Books"
+    ],
+    "collections": [
+      "Winnie-the-Pooh"
+    ],
+    "words": 22756,
+    "chapters": 11,
+    "readingEase": 83.7,
+    "language": "en-GB",
+    "cover": {
+      "color": "#423524",
+      "accent": "#d5c9b9"
+    },
+    "source": "https://standardebooks.org/ebooks/a-a-milne/winnie-the-pooh"
+  },
+  {
+    "id": "through-the-looking-glass",
+    "title": "Through the Looking-Glass",
+    "subtitle": "And What Alice Found There",
+    "author": "Lewis Carroll",
+    "authorId": "lewis-carroll",
+    "authorSort": "Carroll, Lewis",
+    "illustrator": "John Tenniel",
+    "year": 1871,
+    "genres": [
+      "fantasy",
+      "childrens"
+    ],
+    "tagline": "In a follow-up to her adventures in Wonderland, Alice finds herself in a mirror image of the whimsical land where she becomes a queen in her own right.",
+    "subjects": [
+      "Fantasy literature"
+    ],
+    "collections": [],
+    "words": 30016,
+    "chapters": 15,
+    "readingEase": 81.5,
+    "language": "en-GB",
+    "cover": {
+      "color": "#442d22",
+      "accent": "#d8c1b6"
+    },
+    "source": "https://standardebooks.org/ebooks/lewis-carroll/through-the-looking-glass/john-tenniel"
+  },
+  {
+    "id": "the-railway-children",
+    "title": "The Railway Children",
+    "author": "E. Nesbit",
+    "authorId": "e-nesbit",
+    "authorSort": "Nesbit, E.",
+    "year": 1906,
+    "genres": [
+      "childrens"
+    ],
+    "tagline": "After their father is forced to leave them, three children and their mother must live in near-poverty in the country, where their lives are enlivened by the nearby presence of a railway line.",
+    "subjects": [
+      "Railroads",
+      "Country life",
+      "England",
+      "Family life",
+      "Brothers and sisters"
+    ],
+    "collections": [],
+    "words": 59979,
+    "chapters": 14,
+    "readingEase": 82.5,
+    "language": "en-GB",
+    "cover": {
+      "color": "#253241",
+      "accent": "#bac6d4"
+    },
+    "source": "https://standardebooks.org/ebooks/e-nesbit/the-railway-children"
+  },
+  {
+    "id": "black-beauty",
+    "title": "Black Beauty",
+    "subtitle": "The Autobiography of a Horse",
+    "author": "Anna Sewell",
+    "authorId": "anna-sewell",
+    "authorSort": "Sewell, Anna",
+    "year": 1877,
+    "genres": [
+      "childrens"
+    ],
+    "tagline": "A memoir narrated by a horse whose idyllic time on an English farm prepares him for a life filled with constant change and varied circumstances.",
+    "subjects": [
+      "Historical fiction",
+      "Horses",
+      "Great Britain"
+    ],
+    "collections": [],
+    "words": 59770,
+    "chapters": 49,
+    "readingEase": 81.2,
+    "language": "en-US",
+    "cover": {
+      "color": "#3d2f29",
+      "accent": "#d1c3bd"
+    },
+    "source": "https://standardebooks.org/ebooks/anna-sewell/black-beauty"
+  },
+  {
+    "id": "a-little-princess",
+    "title": "A Little Princess",
+    "subtitle": "Being the Whole Story of Sara Crewe, Now Told for the First Time",
+    "author": "Frances Hodgson Burnett",
+    "authorId": "frances-hodgson-burnett",
+    "authorSort": "Burnett, Frances Hodgson",
+    "year": 1905,
+    "genres": [
+      "childrens"
+    ],
+    "tagline": "A young girl discovers a life of unexpected challenges when she goes to live at a London boarding school.",
+    "subjects": [
+      "Orphans",
+      "Schools",
+      "Boarding schools",
+      "Girls",
+      "London (England)"
+    ],
+    "collections": [],
+    "words": 67605,
+    "chapters": 20,
+    "readingEase": 81.7,
+    "language": "en-US",
+    "cover": {
+      "color": "#3b352b",
+      "accent": "#cec8bf"
+    },
+    "source": "https://standardebooks.org/ebooks/frances-hodgson-burnett/a-little-princess"
+  },
+  {
+    "id": "anne-of-avonlea",
+    "title": "Anne of Avonlea",
+    "author": "L. M. Montgomery",
+    "authorId": "l-m-montgomery",
+    "authorSort": "Montgomery, L. M.",
+    "year": 1909,
+    "genres": [
+      "childrens"
+    ],
+    "tagline": "A young woman enters adulthood as she works as a schoolteacher in a country village.",
+    "subjects": [
+      "Orphans",
+      "Teachers",
+      "Country life"
+    ],
+    "collections": [
+      "Anne of Green Gables"
+    ],
+    "words": 88863,
+    "chapters": 30,
+    "readingEase": 81.3,
+    "language": "en-GB",
+    "cover": {
+      "color": "#3d3129",
+      "accent": "#d1c5bd"
+    },
+    "source": "https://standardebooks.org/ebooks/l-m-montgomery/anne-of-avonlea"
+  },
+  {
+    "id": "the-swiss-family-robinson",
+    "title": "The Swiss Family Robinson",
+    "author": "Johann David Wyss",
+    "authorId": "johann-david-wyss",
+    "authorSort": "Wyss, Johann David",
+    "translator": "Mary Jane Godwin & William Godwin",
+    "illustrator": "J. C. Russell",
+    "year": 1812,
+    "genres": [
+      "childrens",
+      "adventure"
+    ],
+    "tagline": "A Swiss family is shipwrecked on a remote island in the East Indies.",
+    "subjects": [
+      "Islands",
+      "Survival",
+      "Family life"
+    ],
+    "collections": [],
+    "words": 166827,
+    "chapters": 39,
+    "readingEase": 56.3,
+    "language": "en-GB",
+    "cover": {
+      "color": "#3c352a",
+      "accent": "#d0c9be"
+    },
+    "source": "https://standardebooks.org/ebooks/johann-david-wyss/the-swiss-family-robinson/mary-jane-godwin_william-godwin"
+  },
+  {
+    "id": "three-men-in-a-boat",
+    "title": "Three Men in a Boat",
+    "subtitle": "(To Say Nothing of the Dog)",
+    "author": "Jerome K. Jerome",
+    "authorId": "jerome-k-jerome",
+    "authorSort": "Jerome, Jerome K.",
+    "year": 1889,
+    "genres": [
+      "humor"
+    ],
+    "tagline": "The humorous travelogue of a boating holiday down the Thames taken by three friends and their dog.",
+    "subjects": [
+      "Young men",
+      "Boats and boating",
+      "Dogs",
+      "Humorous stories, English",
+      "Thames River (England)",
+      "Male friendship"
+    ],
+    "collections": [
+      "The Guardian’s Best 100 Novels in English (2015)",
+      "The Guardian’s 100 Greatest Novels of All Time (2003)"
+    ],
+    "words": 67388,
+    "chapters": 20,
+    "readingEase": 76,
+    "language": "en-GB",
+    "cover": {
+      "color": "#253c41",
+      "accent": "#b9d0d5"
+    },
+    "source": "https://standardebooks.org/ebooks/jerome-k-jerome/three-men-in-a-boat"
+  },
+  {
+    "id": "jeeves-stories",
+    "title": "Jeeves Stories",
+    "author": "P. G. Wodehouse",
+    "authorId": "p-g-wodehouse",
+    "authorSort": "Wodehouse, P. G.",
+    "year": 1925,
+    "genres": [
+      "humor",
+      "short-stories"
+    ],
+    "tagline": "A collection of short stories featuring Jeeves and Wooster and the upperclass English life of the early 1900s.",
+    "subjects": [
+      "Humorous stories, English",
+      "Wooster, Bertie",
+      "Jeeves",
+      "Valets",
+      "England",
+      "Single men",
+      "Upper class",
+      "Short stories, English"
+    ],
+    "collections": [],
+    "words": 171178,
+    "chapters": 26,
+    "readingEase": 83.6,
+    "language": "en-GB",
+    "cover": {
+      "color": "#43233d",
+      "accent": "#d7b7d1"
+    },
+    "source": "https://standardebooks.org/ebooks/p-g-wodehouse/jeeves-stories"
+  },
+  {
+    "id": "saki-short-fiction",
+    "title": "Short Fiction",
+    "author": "Saki",
+    "authorId": "saki",
+    "authorSort": "Saki",
+    "year": 1911,
+    "genres": [
+      "humor",
+      "short-stories"
+    ],
+    "tagline": "A collection of short stories by Saki, ordered by date of publication.",
+    "subjects": [
+      "England",
+      "Humorous stories, English",
+      "Satire, English",
+      "Short Stories, English"
+    ],
+    "collections": [],
+    "words": 228093,
+    "chapters": 142,
+    "readingEase": 58.9,
+    "language": "en-GB",
+    "cover": {
+      "color": "#372f33",
+      "accent": "#cbc3c7"
+    },
+    "source": "https://standardebooks.org/ebooks/saki/short-fiction"
+  },
+  {
+    "id": "the-devils-dictionary",
+    "title": "The Devil’s Dictionary",
+    "author": "Ambrose Bierce",
+    "authorId": "ambrose-bierce",
+    "authorSort": "Bierce, Ambrose",
+    "year": 1906,
+    "genres": [
+      "humor"
+    ],
+    "tagline": "A witty, sharp collection of sardonic word definitions from the 1800s and early 1900s that provide a snapshot into the irreverent humor of early American culture.",
+    "subjects": [
+      "English language",
+      "Vocabulary"
+    ],
+    "collections": [],
+    "words": 60630,
+    "chapters": 27,
+    "readingEase": 60.6,
+    "language": "en-US",
+    "cover": {
+      "color": "#303236",
+      "accent": "#c4c6ca"
+    },
+    "source": "https://standardebooks.org/ebooks/ambrose-bierce/the-devils-dictionary"
+  },
+  {
+    "id": "the-iliad",
+    "title": "The Iliad",
+    "author": "Homer",
+    "authorId": "homer",
+    "authorSort": "Homer",
+    "translator": "William Cullen Bryant",
+    "year": -750,
+    "genres": [
+      "poetry",
+      "adventure"
+    ],
+    "tagline": "The epic poem which follows a Greek warrior who refuses to give up his prize of war.",
+    "subjects": [
+      "Classical literature",
+      "Epic poetry, Greek",
+      "Achilles (Mythological character)",
+      "Trojan War"
+    ],
+    "collections": [
+      "Encyclopædia Britannica’s Great Books of the Western World"
+    ],
+    "words": 155086,
+    "chapters": 25,
+    "readingEase": 69.8,
+    "language": "en-US",
+    "cover": {
+      "color": "#422437",
+      "accent": "#d6b8cb"
+    },
+    "source": "https://standardebooks.org/ebooks/homer/the-iliad/william-cullen-bryant"
+  },
+  {
+    "id": "the-aeneid",
+    "title": "The Aeneid",
+    "author": "Virgil",
+    "authorId": "virgil",
+    "authorSort": "Virgil",
+    "translator": "John Dryden",
+    "year": -19,
+    "genres": [
+      "poetry",
+      "adventure"
+    ],
+    "tagline": "The legendary hero Aeneas flees the city of Troy with his father and young son, and travels to Italy to become the ancestor of the Romans.",
+    "subjects": [
+      "Aeneas",
+      "Legends",
+      "Epic poetry, Latin"
+    ],
+    "collections": [
+      "Encyclopædia Britannica’s Great Books of the Western World"
+    ],
+    "words": 106564,
+    "chapters": 12,
+    "readingEase": 71.8,
+    "language": "en-GB",
+    "cover": {
+      "color": "#3f3127",
+      "accent": "#d3c5bb"
+    },
+    "source": "https://standardebooks.org/ebooks/virgil/the-aeneid/john-dryden"
+  },
+  {
+    "id": "the-divine-comedy",
+    "title": "The Divine Comedy",
+    "author": "Dante Alighieri",
+    "authorId": "dante-alighieri",
+    "authorSort": "Alighieri, Dante",
+    "translator": "Henry Wadsworth Longfellow",
+    "year": 1320,
+    "genres": [
+      "poetry",
+      "classics"
+    ],
+    "tagline": "Dante journeys through Hell, Purgatory, and Heaven in order to receive salvation and to find divine love.",
+    "subjects": [
+      "Epic poetry, Italian",
+      "Italian poetry"
+    ],
+    "collections": [
+      "Encyclopædia Britannica’s Great Books of the Western World"
+    ],
+    "words": 111863,
+    "chapters": 103,
+    "readingEase": 61.2,
+    "language": "en-US",
+    "cover": {
+      "color": "#3b372b",
+      "accent": "#cfcabf"
+    },
+    "source": "https://standardebooks.org/ebooks/dante-alighieri/the-divine-comedy/henry-wadsworth-longfellow"
+  },
+  {
+    "id": "the-rubaiyat-of-omar-khayyam",
+    "title": "The Rubáiyát of Omar Khayyám",
+    "author": "Omar Khayyám",
+    "authorId": "omar-khayyam",
+    "authorSort": "Khayyám, Omar",
+    "translator": "Edward FitzGerald",
+    "year": 1120,
+    "genres": [
+      "poetry",
+      "philosophy"
+    ],
+    "tagline": "Three volumes of lyrical quatrains about the joys of living, the meaning of existence, and what it means to lead a happy life.",
+    "subjects": [
+      "Persian poetry"
+    ],
+    "collections": [],
+    "words": 6993,
+    "chapters": 3,
+    "readingEase": 58.9,
+    "language": "en-US",
+    "cover": {
+      "color": "#343432",
+      "accent": "#c8c8c5"
+    },
+    "source": "https://standardebooks.org/ebooks/omar-khayyam/the-rubaiyat-of-omar-khayyam/edward-fitzgerald"
+  },
+  {
+    "id": "leaves-of-grass",
+    "title": "Leaves of Grass",
+    "author": "Walt Whitman",
+    "authorId": "walt-whitman",
+    "authorSort": "Whitman, Walt",
+    "year": 1855,
+    "genres": [
+      "poetry"
+    ],
+    "tagline": "The definitive collection of Walt Whitman’s poetry.",
+    "subjects": [
+      "American poetry"
+    ],
+    "collections": [],
+    "words": 130720,
+    "chapters": 397,
+    "readingEase": 53.7,
+    "language": "en-US",
+    "cover": {
+      "color": "#2b373b",
+      "accent": "#bfcbcf"
+    },
+    "source": "https://standardebooks.org/ebooks/walt-whitman/leaves-of-grass"
+  },
+  {
+    "id": "john-donne-poetry",
+    "title": "Poetry",
+    "author": "John Donne",
+    "authorId": "john-donne",
+    "authorSort": "Donne, John",
+    "year": 1633,
+    "genres": [
+      "poetry"
+    ],
+    "tagline": "A collection of John Donne’s poetry.",
+    "subjects": [
+      "English poetry"
+    ],
+    "collections": [],
+    "words": 73952,
+    "chapters": 175,
+    "readingEase": 67.1,
+    "language": "en-GB",
+    "cover": {
+      "color": "#463720",
+      "accent": "#e0ccad"
+    },
+    "source": "https://standardebooks.org/ebooks/john-donne/poetry"
+  },
+  {
+    "id": "spoon-river-anthology",
+    "title": "Spoon River Anthology",
+    "author": "Edgar Lee Masters",
+    "authorId": "edgar-lee-masters",
+    "authorSort": "Masters, Edgar Lee",
+    "year": 1915,
+    "genres": [
+      "poetry"
+    ],
+    "tagline": "A collection of short poems recounting the lives and deaths of the residents of a small Illinois town.",
+    "subjects": [
+      "American poetry"
+    ],
+    "collections": [],
+    "words": 37954,
+    "chapters": 247,
+    "readingEase": 75.2,
+    "language": "en-US",
+    "cover": {
+      "color": "#463420",
+      "accent": "#dfc8af"
+    },
+    "source": "https://standardebooks.org/ebooks/edgar-lee-masters/spoon-river-anthology"
+  },
+  {
+    "id": "a-midsummer-nights-dream",
+    "title": "A Midsummer Night’s Dream",
+    "author": "William Shakespeare",
+    "authorId": "william-shakespeare",
+    "authorSort": "Shakespeare, William",
+    "year": 1600,
+    "genres": [
+      "drama",
+      "humor"
+    ],
+    "tagline": "This comedy follows four lovers and a thespian who become bewitched by fairies.",
+    "subjects": [
+      "Comedies",
+      "Courtship",
+      "Athens (Greece)",
+      "Fairy plays"
+    ],
+    "collections": [
+      "Encyclopædia Britannica’s Great Books of the Western World"
+    ],
+    "words": 17242,
+    "chapters": 10,
+    "readingEase": 80.3,
+    "language": "en-GB",
+    "cover": {
+      "color": "#3c312a",
+      "accent": "#d0c5be"
+    },
+    "source": "https://standardebooks.org/ebooks/william-shakespeare/a-midsummer-nights-dream"
+  },
+  {
+    "id": "much-ado-about-nothing",
+    "title": "Much Ado About Nothing",
+    "author": "William Shakespeare",
+    "authorId": "william-shakespeare",
+    "authorSort": "Shakespeare, William",
+    "year": 1600,
+    "genres": [
+      "drama",
+      "romance"
+    ],
+    "tagline": "One couple is tricked into falling in love, and another couple is tricked into falling out of love.",
+    "subjects": [
+      "Comedies",
+      "Rejection (Psychology)",
+      "Conspiracies",
+      "Courtship",
+      "Messina (Italy)"
+    ],
+    "collections": [
+      "Encyclopædia Britannica’s Great Books of the Western World"
+    ],
+    "words": 22509,
+    "chapters": 18,
+    "readingEase": 81.5,
+    "language": "en-GB",
+    "cover": {
+      "color": "#3e2d28",
+      "accent": "#d2c1bc"
+    },
+    "source": "https://standardebooks.org/ebooks/william-shakespeare/much-ado-about-nothing"
+  },
+  {
+    "id": "othello",
+    "title": "Othello",
+    "author": "William Shakespeare",
+    "authorId": "william-shakespeare",
+    "authorSort": "Shakespeare, William",
+    "year": 1622,
+    "genres": [
+      "drama"
+    ],
+    "tagline": "Jealousy destroys the marriage between an older black man and a younger white woman in 1500s Venice.",
+    "subjects": [
+      "Shakespeare, William",
+      "Jealousy",
+      "Blacks in the theater",
+      "Interracial marriage"
+    ],
+    "collections": [
+      "The Telegraph’s Greatest Villains in Literature",
+      "Encyclopædia Britannica’s Great Books of the Western World"
+    ],
+    "words": 27894,
+    "chapters": 16,
+    "readingEase": 74.5,
+    "language": "en-GB",
+    "cover": {
+      "color": "#463120",
+      "accent": "#dbc5b3"
+    },
+    "source": "https://standardebooks.org/ebooks/william-shakespeare/othello"
+  },
+  {
+    "id": "king-lear",
+    "title": "King Lear",
+    "author": "William Shakespeare",
+    "authorId": "william-shakespeare",
+    "authorSort": "Shakespeare, William",
+    "year": 1608,
+    "genres": [
+      "drama"
+    ],
+    "tagline": "An aging king divides his kingdom between his two eldest daughters, slighting the third, and comes to bitterly regret his decision.",
+    "subjects": [
+      "Tragedies",
+      "Fathers and daughters",
+      "Inheritance and succession",
+      "Lear, King",
+      "Britons",
+      "Kings and rulers",
+      "Aging parents"
+    ],
+    "collections": [
+      "The Telegraph’s Greatest Villains in Literature",
+      "Encyclopædia Britannica’s Great Books of the Western World"
+    ],
+    "words": 27799,
+    "chapters": 27,
+    "readingEase": 83,
+    "language": "en-GB",
+    "cover": {
+      "color": "#422c24",
+      "accent": "#d5c0b8"
+    },
+    "source": "https://standardebooks.org/ebooks/william-shakespeare/king-lear"
+  },
+  {
+    "id": "the-tempest",
+    "title": "The Tempest",
+    "author": "William Shakespeare",
+    "authorId": "william-shakespeare",
+    "authorSort": "Shakespeare, William",
+    "year": 1623,
+    "genres": [
+      "drama",
+      "fantasy"
+    ],
+    "tagline": "A magic-induced tempest shipwrecks the king of Naples and his crew on an island inhabited by the usurped duke of Milan.",
+    "subjects": [
+      "Shipwreck victims",
+      "Fathers and daughters",
+      "Magicians",
+      "Political refugees",
+      "Islands",
+      "Spirits",
+      "Tragicomedy"
+    ],
+    "collections": [
+      "Encyclopædia Britannica’s Great Books of the Western World"
+    ],
+    "words": 17523,
+    "chapters": 11,
+    "readingEase": 73.5,
+    "language": "en-GB",
+    "cover": {
+      "color": "#40262e",
+      "accent": "#d4bac2"
+    },
+    "source": "https://standardebooks.org/ebooks/william-shakespeare/the-tempest"
+  },
+  {
+    "id": "a-dolls-house",
+    "title": "A Doll’s House",
+    "author": "Henrik Ibsen",
+    "authorId": "henrik-ibsen",
+    "authorSort": "Ibsen, Henrik",
+    "translator": "R. Farquharson Sharp",
+    "year": 1879,
+    "genres": [
+      "drama"
+    ],
+    "tagline": "In 1870s Norway, a woman struggles to be herself within the confines of marriage and society.",
+    "subjects": [
+      "Marriage",
+      "Man-woman relationships",
+      "Norwegian drama",
+      "Wives"
+    ],
+    "collections": [
+      "Encyclopædia Britannica’s Great Books of the Western World"
+    ],
+    "words": 26796,
+    "chapters": 4,
+    "readingEase": 86.6,
+    "language": "en-GB",
+    "cover": {
+      "color": "#3f3327",
+      "accent": "#d2c7bb"
+    },
+    "source": "https://standardebooks.org/ebooks/henrik-ibsen/a-dolls-house/r-farquharson-sharp"
+  },
+  {
+    "id": "tao-te-ching",
+    "title": "Tao Te Ching",
+    "author": "Laozi",
+    "authorId": "laozi",
+    "authorSort": "Laozi",
+    "translator": "James Legge",
+    "year": -400,
+    "genres": [
+      "philosophy"
+    ],
+    "tagline": "One of the fundamental texts of the Tao philosophy and religion.",
+    "subjects": [
+      "Taoism"
+    ],
+    "collections": [],
+    "words": 25245,
+    "chapters": 12,
+    "readingEase": 67.3,
+    "language": "en-GB",
+    "cover": {
+      "color": "#3c372a",
+      "accent": "#d0cbbe"
+    },
+    "source": "https://standardebooks.org/ebooks/laozi/tao-te-ching/james-legge"
+  },
+  {
+    "id": "beyond-good-and-evil",
+    "title": "Beyond Good and Evil",
+    "subtitle": "Prelude to a Philosophy of the Future",
+    "author": "Friedrich Nietzsche",
+    "authorId": "friedrich-nietzsche",
+    "authorSort": "Nietzsche, Friedrich",
+    "translator": "Helen Zimmern & L. A. Magnus",
+    "year": 1886,
+    "genres": [
+      "philosophy"
+    ],
+    "tagline": "Nietzsche’s philosophical treatise on the ambiguity of traditional morality.",
+    "subjects": [
+      "Ethics",
+      "Philosophy, German"
+    ],
+    "collections": [
+      "Encyclopædia Britannica’s Great Books of the Western World"
+    ],
+    "words": 63917,
+    "chapters": 61,
+    "readingEase": 35.5,
+    "language": "en-GB",
+    "cover": {
+      "color": "#3c3e28",
+      "accent": "#d0d1bc"
+    },
+    "source": "https://standardebooks.org/ebooks/friedrich-nietzsche/beyond-good-and-evil/helen-zimmern"
+  },
+  {
+    "id": "ralph-waldo-emerson-essays",
+    "title": "Essays",
+    "author": "Ralph Waldo Emerson",
+    "authorId": "ralph-waldo-emerson",
+    "authorSort": "Emerson, Ralph Waldo",
+    "year": 1841,
+    "genres": [
+      "nonfiction",
+      "philosophy"
+    ],
+    "tagline": "A collection of Ralph Waldo Emerson’s essays.",
+    "subjects": [
+      "American essays"
+    ],
+    "collections": [
+      "Encyclopædia Britannica’s Gateway to the Great Books",
+      "Encyclopædia Britannica’s Gateway to the Great Books"
+    ],
+    "words": 133264,
+    "chapters": 21,
+    "readingEase": 66.1,
+    "language": "en-US",
+    "cover": {
+      "color": "#463520",
+      "accent": "#e3caab"
+    },
+    "source": "https://standardebooks.org/ebooks/ralph-waldo-emerson/essays"
+  },
+  {
+    "id": "a-vindication-of-the-rights-of-woman",
+    "title": "A Vindication of the Rights of Woman",
+    "subtitle": "With Strictures on Political and Moral Subjects",
+    "author": "Mary Wollstonecraft",
+    "authorId": "mary-wollstonecraft",
+    "authorSort": "Wollstonecraft, Mary",
+    "year": 1792,
+    "genres": [
+      "nonfiction",
+      "philosophy"
+    ],
+    "tagline": "Wollstonecraft argues for equal treatment of women in society, especially in matters of education.",
+    "subjects": [
+      "Feminism",
+      "Women's rights",
+      "Women"
+    ],
+    "collections": [],
+    "words": 83317,
+    "chapters": 15,
+    "readingEase": 45.2,
+    "language": "en-GB",
+    "cover": {
+      "color": "#303036",
+      "accent": "#c4c4ca"
+    },
+    "source": "https://standardebooks.org/ebooks/mary-wollstonecraft/a-vindication-of-the-rights-of-woman"
+  },
+  {
+    "id": "the-souls-of-black-folk",
+    "title": "The Souls of Black Folk",
+    "subtitle": "Essays and Sketches",
+    "author": "W. E. B. Du Bois",
+    "authorId": "w-e-b-du-bois",
+    "authorSort": "Du Bois, W. E. B.",
+    "year": 1903,
+    "genres": [
+      "nonfiction"
+    ],
+    "tagline": "A seminal collection of essays on the African-American experience.",
+    "subjects": [
+      "African Americans"
+    ],
+    "collections": [
+      "Modern Library’s 100 Best Nonfiction"
+    ],
+    "words": 69545,
+    "chapters": 16,
+    "readingEase": 53.3,
+    "language": "en-US",
+    "cover": {
+      "color": "#34372f",
+      "accent": "#c8cbc3"
+    },
+    "source": "https://standardebooks.org/ebooks/w-e-b-du-bois/the-souls-of-black-folk"
+  },
+  {
+    "id": "up-from-slavery",
+    "title": "Up from Slavery",
+    "subtitle": "An Autobiography",
+    "author": "Booker T. Washington",
+    "authorId": "booker-t-washington",
+    "authorSort": "Washington, Booker T.",
+    "year": 1901,
+    "genres": [
+      "nonfiction"
+    ],
+    "tagline": "The autobiography of Booker T. Washington, former slave and founder of the Tuskegee Institute.",
+    "subjects": [
+      "Tuskegee Institute",
+      "Washington, Booker T.",
+      "African Americans",
+      "Educators"
+    ],
+    "collections": [
+      "Modern Library’s 100 Best Nonfiction"
+    ],
+    "words": 76974,
+    "chapters": 19,
+    "readingEase": 63.2,
+    "language": "en-GB",
+    "cover": {
+      "color": "#403226",
+      "accent": "#d4c6ba"
+    },
+    "source": "https://standardebooks.org/ebooks/booker-t-washington/up-from-slavery"
+  },
+  {
+    "id": "incidents-in-the-life-of-a-slave-girl",
+    "title": "Incidents in the Life of a Slave Girl",
+    "subtitle": "Seven Years Concealed",
+    "author": "Linda Brent",
+    "authorId": "linda-brent",
+    "authorSort": "Brent, Linda",
+    "year": 1861,
+    "genres": [
+      "nonfiction"
+    ],
+    "tagline": "The autobiography of a woman who grew up in, and escaped from, slavery.",
+    "subjects": [
+      "Women slaves",
+      "Slaves",
+      "Jacobs, Harriet A. (Harriet Ann)"
+    ],
+    "collections": [],
+    "words": 82918,
+    "chapters": 44,
+    "readingEase": 80.4,
+    "language": "en-US",
+    "cover": {
+      "color": "#443222",
+      "accent": "#d7c5b6"
+    },
+    "source": "https://standardebooks.org/ebooks/linda-brent/incidents-in-the-life-of-a-slave-girl"
+  },
+  {
+    "id": "the-autobiography-of-benjamin-franklin",
+    "title": "The Autobiography of Benjamin Franklin",
+    "author": "Benjamin Franklin",
+    "authorId": "benjamin-franklin",
+    "authorSort": "Franklin, Benjamin",
+    "year": 1791,
+    "genres": [
+      "nonfiction"
+    ],
+    "tagline": "Benjamin Franklin writes about his youth, adventures, and achievements.",
+    "subjects": [
+      "Franklin, Benjamin",
+      "Statesmen"
+    ],
+    "collections": [],
+    "words": 64551,
+    "chapters": 22,
+    "readingEase": 50,
+    "language": "en-GB",
+    "cover": {
+      "color": "#403a26",
+      "accent": "#d4cdba"
+    },
+    "source": "https://standardebooks.org/ebooks/benjamin-franklin/the-autobiography-of-benjamin-franklin"
   }
 ];

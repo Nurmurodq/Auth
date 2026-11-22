@@ -49,6 +49,7 @@ export class BookPage {
 
   protected readonly book = computed(() => this.catalog.get(this.id()));
   protected readonly toc = signal<TocChapter[] | null>(null);
+  protected readonly description = signal<string | null>(null);
   protected readonly tocError = signal(false);
   protected readonly tocExpanded = signal(false);
   protected readonly descExpanded = signal(false);
@@ -125,13 +126,18 @@ export class BookPage {
       let cancelled = false;
       onCleanup(() => (cancelled = true));
       this.toc.set(null);
+      this.description.set(null);
       this.tocError.set(false);
       this.tocExpanded.set(false);
       this.descExpanded.set(false);
       if (!this.catalog.get(id)) return;
       this.content
         .toc(id)
-        .then((t) => !cancelled && this.toc.set(t.chapters))
+        .then((t) => {
+          if (cancelled) return;
+          this.toc.set(t.chapters);
+          this.description.set(t.description ?? '');
+        })
         .catch(() => !cancelled && this.tocError.set(true));
     });
   }

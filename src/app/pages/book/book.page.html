@@ -86,8 +86,14 @@
       <div class="main-col">
         <section class="panel" aria-labelledby="about-title">
           <h2 id="about-title" class="panel-title">About this book</h2>
-          <div class="prose-desc desc" [class.clamped]="!descExpanded()" [innerHTML]="b.description"></div>
-          @if (b.description.length > 600) {
+          @if (description() === null) {
+            <div class="desc-skeleton" aria-label="Loading description">
+              <span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span>
+            </div>
+          } @else {
+            <div class="prose-desc desc" [class.clamped]="!descExpanded() && description()!.length > 600" [innerHTML]="description() || b.tagline"></div>
+          }
+          @if ((description()?.length ?? 0) > 600) {
             <button type="button" class="link more" (click)="descExpanded.set(!descExpanded())">
               {{ descExpanded() ? 'Show less' : 'Read more' }}
             </button>

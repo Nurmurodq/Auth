@@ -22,6 +22,7 @@ export const GENRES = [
   { id: 'short-stories', name: 'Short Stories', blurb: 'Whole worlds in a single sitting.' },
   { id: 'poetry', name: 'Poetry', blurb: 'Verse, song and epic.' },
   { id: 'drama', name: 'Drama', blurb: 'Plays written for the stage, ready for the page.' },
+  { id: 'humor', name: 'Humour & Satire', blurb: 'Wit, comic mishaps and sharp-eyed satire.' },
   { id: 'philosophy', name: 'Philosophy', blurb: 'Timeless ideas on how to think and how to live.' },
   { id: 'nonfiction', name: 'Memoir & Essays', blurb: 'True lives and considered reflections.' },
 ];
@@ -83,7 +84,7 @@ export const BOOKS = [
   { path: 'frances-hodgson-burnett/the-secret-garden', year: 1911, genres: ['childrens', 'classics'] },
   { path: 'rudyard-kipling/the-jungle-book', year: 1894, genres: ['childrens', 'adventure', 'short-stories'] },
   { path: 'l-m-montgomery/anne-of-green-gables', year: 1908, genres: ['childrens', 'classics'] },
-  { path: 'jonathan-swift/gullivers-travels', year: 1726, genres: ['fantasy', 'adventure', 'classics'] },
+  { path: 'jonathan-swift/gullivers-travels', year: 1726, genres: ['fantasy', 'adventure', 'humor'] },
 
   // Adventure & historical
   { path: 'robert-louis-stevenson/treasure-island', year: 1883, genres: ['adventure', 'childrens'] },
@@ -112,7 +113,7 @@ export const BOOKS = [
   { path: 'william-shakespeare/hamlet', year: 1603, genres: ['drama'] },
   { path: 'william-shakespeare/macbeth', year: 1623, genres: ['drama'] },
   { path: 'william-shakespeare/romeo-and-juliet', year: 1597, genres: ['drama', 'romance'] },
-  { path: 'oscar-wilde/the-importance-of-being-earnest', year: 1895, genres: ['drama'] },
+  { path: 'oscar-wilde/the-importance-of-being-earnest', year: 1895, genres: ['drama', 'humor'] },
 
   // Poetry
   { path: 'homer/the-odyssey/william-cullen-bryant', year: -700, genres: ['poetry', 'adventure'] },
@@ -121,4 +122,121 @@ export const BOOKS = [
   { path: 'edgar-allan-poe/poetry', year: 1845, genres: ['poetry', 'horror'] },
   { path: 'rabindranath-tagore/gitanjali', year: 1912, genres: ['poetry', 'philosophy'] },
   { path: 'kahlil-gibran/the-prophet', year: 1923, genres: ['poetry', 'philosophy'] },
+
+  /* ---------------------------------------------------------------- */
+  /* Second wave                                                       */
+  /* ---------------------------------------------------------------- */
+
+  // Great novels
+  { path: 'leo-tolstoy/war-and-peace/louise-maude_aylmer-maude', year: 1869, genres: ['historical', 'classics'] },
+  { path: 'victor-hugo/les-miserables/isabel-f-hapgood', year: 1862, genres: ['classics', 'historical'] },
+  { path: 'alexandre-dumas/the-count-of-monte-cristo/chapman-and-hall', year: 1844, genres: ['adventure', 'historical'] },
+  { path: 'miguel-de-cervantes-saavedra/don-quixote/john-ormsby', year: 1605, genres: ['classics', 'adventure', 'humor'] },
+  { path: 'fyodor-dostoevsky/the-brothers-karamazov/constance-garnett', year: 1880, genres: ['classics', 'philosophy'] },
+  { path: 'fyodor-dostoevsky/the-idiot/eva-m-martin', year: 1869, genres: ['classics'] },
+  { path: 'fyodor-dostoevsky/notes-from-underground/constance-garnett', year: 1864, genres: ['classics', 'philosophy'] },
+  { path: 'george-eliot/middlemarch', year: 1871, genres: ['classics', 'romance'] },
+  { path: 'charles-dickens/oliver-twist', year: 1838, genres: ['classics'] },
+  { path: 'charles-dickens/david-copperfield', year: 1850, genres: ['classics'] },
+  { path: 'jane-austen/northanger-abbey', year: 1817, genres: ['romance', 'classics', 'humor'] },
+  { path: 'jane-austen/mansfield-park', year: 1814, genres: ['romance', 'classics'] },
+  { path: 'thomas-hardy/far-from-the-madding-crowd', year: 1874, genres: ['classics', 'romance'] },
+  { path: 'henry-james/the-portrait-of-a-lady', year: 1881, genres: ['classics'] },
+  { path: 'nathaniel-hawthorne/the-house-of-the-seven-gables', year: 1851, genres: ['classics', 'horror'] },
+  { path: 'edith-wharton/the-house-of-mirth', year: 1905, genres: ['classics'] },
+  { path: 'edith-wharton/ethan-frome', year: 1911, genres: ['classics', 'romance'] },
+  { path: 'joseph-conrad/lord-jim', year: 1900, genres: ['classics', 'adventure'] },
+  { path: 'joseph-conrad/short-fiction', year: 1899, genres: ['short-stories', 'classics'] },
+  { path: 'e-m-forster/howards-end', year: 1910, genres: ['classics'] },
+  { path: 'e-m-forster/a-passage-to-india', year: 1924, genres: ['classics'] },
+  { path: 'virginia-woolf/to-the-lighthouse', year: 1927, genres: ['classics'] },
+  { path: 'james-joyce/ulysses', year: 1922, genres: ['classics'] },
+  { path: 'f-scott-fitzgerald/this-side-of-paradise', year: 1920, genres: ['classics', 'romance'] },
+  { path: 'f-scott-fitzgerald/the-beautiful-and-damned', year: 1922, genres: ['classics'] },
+  { path: 'ernest-hemingway/the-sun-also-rises', year: 1926, genres: ['classics'] },
+  { path: 'willa-cather/my-antonia', year: 1918, genres: ['classics'] },
+  { path: 'willa-cather/o-pioneers', year: 1913, genres: ['classics'] },
+  { path: 'sinclair-lewis/main-street', year: 1920, genres: ['classics', 'humor'] },
+  { path: 'upton-sinclair/the-jungle', year: 1906, genres: ['classics'] },
+  { path: 'stephen-crane/the-red-badge-of-courage', year: 1895, genres: ['historical', 'classics'] },
+  { path: 'hermann-hesse/siddhartha/various-translators', year: 1922, genres: ['classics', 'philosophy'] },
+
+  // Mystery & crime
+  { path: 'arthur-conan-doyle/the-memoirs-of-sherlock-holmes', year: 1894, genres: ['mystery', 'short-stories'] },
+  { path: 'arthur-conan-doyle/the-return-of-sherlock-holmes', year: 1905, genres: ['mystery', 'short-stories'] },
+  { path: 'arthur-conan-doyle/the-valley-of-fear', year: 1915, genres: ['mystery'] },
+  { path: 'agatha-christie/the-murder-of-roger-ackroyd', year: 1926, genres: ['mystery'] },
+  { path: 'agatha-christie/the-murder-on-the-links', year: 1923, genres: ['mystery'] },
+  { path: 'dashiell-hammett/the-maltese-falcon', year: 1930, genres: ['mystery'] },
+  { path: 'dashiell-hammett/red-harvest', year: 1929, genres: ['mystery'] },
+  { path: 'g-k-chesterton/the-man-who-was-thursday', year: 1908, genres: ['mystery', 'fantasy'] },
+  { path: 'john-buchan/the-thirty-nine-steps', year: 1915, genres: ['adventure', 'mystery'] },
+
+  // Science fiction, fantasy & the weird
+  { path: 'h-g-wells/the-island-of-doctor-moreau', year: 1896, genres: ['science-fiction', 'horror'] },
+  { path: 'h-g-wells/the-first-men-in-the-moon', year: 1901, genres: ['science-fiction', 'adventure'] },
+  { path: 'edwin-a-abbott/flatland', year: 1884, genres: ['science-fiction', 'humor'] },
+  { path: 'karel-capek/r-u-r/paul-selver_nigel-playfair', year: 1920, genres: ['science-fiction', 'drama'] },
+  { path: 'e-r-eddison/the-worm-ouroboros', year: 1922, genres: ['fantasy'] },
+  { path: 'lord-dunsany/the-king-of-elflands-daughter', year: 1924, genres: ['fantasy'] },
+  { path: 'george-macdonald/phantastes', year: 1858, genres: ['fantasy'] },
+  { path: 'h-rider-haggard/she', year: 1887, genres: ['adventure', 'fantasy'] },
+  { path: 'gaston-leroux/the-phantom-of-the-opera/alexander-teixeira-de-mattos', year: 1910, genres: ['horror', 'romance'] },
+  { path: 'robert-w-chambers/the-king-in-yellow', year: 1895, genres: ['horror', 'short-stories'] },
+  { path: 'm-r-james/short-fiction', year: 1904, genres: ['horror', 'short-stories'] },
+  { path: 'j-sheridan-le-fanu/short-fiction', year: 1872, genres: ['horror', 'short-stories'] },
+  { path: 'arthur-machen/short-fiction', year: 1894, genres: ['horror', 'short-stories'] },
+  { path: 'mark-twain/a-connecticut-yankee-in-king-arthurs-court', year: 1889, genres: ['humor', 'fantasy'] },
+
+  // Adventure
+  { path: 'edgar-rice-burroughs/tarzan-of-the-apes', year: 1912, genres: ['adventure'] },
+  { path: 'jack-london/white-fang', year: 1906, genres: ['adventure'] },
+  { path: 'robert-louis-stevenson/kidnapped', year: 1886, genres: ['adventure', 'historical'] },
+  { path: 'rudyard-kipling/kim', year: 1901, genres: ['adventure', 'classics'] },
+  { path: 'anthony-hope/the-prisoner-of-zenda', year: 1894, genres: ['adventure', 'romance'] },
+  { path: 'rafael-sabatini/captain-blood', year: 1922, genres: ['adventure', 'historical'] },
+  { path: 'rafael-sabatini/scaramouche', year: 1921, genres: ['historical', 'adventure'] },
+  { path: 'baroness-orczy/the-elusive-pimpernel', year: 1908, genres: ['historical', 'adventure'] },
+
+  // Young readers
+  { path: 'a-a-milne/winnie-the-pooh', year: 1926, genres: ['childrens', 'humor'] },
+  { path: 'lewis-carroll/through-the-looking-glass/john-tenniel', year: 1871, genres: ['fantasy', 'childrens'] },
+  { path: 'e-nesbit/the-railway-children', year: 1906, genres: ['childrens'] },
+  { path: 'anna-sewell/black-beauty', year: 1877, genres: ['childrens'] },
+  { path: 'frances-hodgson-burnett/a-little-princess', year: 1905, genres: ['childrens'] },
+  { path: 'l-m-montgomery/anne-of-avonlea', year: 1909, genres: ['childrens'] },
+  { path: 'johann-david-wyss/the-swiss-family-robinson/mary-jane-godwin_william-godwin', year: 1812, genres: ['childrens', 'adventure'] },
+
+  // Humour & satire
+  { path: 'jerome-k-jerome/three-men-in-a-boat', year: 1889, genres: ['humor'] },
+  { path: 'p-g-wodehouse/jeeves-stories', year: 1925, genres: ['humor', 'short-stories'] },
+  { path: 'saki/short-fiction', year: 1911, genres: ['humor', 'short-stories'] },
+  { path: 'ambrose-bierce/the-devils-dictionary', year: 1906, genres: ['humor'] },
+
+  // Poetry & epic
+  { path: 'homer/the-iliad/william-cullen-bryant', year: -750, genres: ['poetry', 'adventure'] },
+  { path: 'virgil/the-aeneid/john-dryden', year: -19, genres: ['poetry', 'adventure'] },
+  { path: 'dante-alighieri/the-divine-comedy/henry-wadsworth-longfellow', year: 1320, genres: ['poetry', 'classics'] },
+  { path: 'omar-khayyam/the-rubaiyat-of-omar-khayyam/edward-fitzgerald', year: 1120, genres: ['poetry', 'philosophy'] },
+  { path: 'walt-whitman/leaves-of-grass', year: 1855, genres: ['poetry'] },
+  { path: 'john-donne/poetry', year: 1633, genres: ['poetry'] },
+  { path: 'edgar-lee-masters/spoon-river-anthology', year: 1915, genres: ['poetry'] },
+
+  // Drama
+  { path: 'william-shakespeare/a-midsummer-nights-dream', year: 1600, genres: ['drama', 'humor'] },
+  { path: 'william-shakespeare/much-ado-about-nothing', year: 1600, genres: ['drama', 'romance'] },
+  { path: 'william-shakespeare/othello', year: 1622, genres: ['drama'] },
+  { path: 'william-shakespeare/king-lear', year: 1608, genres: ['drama'] },
+  { path: 'william-shakespeare/the-tempest', year: 1623, genres: ['drama', 'fantasy'] },
+  { path: 'henrik-ibsen/a-dolls-house/r-farquharson-sharp', year: 1879, genres: ['drama'] },
+
+  // Philosophy, memoir & essays
+  { path: 'laozi/tao-te-ching/james-legge', year: -400, genres: ['philosophy'] },
+  { path: 'friedrich-nietzsche/beyond-good-and-evil/helen-zimmern', year: 1886, genres: ['philosophy'] },
+  { path: 'ralph-waldo-emerson/essays', year: 1841, genres: ['nonfiction', 'philosophy'] },
+  { path: 'mary-wollstonecraft/a-vindication-of-the-rights-of-woman', year: 1792, genres: ['nonfiction', 'philosophy'] },
+  { path: 'w-e-b-du-bois/the-souls-of-black-folk', year: 1903, genres: ['nonfiction'] },
+  { path: 'booker-t-washington/up-from-slavery', year: 1901, genres: ['nonfiction'] },
+  { path: 'linda-brent/incidents-in-the-life-of-a-slave-girl', year: 1861, genres: ['nonfiction'] },
+  { path: 'benjamin-franklin/the-autobiography-of-benjamin-franklin', year: 1791, genres: ['nonfiction'] },
 ];

@@ -26,8 +26,6 @@ export interface BookRecord {
   year: number;
   genres: string[];
   tagline: string;
-  /** Sanitized HTML (<p>, <i>, <em> only). */
-  description: string;
   subjects: string[];
   collections: string[];
   words: number;
@@ -46,6 +44,8 @@ export interface TocChapter {
 }
 
 export interface BookToc {
+  /** Long description as sanitized HTML (<p>, <i>, <em> only). */
+  description?: string;
   chapters: TocChapter[];
 }
 

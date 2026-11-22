@@ -1,6 +1,6 @@
 # Folio — great books, beautifully read
 
-Folio is a reading platform for timeless books. It has a calm, ad-free library of **77 public-domain classics** (about 7 million words across 14 genres) and a reader built for long, comfortable sessions.
+Folio is a reading platform for timeless books. It has a calm, ad-free library of **172 public-domain classics** (about 18.6 million words across 15 genres) and a reader built for long, comfortable sessions.
 
 ![Folio home page](docs/screenshots/home.jpg)
 
@@ -15,7 +15,7 @@ Folio is a reading platform for timeless books. It has a calm, ad-free library o
 ## Features
 
 **Library & discovery**
-- 77 complete books with covers, descriptions, subjects, award lists, word counts, reading time and reading level.
+- 172 complete books, from Homer and Dante to Tolstoy, Austen, Joyce, Christie and Hammett, with covers, descriptions, subjects, award lists, word counts, reading time and reading level.
 - Instant search (⌘K / Ctrl K or `/`) across titles, authors, genres, subjects and descriptions. It ignores accents and tolerates typos ("dracla" finds *Dracula*).
 - Browse with faceted filters (genre, reading time, era, reading level) that show live counts. Also: author pages, seven sort orders, grid and list views, and URL-synced state you can share or bookmark.
 - A curated home page: editor's picks, genre tiles, themed shelves, and *Continue reading* for returning readers.

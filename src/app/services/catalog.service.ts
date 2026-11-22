@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BOOKS, GENRES } from '../data/catalog.data';
 import { BookRecord, EaseBucket, EraBucket, GenreRecord, LengthBucket } from '../models/book.model';
 import { WORDS_PER_MINUTE } from '../config';
-import { editDistance, normalize, stripHtml, tokenize } from '../utils/text';
+import { editDistance, normalize, tokenize } from '../utils/text';
 
 export type SortKey = 'featured' | 'relevance' | 'title' | 'author' | 'newest' | 'oldest' | 'shortest' | 'longest';
 
@@ -125,7 +125,7 @@ export class CatalogService {
       creditTokens: tokenize(`${book.translator ?? ''} ${book.illustrator ?? ''}`),
       genreTokens: tokenize(genreNames),
       subjectTokens: tokenize(`${book.subjects.join(' ')} ${book.collections.join(' ')}`),
-      bodyTokens: new Set(tokenize(`${book.tagline} ${stripHtml(book.description)}`)),
+      bodyTokens: new Set(tokenize(book.tagline)),
     };
   });
 
@@ -202,7 +202,14 @@ export class CatalogService {
         books: BOOKS.filter((b) => b.genres[0] === 'science-fiction' || b.genres[0] === 'fantasy'),
       },
       { id: 'gothic', title: 'Gothic nights', description: 'Candlelit horrors best read with the lights on.', books: this.byGenre('horror') },
+      {
+        id: 'epics',
+        title: 'Epic journeys',
+        description: 'The big ones — vast, absorbing novels to live inside for weeks.',
+        books: BOOKS.filter((b) => b.words > 250000 && !b.genres.includes('short-stories') && !b.genres.includes('poetry')).sort((a, b) => b.words - a.words),
+      },
       { id: 'romance', title: 'Love & manners', description: 'Wit, longing and the art of the proposal.', books: this.byGenre('romance') },
+      { id: 'humor', title: 'Laugh out loud', description: 'Comic misadventures, sharp satire and impeccable valets.', books: this.byGenre('humor') },
       { id: 'russians', title: 'The great Russians', description: 'Sweeping, searching novels of conscience.', books: BOOKS.filter((b) => russians.includes(b.authorId)) },
       { id: 'wisdom', title: 'Wisdom for daily life', description: 'Ancient and modern thinking on how to live well.', books: this.byGenre('philosophy') },
     ];

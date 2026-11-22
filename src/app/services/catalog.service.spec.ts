@@ -10,7 +10,7 @@ describe('CatalogService', () => {
 
   it('exposes a catalog with unique ids and valid genres', () => {
     const ids = catalog.books.map((b) => b.id);
-    expect(ids.length).toBeGreaterThan(50);
+    expect(ids.length).toBeGreaterThan(150);
     expect(new Set(ids).size).toBe(ids.length);
     for (const b of catalog.books) {
       expect(b.genres.every((g) => !!catalog.genre(g))).toBe(true);
@@ -39,7 +39,8 @@ describe('CatalogService', () => {
     expect(catalog.search({ lengths: ['short'] }).every((b) => lengthBucket(b.words) === 'short')).toBe(true);
     expect(catalog.search({ eras: ['ancient'] }).every((b) => eraBucket(b.year) === 'ancient')).toBe(true);
     expect(catalog.search({ ease: ['easy'] }).every((b) => easeBucket(b.readingEase) === 'easy')).toBe(true);
-    expect(catalog.search({ author: 'arthur-conan-doyle' }).length).toBe(5);
+    expect(catalog.search({ author: 'arthur-conan-doyle' }).length).toBe(catalog.books.filter((b) => b.authorId === 'arthur-conan-doyle').length);
+    expect(catalog.search({ author: 'arthur-conan-doyle' }).length).toBeGreaterThanOrEqual(8);
     const both = catalog.search({ genres: ['mystery', 'horror'] });
     expect(both.every((b) => b.genres.includes('mystery') || b.genres.includes('horror'))).toBe(true);
   });

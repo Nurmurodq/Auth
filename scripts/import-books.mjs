@@ -389,32 +389,93 @@ function buildChapters(book, zip, opf, toc, images) {
     out[out.length - 1].html += '\n' + carry;
     out[out.length - 1].words = countWords(out[out.length - 1].html);
   }
-  return out.flatMap((c) => splitLongChapter(c, opf.title));
+  return groupShortPieces(out).flatMap((c) => splitLongChapter(c, opf.title));
 }
 
-/** Splits very long chapters (e.g. a novel without chapters) at scene breaks into ~6k-word sections. */
+const NUMBERED = /^(?:Chapter\s+)?([IVXLCDM]+|\d+)\.?$/;
+const GROUP_TARGET = 1500;
+
+/**
+ * Some books number every quatrain, aphorism or song as its own contents entry
+ * (the Rubáiyát, Beyond Good and Evil, Gitanjali). Runs of five or more short,
+ * untitled numbered pieces within the same part are combined into chapters of roughly
+ * GROUP_TARGET words, keeping each piece's number as a heading inside the text.
+ * Titled pieces (named poems, stories) stay one per chapter, like a printed collection.
+ */
+function groupShortPieces(chapters) {
+  const isPiece = (c, part) => c.part === part && c.words < 900 && NUMBERED.test(c.title);
+  const label = (c) => c.title.replace(/^Chapter\s+/, '');
+  const out = [];
+  let i = 0;
+  while (i < chapters.length) {
+    let j = i;
+    while (j < chapters.length && isPiece(chapters[j], chapters[i].part)) j++;
+    const run = chapters.slice(i, j);
+    const median = run.map((c) => c.words).sort((a, b) => a - b)[Math.floor(run.length / 2)] ?? Infinity;
+    if (run.length < 5 || median > 450) {
+      out.push(chapters[i]);
+      i++;
+      continue;
+    }
+    const groups = [];
+    let current = [];
+    let words = 0;
+    for (const c of run) {
+      current.push(c);
+      words += c.words;
+      if (words >= GROUP_TARGET) {
+        groups.push(current);
+        current = [];
+        words = 0;
+      }
+    }
+    if (current.length) {
+      if (groups.length && words < GROUP_TARGET / 3) groups[groups.length - 1].push(...current);
+      else groups.push(current);
+    }
+    for (const g of groups) {
+      const html = g.map((c) => `<h3>${escapeHtml(label(c))}</h3>\n${c.html}`).join('\n');
+      const title = g.length > 1 ? `${label(g[0])} – ${label(g[g.length - 1])}` : label(g[0]);
+      out.push({ title, part: g[0].part, html, words: countWords(html) });
+    }
+    i = j;
+  }
+  return out;
+}
+
 function splitLongChapter(chapter, bookTitle) {
-  if (chapter.words < 14000 || !chapter.html.includes('<hr>')) return [chapter];
-  const scenes = chapter.html.split(/\n?<hr>\n?/);
+  const useBreaks = chapter.words >= 14000 && chapter.html.includes('<hr>');
+  const useParagraphs = !useBreaks && chapter.words >= 20000;
+  if (!useBreaks && !useParagraphs) return [chapter];
+  // Scene breaks are the natural seam; otherwise fall back to top-level block boundaries.
+  const separator = useBreaks ? '\n<hr>\n' : '\n';
+  const pieces = useBreaks ? chapter.html.split(/\n?<hr>\n?/) : chapter.html.split('\n');
+  const target = useBreaks ? 6000 : 8000;
   const groups = [];
   let current = [];
   let words = 0;
-  for (const scene of scenes) {
-    current.push(scene);
-    words += countWords(scene);
-    if (words >= 6000) {
-      groups.push(current.join('\n<hr>\n'));
+  for (const piece of pieces) {
+    current.push(piece);
+    words += countWords(piece);
+    if (words >= target) {
+      groups.push(current.join(separator));
       current = [];
       words = 0;
     }
   }
   if (current.length) {
-    const rest = current.join('\n<hr>\n');
-    if (groups.length && countWords(rest) < 2000) groups[groups.length - 1] += '\n<hr>\n' + rest;
+    const rest = current.join(separator);
+    if (groups.length && countWords(rest) < 2000) groups[groups.length - 1] += separator + rest;
     else groups.push(rest);
   }
-  const part = chapter.title.toLowerCase() === bookTitle.toLowerCase() ? chapter.part : chapter.title;
-  return groups.map((html, i) => ({ title: `Section ${i + 1}`, part, html, words: countWords(html) }));
+  if (groups.length < 2) return [chapter];
+  const sameAsBook = chapter.title.toLowerCase() === bookTitle.toLowerCase();
+  return groups.map((html, i) => ({
+    title: sameAsBook ? `Section ${i + 1}` : `${chapter.title} · Part ${i + 1}`,
+    part: sameAsBook ? chapter.part : chapter.part,
+    html,
+    words: countWords(html),
+  }));
 }
 
 const BLOCK_TAGS = 'p|div|blockquote|h3|h4|br|hr|li|ul|ol|dl|dt|dd|figure|figcaption|table|thead|tbody|tr|td|th|caption|img';
@@ -583,7 +644,11 @@ async function main() {
     chapters.forEach((c, i) => fs.writeFileSync(path.join(dir, `${i}.html`), withSizes(c.html)));
     fs.writeFileSync(
       path.join(dir, 'toc.json'),
-      JSON.stringify({ chapters: chapters.map((c) => ({ title: c.title, ...(c.part ? { part: c.part } : {}), words: c.words })) }),
+      // The long description lives with the book (loaded on its page), keeping the catalog bundle small.
+      JSON.stringify({
+        description: cleanDescription(opf.description),
+        chapters: chapters.map((c) => ({ title: c.title, ...(c.part ? { part: c.part } : {}), words: c.words })),
+      }),
     );
     const cover = processCover(id, Buffer.from(zip['epub/images/cover.jpg']));
 
@@ -601,7 +666,6 @@ async function main() {
       year: entry.year,
       genres: entry.genres,
       tagline: opf.abstract,
-      description: cleanDescription(opf.description),
       subjects: [...new Set(opf.subjects.map(cleanSubject).filter(Boolean))],
       collections: opf.collections,
       words,

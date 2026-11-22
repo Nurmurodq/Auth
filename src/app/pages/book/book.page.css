@@ -121,6 +121,7 @@
 }
 
 .credit {
+  margin-left: 0.3em;
   color: var(--text-3);
 }
 
@@ -241,6 +242,20 @@
   max-height: 15em;
   overflow: hidden;
   mask-image: linear-gradient(to bottom, #000 70%, transparent);
+}
+
+.desc-skeleton {
+  display: grid;
+  gap: 12px;
+  max-width: 68ch;
+}
+
+.desc-skeleton .skeleton {
+  height: 1.1em;
+}
+
+.desc-skeleton .skeleton:last-child {
+  width: 60%;
 }
 
 .more {
