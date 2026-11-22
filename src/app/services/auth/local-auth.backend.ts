@@ -1,7 +1,7 @@
 import { User } from '../../models/user.model';
 import { readJson, removeKey, storageKey, writeJson } from '../../utils/storage';
 import { uid } from '../../utils/text';
-import { AuthBackend, AuthError, ResetRequestResult, SignUpInput, SignUpResult } from './auth-backend';
+import { AuthBackend, AuthError, ResetRequestResult, SignUpInput, SignUpResult, SocialProvider } from './auth-backend';
 
 interface StoredAccount {
   id: string;
@@ -32,6 +32,8 @@ const RESET_TTL_MS = 30 * 60 * 1000;
  */
 export class LocalAuthBackend implements AuthBackend {
   readonly kind = 'local' as const;
+  /** Social sign-in needs a server-side OAuth client, which the browser-only backend doesn't have. */
+  readonly socialProviders: readonly SocialProvider[] = [];
   private listeners: ((user: User | null) => void)[] = [];
 
   constructor() {
@@ -82,6 +84,10 @@ export class LocalAuthBackend implements AuthBackend {
     }
     this.startSession(account.id);
     return toUser(account);
+  }
+
+  async signInWithProvider(): Promise<void> {
+    throw new AuthError('Google sign-in isn’t available in local mode.', 'unsupported');
   }
 
   async signOut(): Promise<void> {

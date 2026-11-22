@@ -25,7 +25,9 @@ import { BookCoverComponent } from './book-cover.component';
       <div class="text">
         <span class="title">{{ book().title }}</span>
         <span class="author">{{ book().author }}</span>
-        @if (showMeta()) {
+        @if (note()) {
+          <span class="note">{{ note() }}</span>
+        } @else if (showMeta()) {
           <span class="meta">{{ year() }} · {{ time() }}</span>
         }
       </div>
@@ -114,6 +116,17 @@ import { BookCoverComponent } from './book-cover.component';
       overflow: hidden;
       text-overflow: ellipsis;
     }
+    .note {
+      margin-top: 3px;
+      font-size: 0.78rem;
+      font-weight: 550;
+      line-height: 1.3;
+      color: var(--accent-text);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
     .meta {
       font-size: 0.78rem;
       color: var(--text-3);
@@ -126,6 +139,8 @@ export class BookCardComponent {
   readonly progress = input<number | null>(null);
   readonly badge = input<string | null>(null);
   readonly showMeta = input(true);
+  /** Short personal note shown under the author (e.g. why it was recommended). */
+  readonly note = input<string | null>(null);
   readonly eager = input(false);
   readonly sizes = input('(max-width: 640px) 45vw, 200px');
 

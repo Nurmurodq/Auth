@@ -10,6 +10,7 @@ import { ThemePreference, ThemeService } from '../../services/theme.service';
 import { ToastService } from '../../services/toast.service';
 import { BookCoverComponent } from '../../shared/book-cover.component';
 import { IconComponent } from '../../shared/icon.component';
+import { MOODS, occupation } from '../../models/profile-options';
 import { formatDate, formatDuration, initials } from '../../utils/format';
 import { MIN_PASSWORD_LENGTH, passwordsMatch } from '../../utils/password';
 
@@ -88,6 +89,15 @@ export class AccountPage {
     const theme = READER_THEMES.find((t) => t.id === s.theme)?.label;
     const font = READER_FONTS.find((f) => f.id === s.font)?.label;
     return `${theme} theme · ${font} ${s.fontSize}px · ${s.mode === 'paged' ? 'Pages' : 'Scrolling'}`;
+  });
+
+  protected readonly interests = computed(() => {
+    const p = this.library.profile();
+    if (!p) return null;
+    const occ = occupation(p.occupation);
+    const genres = p.genres.map((g) => this.catalog.genre(g)?.name ?? g);
+    const moods = p.moods.map((m) => MOODS.find((x) => x.id === m)?.label ?? m);
+    return { occupation: occ ? `${occ.emoji} ${occ.label}` : null, genres, moods };
   });
 
   protected readonly themeOptions: { id: ThemePreference; label: string; icon: 'sun' | 'moon' | 'monitor' }[] = [

@@ -5,15 +5,15 @@ import { Router, RouterLink } from '@angular/router';
 import { safeReturnUrl } from '../../guards';
 import { AuthService } from '../../services/auth/auth.service';
 import { friendlyAuthError } from '../../services/auth/auth-backend';
-import { ToastService } from '../../services/toast.service';
 import { IconComponent } from '../../shared/icon.component';
 import { MIN_PASSWORD_LENGTH, passwordStrength } from '../../utils/password';
 import { AuthShellComponent } from './auth-shell.component';
+import { GoogleButtonComponent } from './google-button.component';
 
 @Component({
   selector: 'app-register',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, RouterLink, AuthShellComponent, IconComponent],
+  imports: [ReactiveFormsModule, RouterLink, AuthShellComponent, IconComponent, GoogleButtonComponent],
   template: `
     <app-auth-shell heading="Start your library" subheading="Free forever. Save favourites, track progress and bookmark passages.">
       @if (confirmEmail()) {
@@ -24,6 +24,7 @@ import { AuthShellComponent } from './auth-shell.component';
           <a routerLink="/login" class="btn btn-primary btn-lg">Go to sign in</a>
         </div>
       } @else {
+        <app-google-button class="social" [next]="destination()" label="Sign up with Google" dividerText="or sign up with email" />
         <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
           @if (error()) {
             <div class="alert alert-error" role="alert"><app-icon name="alert" [size]="18" />{{ error() }}</div>
@@ -117,10 +118,10 @@ import { AuthShellComponent } from './auth-shell.component';
 export class RegisterPage {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly toast = inject(ToastService);
   private readonly fb = inject(NonNullableFormBuilder);
 
   readonly returnUrl = input<string>();
+  protected readonly destination = () => safeReturnUrl(this.returnUrl(), '/');
 
   protected readonly minLength = MIN_PASSWORD_LENGTH;
   protected readonly loading = signal(false);
@@ -158,8 +159,8 @@ export class RegisterPage {
         this.confirmEmail.set(email);
         return;
       }
-      this.toast.success(`Welcome to Folio, ${name.trim().split(' ')[0]}!`);
-      await this.router.navigateByUrl(safeReturnUrl(this.returnUrl(), '/'));
+      // New readers (greeted by name on the next screen) answer a few questions so the library can be tailored to them.
+      await this.router.navigate(['/welcome'], { queryParams: { new: 1, returnUrl: safeReturnUrl(this.returnUrl(), '/') } });
     } catch (err) {
       this.error.set(friendlyAuthError(err));
     } finally {

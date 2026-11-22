@@ -66,6 +66,14 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -78,6 +86,9 @@
             },
             "development": {
               "buildTarget": "folio:build:development"
+            },
+            "local": {
+              "buildTarget": "folio:build:development,local"
             }
           },
           "defaultConfiguration": "development"
@@ -86,7 +97,7 @@
           "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "tsconfig.spec.json",
-            "buildTarget": "folio:build:development",
+            "buildTarget": "folio:build:development,local",
             "runner": "vitest"
           }
         }

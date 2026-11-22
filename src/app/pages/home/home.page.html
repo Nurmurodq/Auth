@@ -84,6 +84,37 @@
   </section>
 }
 
+<!-- Personalised -->
+@if (recs.hasProfile() && forYouBooks().length) {
+  <section class="container block" aria-label="Picked for you">
+    <app-book-shelf
+      heading="Picked for you"
+      description="Chosen from your interests and what you read. Each pick says why."
+      [books]="forYouBooks()"
+      [notes]="forYouNotes()"
+      [link]="{ commands: ['/welcome'] }"
+      linkLabel="Edit interests"
+    />
+  </section>
+} @else if (recs.needsProfile()) {
+  <section class="container block">
+    <div class="personalize fade-up">
+      <span class="personalize-icon" aria-hidden="true"><app-icon name="sparkles" [size]="24" /></span>
+      <div class="personalize-copy">
+        <h2 class="display">Get recommendations made for you</h2>
+        <p>Answer four quick questions about what you do and what you love to read, and we’ll tailor the library to you.</p>
+      </div>
+      <a routerLink="/welcome" class="btn btn-primary">Personalise my library <app-icon name="arrow-right" [size]="18" /></a>
+    </div>
+  </section>
+}
+
+@if (recs.becauseYouEnjoyed(); as because) {
+  <section class="container block">
+    <app-book-shelf [heading]="'Because you enjoyed ' + because.book.title" description="More books with the same spirit." [books]="because.related" />
+  </section>
+}
+
 <!-- Editor's picks -->
 <section class="container block">
   <app-book-shelf heading="Editor’s picks" description="Twelve unforgettable places to begin." [books]="picks" [link]="{ commands: ['/browse'] }" />

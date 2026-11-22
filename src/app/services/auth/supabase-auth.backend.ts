@@ -1,11 +1,13 @@
 import type { SupabaseClient, User as SupabaseUser } from '@supabase/supabase-js';
 import { User } from '../../models/user.model';
-import { AuthBackend, AuthError, ResetRequestResult, SignUpInput, SignUpResult } from './auth-backend';
+import { environment } from '../../../environments/environment';
+import { AuthBackend, AuthError, ResetRequestResult, SignUpInput, SignUpResult, SocialProvider } from './auth-backend';
 import { getSupabase } from './supabase-client';
 
 /** Supabase Auth backend. Profiles live in public.profiles (see supabase/migrations). */
 export class SupabaseAuthBackend implements AuthBackend {
   readonly kind = 'supabase' as const;
+  readonly socialProviders: readonly SocialProvider[] = environment.supabaseGoogle ? ['google'] : [];
   private recovery = false;
 
   async restore(): Promise<User | null> {
@@ -53,6 +55,15 @@ export class SupabaseAuthBackend implements AuthBackend {
       throw new AuthError('This account has been disabled. Please contact support.', 'disabled');
     }
     return user;
+  }
+
+  async signInWithProvider(provider: SocialProvider, next: string): Promise<void> {
+    const sb = await getSupabase();
+    const { error } = await sb.auth.signInWithOAuth({
+      provider,
+      options: { redirectTo: `${location.origin}/auth/callback?next=${encodeURIComponent(next)}` },
+    });
+    if (error) throw error;
   }
 
   async signOut(): Promise<void> {

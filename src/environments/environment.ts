@@ -1,18 +1,27 @@
 /**
  * Runtime configuration.
  *
- * backend: 'local'    – accounts and reading data live in this browser (no server needed).
- *          'supabase' – accounts via Supabase Auth; library, progress and bookmarks sync across
- *                       devices. Apply the SQL in supabase/migrations first, then set the URL and
- *                       anon (publishable) key of your project below.
+ * backend: 'neon'     – (default) Neon Managed Better Auth: email/password and Google sign-in,
+ *                       with library, progress, bookmarks and reading profile synced through the
+ *                       Neon Data API (row-level security per user). Schema: neon/migrations.
+ *          'supabase' – Supabase Auth + Postgres. Schema: supabase/migrations.
+ *          'local'    – accounts and reading data live in this browser (no server needed).
+ *
+ * All values here are public by design: the Neon URL and Supabase anon key are safe to ship
+ * to browsers because every table is protected by row-level security.
  */
 export const environment: {
-  backend: 'local' | 'supabase';
+  backend: 'local' | 'supabase' | 'neon';
+  /** Neon database URL without credentials: https://<endpoint>.<region>.aws.neon.tech/<db>. */
+  neonUrl: string;
   supabaseUrl: string;
   supabaseAnonKey: string;
+  /** Set to true once the Google provider is enabled in your Supabase dashboard. */
+  supabaseGoogle: boolean;
 } = {
-  backend: 'local',
-  supabaseUrl: 'https://ygkoggewgzuqjogvdgvu.supabase.co',
-  supabaseAnonKey:
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlna29nZ2V3Z3p1cWpvZ3ZkZ3Z1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY1MDg2ODUsImV4cCI6MjA4MjA4NDY4NX0.TxMrjV39q_4ojufcS04qmkponN2OYbSD27bAQ6gREIo',
+  backend: 'neon',
+  neonUrl: 'https://ep-lingering-fog-ar4uglrw.c-4.us-west-2.aws.neon.tech/neondb',
+  supabaseUrl: '',
+  supabaseAnonKey: '',
+  supabaseGoogle: false,
 };

@@ -142,9 +142,14 @@ export class ResetPasswordPage implements OnInit {
     }
     this.loading.set(true);
     try {
-      await this.auth.completePasswordReset(this.form.getRawValue().password, this.params());
-      this.toast.success('Password updated. You’re signed in.');
-      await this.router.navigateByUrl('/library');
+      const user = await this.auth.completePasswordReset(this.form.getRawValue().password, this.params());
+      if (user) {
+        this.toast.success('Password updated. You’re signed in.');
+        await this.router.navigateByUrl('/library');
+      } else {
+        this.toast.success('Password updated. Sign in with your new password.');
+        await this.router.navigateByUrl('/login');
+      }
     } catch (err) {
       this.error.set(friendlyAuthError(err));
     } finally {

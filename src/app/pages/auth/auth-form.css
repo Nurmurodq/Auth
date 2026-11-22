@@ -2,10 +2,18 @@
   display: block;
 }
 
+.social {
+  margin-top: 32px;
+}
+
 form {
   display: grid;
   gap: 18px;
   margin-top: 32px;
+}
+
+.social + form {
+  margin-top: 22px;
 }
 
 .label-row {

@@ -4,6 +4,7 @@ import { BookRecord } from '../../models/book.model';
 import { AuthService } from '../../services/auth/auth.service';
 import { CatalogService } from '../../services/catalog.service';
 import { LibraryService } from '../../services/library.service';
+import { RecommendationService } from '../../services/recommendation.service';
 import { READER_FONTS, READER_THEMES, ReaderFont, ReaderSettingsService, ReaderTheme } from '../../services/reader-settings.service';
 import { BookCoverComponent } from '../../shared/book-cover.component';
 import { BookShelfComponent } from '../../shared/book-shelf.component';
@@ -30,6 +31,10 @@ export class HomePage {
   protected readonly auth = inject(AuthService);
   private readonly library = inject(LibraryService);
   protected readonly readerSettings = inject(ReaderSettingsService);
+  protected readonly recs = inject(RecommendationService);
+
+  protected readonly forYouBooks = computed(() => this.recs.forYou().map((r) => r.book));
+  protected readonly forYouNotes = computed(() => Object.fromEntries(this.recs.forYou().map((r) => [r.book.id, r.reason])));
 
   protected readonly heroBooks = ['the-great-gatsby', 'pride-and-prejudice', 'dracula', 'alices-adventures-in-wonderland', 'the-picture-of-dorian-gray']
     .map((id) => this.catalog.get(id))

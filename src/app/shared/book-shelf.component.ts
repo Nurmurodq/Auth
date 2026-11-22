@@ -19,7 +19,7 @@ import { IconComponent } from './icon.component';
       </div>
       <div class="controls">
         @if (link()) {
-          <a class="btn btn-ghost btn-sm see-all" [routerLink]="link()!.commands" [queryParams]="link()!.query">See all</a>
+          <a class="btn btn-ghost btn-sm see-all" [routerLink]="link()!.commands" [queryParams]="link()!.query">{{ linkLabel() }}</a>
         }
         <button class="icon-btn nav" type="button" (click)="scroll(-1)" [disabled]="atStart()" aria-label="Scroll left">
           <app-icon name="chevron-left" />
@@ -31,7 +31,7 @@ import { IconComponent } from './icon.component';
     </div>
     <div class="scroll-row" #row (scroll)="update()" role="list">
       @for (book of books(); track book.id) {
-        <app-book-card role="listitem" class="item" [book]="book" />
+        <app-book-card role="listitem" class="item" [book]="book" [note]="notes()[book.id] ?? null" />
       }
     </div>
   `,
@@ -72,6 +72,9 @@ export class BookShelfComponent {
   readonly description = input('');
   readonly books = input.required<BookRecord[]>();
   readonly link = input<{ commands: unknown[]; query?: Record<string, string> } | null>(null);
+  readonly linkLabel = input('See all');
+  /** Optional per-book notes (keyed by book id), e.g. recommendation reasons. */
+  readonly notes = input<Partial<Record<string, string>>>({});
 
   private readonly row = viewChild.required<ElementRef<HTMLElement>>('row');
   protected readonly atStart = signal(true);

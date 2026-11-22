@@ -118,6 +118,22 @@
       <div class="card settings-card">
         <div class="setting">
           <div>
+            <h3>Reading interests</h3>
+            @if (interests(); as i) {
+              <p class="muted">
+                @if (i.occupation) {
+                  {{ i.occupation }} ·
+                }
+                {{ i.genres.join(', ') }}{{ i.moods.length ? ' · ' + i.moods.join(', ') : '' }}
+              </p>
+            } @else {
+              <p class="muted">Tell us what you do and what you like, and we’ll tailor recommendations to you.</p>
+            }
+          </div>
+          <a routerLink="/welcome" class="btn btn-secondary btn-sm">{{ interests() ? 'Edit' : 'Personalise' }}</a>
+        </div>
+        <div class="setting">
+          <div>
             <h3>App theme</h3>
             <p class="muted">Used for browsing and your library.</p>
           </div>

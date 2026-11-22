@@ -74,6 +74,19 @@ describe('LibraryService', () => {
     expect(library.bookmarksFor('emma')).toHaveLength(1);
   });
 
+  it('saves the reading profile and daily goal from onboarding', async () => {
+    await signUp();
+    expect(library.profile()).toBeNull();
+    library.saveProfile({ occupation: 'tech', goals: ['learn'], genres: ['science-fiction'], moods: ['suspense'], length: 'medium', level: 'any' }, 45);
+    expect(library.profile()?.occupation).toBe('tech');
+    expect(library.profile()?.completedAt).toBeTruthy();
+    expect(library.data().dailyGoal).toBe(45);
+    const first = library.profile()!.completedAt;
+    library.saveProfile({ ...library.profile()!, genres: ['mystery'] });
+    expect(library.profile()?.genres).toEqual(['mystery']);
+    expect(library.profile()?.completedAt).toBe(first);
+  });
+
   it('computes reading streaks and clamps the daily goal', async () => {
     await signUp();
     library.addReadingTime(300);

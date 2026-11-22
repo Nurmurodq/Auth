@@ -29,6 +29,12 @@ Folio is a reading platform for timeless books. It has a calm, ad-free library o
 - Progress saves automatically and the reader resumes exactly where you left off. A progress scrubber shows chapter previews, along with time left in the chapter.
 - Bookmarks with excerpts and notes, a contents drawer, an end-of-book celebration with "Mark as finished", full screen and keyboard shortcuts (press `?`).
 
+**Personalised for every reader**
+- **Continue with Google**, or sign up with email and password.
+- After signing up, a four-step **welcome questionnaire** asks what you do (student, tech, healthcare, law, creative work and more), why you read, your favourite genres and moods, and your preferred length, difficulty and daily goal. You can skip it and edit it anytime from Account.
+- **"Picked for you"** on the home page ranks the library against your answers and history. Each pick explains itself ("Loved by people in tech", "Because you love Mystery & Crime", "Because you enjoyed *The Time Machine*"). Picks never repeat books you already have, and they stay varied across authors and your chosen genres.
+- **"Because you enjoyed…"** shelves follow your favourites and finished books.
+
 **Your account**
 - Registration, sign-in, password change and a full forgot/reset flow.
 - My Library shelves: Reading, Want to read, Finished, Favourites and Bookmarks, with undo for removals.
@@ -39,12 +45,12 @@ Folio is a reading platform for timeless books. It has a calm, ad-free library o
 **Quality**
 - Fully responsive, with a mobile tab bar and bottom-sheet filters and settings. Light, dark and system themes are applied before first paint, so there's no flash.
 - Accessible: semantic landmarks, skip link, labelled controls, keyboard support for every feature, focus-managed dialogs and reduced-motion support. It has **0 axe-core WCAG 2.1 AA violations** across all pages in both themes.
-- Fast: about 138 KB (gzip) of initial JavaScript, lazy-loaded routes, chapters loaded on demand with prefetching, responsive WebP covers, and self-hosted variable fonts that load only when used.
+- Fast: about 127 KB (gzip) of initial JavaScript, lazy-loaded routes, chapters loaded on demand with prefetching, responsive WebP covers, and self-hosted variable fonts that load only when used.
 
 ## Tech stack
 
 - **Angular 21**: standalone components, signals, zoneless change detection and the new control flow. Every component uses OnPush.
-- **Pluggable backend**: a local browser backend by default, or **Supabase** (Auth + Postgres with row-level security) for cross-device sync.
+- **Pluggable backend**: **Neon** by default (Managed Better Auth with Google sign-in, plus the Neon Data API over Postgres with row-level security). Alternatively **Supabase**, or a browser-only local mode with no server.
 - **Content**: [Standard Ebooks](https://standardebooks.org) EPUBs (CC0), converted at build time into sanitized per-chapter HTML.
 - **Testing**: Vitest unit tests through the Angular CLI.
 
@@ -52,27 +58,44 @@ Folio is a reading platform for timeless books. It has a calm, ad-free library o
 
 ```bash
 npm install
-npm start          # http://localhost:4200
-npm test           # unit tests
-npm run build      # production build in dist/folio/browser
+npm start              # http://localhost:4200, using the Neon backend (Google + email sign-in)
+npm run start:local    # same app with the browser-only backend (no network needed)
+npm test               # unit tests (run against the local backend)
+npm run build          # production build in dist/folio/browser
 ```
-
-The app works out of the box with no server. Accounts and reading data live in the browser (see *Backends* below).
 
 ## Backends
 
 Choose the backend in `src/environments/environment.ts`:
 
-| `backend` | Accounts | Library, progress, bookmarks | Notes |
+| `backend` | Accounts | Library, progress, bookmarks, profile | Notes |
 | --- | --- | --- | --- |
-| `'local'` (default) | Stored in the browser (PBKDF2-SHA-256 password hashes via WebCrypto) | Local storage, synced across tabs | No server needed. Password-reset links are shown on screen because email can't be sent. Needs HTTPS or localhost. |
+| `'neon'` (default) | Neon Managed Better Auth: email/password and **Google** | Neon Data API (PostgREST) over Postgres with row-level security, synced in the background (offline-first) | Already provisioned: project `folio` (`sweet-glade-29103999`). Schema in `neon/migrations/`. |
+| `'local'` | Stored in the browser (PBKDF2-SHA-256 password hashes via WebCrypto) | Local storage, synced across tabs | No server needed. Password-reset links are shown on screen because email can't be sent. Needs HTTPS or localhost. |
 | `'supabase'` | Supabase Auth (email confirmation and reset emails) | Postgres tables with row-level security, synced in the background (offline-first) | Apply the migrations first. The Supabase client is lazy-loaded, so local mode never downloads it. |
+
+### Neon (default)
+
+The `folio` Neon project is set up and connected:
+
+- **Auth**: Managed Better Auth, with email/password on and email verification optional. **Google** works immediately with Neon's shared development credentials. Localhost origins are allowed for development.
+- **Data API**: enabled with Neon Auth JWTs. Tables `library_entries`, `reading_progress`, `bookmarks`, `reading_activity` and `reading_profiles` each carry a `user_id`, and a row-level security policy compares it with `auth.user_id()`, so readers only ever see their own rows.
+
+**Before going live** (Neon Console → your project → Branch → Settings → Auth):
+
+1. **Add your own Google OAuth client.** With shared credentials, Google's consent screen shows Neon's name instead of yours. Create a "Web application" OAuth client in Google Cloud Console, add the redirect URI shown in Neon's "Add OAuth provider" dialog (`https://ep-lingering-fog-ar4uglrw.neonauth.c-4.us-west-2.aws.neon.tech/neondb/auth/callback/google`), then paste the client ID and secret into Neon.
+2. **Add your production domain** under trusted domains, and turn off "allow localhost".
+3. Optionally set up your own email sender for password-reset emails. The default is Neon's shared `auth@mail.myneon.app`.
+
+To point the app at a different Neon project, run `neon/migrations/0001_reading_platform.sql` in it (after enabling Auth and the Data API), then set `neonUrl` in `environment.ts` to `https://<endpoint>.<region>.aws.neon.tech/<database>`.
+
+### Supabase
 
 To use Supabase:
 
-1. Apply both SQL files in `supabase/migrations/` to your project, in order. The second one adds the reading tables and fixes a recursive policy in the original `profiles` setup.
+1. Apply the SQL files in `supabase/migrations/` to your project, in order. They add the reading tables and reading profiles, and fix a recursive policy in the original `profiles` setup.
 2. In Supabase → Authentication → URL configuration, add your site URL and `/reset-password` as a redirect URL.
-3. Set `backend: 'supabase'` plus your project URL and anon (publishable) key in `environment.ts`.
+3. Set `backend: 'supabase'` plus your project URL and anon (publishable) key in `environment.ts`. To offer Google, enable it under Authentication → Providers and set `supabaseGoogle: true`.
 
 All user data is written locally first, so reading works offline. Changes are pushed in the background and retried when the connection returns. On sign-in, local and remote data are merged, with the newest change winning.
 
@@ -111,10 +134,12 @@ src/app/
     home/  browse/  book/       discovery
     reader/                     reader + appearance and contents panels
     library/  account/          personal library and stats
-    auth/                       sign-in, sign-up, forgot and reset password
+    auth/                       sign-in, sign-up (with Google), OAuth callback, forgot and reset password
+    welcome/                    post-sign-up questionnaire
   services/
-    auth/                       AuthService facade + local and Supabase backends
-    sync/                       Supabase sync adapter
+    auth/                       AuthService facade + Neon, Supabase and local backends
+    sync/                       PostgREST sync adapter (Neon Data API or Supabase)
+    recommendations.ts          personalised ranking (pure, unit-tested)
     catalog.service.ts          search, filters, recommendations
     book-content.service.ts     table-of-contents and chapter loading with caching
     library.service.ts          shelves, progress, bookmarks, stats (local-first)
@@ -122,7 +147,8 @@ src/app/
   shared/                       book cover, card, shelf, icons, shelf menu
   utils/                        formatting, text, storage, passwords
 scripts/                        content import pipeline
-supabase/migrations/            database schema and RLS policies
+neon/migrations/                Neon schema and RLS policies (default backend)
+supabase/migrations/            Supabase schema and RLS policies
 ```
 
 ## Deployment

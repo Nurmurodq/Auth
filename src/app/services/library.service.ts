@@ -1,13 +1,15 @@
 import { Injectable, computed, effect, inject, signal, untracked } from '@angular/core';
 import { Router } from '@angular/router';
 import { BACKEND } from '../config';
-import { Bookmark, LibraryEntry, ReadingProgress, Shelf, User, UserData, emptyUserData } from '../models/user.model';
+import { Bookmark, LibraryEntry, ReadingProfile, ReadingProgress, Shelf, User, UserData, emptyUserData } from '../models/user.model';
 import { dayKey } from '../utils/format';
 import { readJson, removeKey, storageKey, writeJson } from '../utils/storage';
 import { uid } from '../utils/text';
 import { AuthService } from './auth/auth.service';
-import { SupabaseSync } from './sync/supabase-sync';
-import { SyncAdapter, SyncBatch } from './sync/sync-adapter';
+import { getNeon } from './auth/neon-client';
+import { getSupabase } from './auth/supabase-client';
+import { PostgrestSync } from './sync/postgrest-sync';
+import { RemoteData, SyncAdapter, SyncBatch } from './sync/sync-adapter';
 import { ToastService } from './toast.service';
 
 const GUEST = 'guest';
@@ -17,6 +19,16 @@ interface DirtySets {
   progress: string[];
   bookmarks: string[];
   activity: string[];
+  profile: string[];
+}
+
+const PROFILE_KEY = 'me';
+const emptyDirty = (): DirtySets => ({ library: [], progress: [], bookmarks: [], activity: [], profile: [] });
+
+function createSync(): SyncAdapter | null {
+  if (BACKEND === 'neon') return new PostgrestSync(getNeon);
+  if (BACKEND === 'supabase') return new PostgrestSync(getSupabase);
+  return null;
 }
 
 export interface ReadingStats {
@@ -40,7 +52,7 @@ export class LibraryService {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
-  private readonly sync: SyncAdapter | null = BACKEND === 'supabase' ? new SupabaseSync() : null;
+  private readonly sync: SyncAdapter | null = createSync();
 
   readonly data = signal<UserData>(emptyUserData());
   readonly syncing = signal(false);
@@ -49,10 +61,13 @@ export class LibraryService {
   private unsaved = false;
   private persistTimer: ReturnType<typeof setTimeout> | null = null;
   private flushTimer: ReturnType<typeof setTimeout> | null = null;
-  private dirty: DirtySets = { library: [], progress: [], bookmarks: [], activity: [] };
+  private dirty: DirtySets = emptyDirty();
+  /** Resolves once the first remote pull after sign-in has finished (immediately without sync). */
+  private pulled: Promise<void> = Promise.resolve();
 
   /* ---------------------------- selectors ---------------------------- */
 
+  readonly profile = computed(() => this.data().profile);
   readonly entries = computed(() => Object.values(this.data().library).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)));
   readonly favorites = computed(() => this.entries().filter((e) => e.favorite));
   readonly bookmarks = computed(() => [...this.data().bookmarks].sort((a, b) => b.createdAt.localeCompare(a.createdAt)));
@@ -253,6 +268,23 @@ export class LibraryService {
     );
   }
 
+  /** Saves the welcome-questionnaire answers (and optionally a daily goal). */
+  saveProfile(profile: Omit<ReadingProfile, 'updatedAt' | 'completedAt'>, dailyGoal?: number): void {
+    this.mutate((d) => {
+      const now = new Date().toISOString();
+      d.profile = { ...profile, completedAt: d.profile?.completedAt ?? now, updatedAt: now };
+      if (dailyGoal) d.dailyGoal = Math.min(240, Math.max(5, Math.round(dailyGoal)));
+      this.markDirty('profile', PROFILE_KEY);
+    });
+  }
+
+  /** Waits for remote data after sign-in, so decisions (e.g. "has this reader been onboarded?") see synced state. */
+  whenSynced(): Promise<void> {
+    // The owner normally switches in an effect; make sure it reflects the current user right now.
+    if (this.auth.ready()) this.switchOwner(this.auth.user());
+    return this.pulled;
+  }
+
   setDailyGoal(minutes: number): void {
     this.mutate((d) => {
       d.dailyGoal = Math.min(240, Math.max(5, Math.round(minutes)));
@@ -311,7 +343,7 @@ export class LibraryService {
     this.owner = next;
 
     let data = normalizeData(readJson<UserData | null>(`data:${next}`, null));
-    this.dirty = readJson<DirtySets>(`dirty:${next}`, { library: [], progress: [], bookmarks: [], activity: [] });
+    this.dirty = { ...emptyDirty(), ...readJson<Partial<DirtySets>>(`dirty:${next}`, {}) };
 
     // Carry reading done as a guest into the account that just signed in.
     if (user && (previous === GUEST || previous === '')) {
@@ -325,7 +357,7 @@ export class LibraryService {
     }
     this.data.set(data);
     this.persistNow(true);
-    if (user && this.sync) void this.pull(user.id);
+    this.pulled = user && this.sync ? this.pull(user.id) : Promise.resolve();
   }
 
   private async pull(userId: string): Promise<void> {
@@ -356,14 +388,15 @@ export class LibraryService {
     const userId = this.owner;
     if (!sync || userId === GUEST || !navigator.onLine) return;
     const taken = this.dirty;
-    if (!taken.library.length && !taken.progress.length && !taken.bookmarks.length && !taken.activity.length) return;
-    this.dirty = { library: [], progress: [], bookmarks: [], activity: [] };
+    if (!taken.library.length && !taken.progress.length && !taken.bookmarks.length && !taken.activity.length && !taken.profile.length) return;
+    this.dirty = emptyDirty();
     const d = this.data();
     const batch: SyncBatch = {
       library: taken.library.map((bookId) => ({ bookId, entry: d.library[bookId] ?? null })),
       progress: taken.progress.map((bookId) => ({ bookId, progress: d.progress[bookId] ?? null })),
       bookmarks: taken.bookmarks.map((id) => ({ id, bookmark: d.bookmarks.find((b) => b.id === id) ?? null })),
       activity: taken.activity.map((day) => ({ day, seconds: d.activity[day] ?? 0 })),
+      ...(taken.profile.length && d.profile ? { profile: d.profile } : {}),
     };
     try {
       await sync.push(userId, batch);
@@ -393,6 +426,7 @@ function normalizeData(raw: Partial<UserData> | null): UserData {
     bookmarks: Array.isArray(raw.bookmarks) ? raw.bookmarks : base.bookmarks,
     activity: raw.activity ?? base.activity,
     dailyGoal: typeof raw.dailyGoal === 'number' ? raw.dailyGoal : base.dailyGoal,
+    profile: raw.profile && typeof raw.profile === 'object' ? raw.profile : null,
   };
 }
 
@@ -408,7 +442,7 @@ function mergeGuest(user: UserData, guest: UserData): UserData {
 
 function mergeRemote(
   local: UserData,
-  remote: Pick<UserData, 'library' | 'progress' | 'bookmarks' | 'activity'>,
+  remote: RemoteData,
   markDirty: (kind: keyof DirtySets, id: string) => void,
 ): UserData {
   const out = structuredClone(local);
@@ -436,5 +470,7 @@ function mergeRemote(
     if ((out.activity[day] ?? 0) < secs) out.activity[day] = secs;
   }
   for (const [day, secs] of Object.entries(out.activity)) if ((remote.activity[day] ?? 0) < secs) markDirty('activity', day);
+  if (remote.profile && (!out.profile || out.profile.updatedAt < remote.profile.updatedAt)) out.profile = remote.profile;
+  else if (out.profile && (!remote.profile || remote.profile.updatedAt < out.profile.updatedAt)) markDirty('profile', PROFILE_KEY);
   return out;
 }

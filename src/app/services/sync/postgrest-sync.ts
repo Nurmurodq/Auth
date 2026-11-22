@@ -1,6 +1,6 @@
-import { Bookmark, LibraryEntry, ReadingProgress } from '../../models/user.model';
-import { getSupabase } from '../auth/supabase-client';
-import { SyncAdapter, SyncBatch } from './sync-adapter';
+import { Bookmark, LibraryEntry, ReadingProfile, ReadingProgress } from '../../models/user.model';
+import { DataClient } from '../auth/neon-client';
+import { RemoteData, SyncAdapter, SyncBatch } from './sync-adapter';
 
 interface LibraryRow {
   user_id: string;
@@ -39,16 +39,30 @@ interface ActivityRow {
 }
 
 /** Syncs reading data with the tables defined in supabase/migrations (row-level security per user). */
-export class SupabaseSync implements SyncAdapter {
-  async pull(userId: string) {
-    const sb = await getSupabase();
-    const [lib, prog, marks, act] = await Promise.all([
+interface ProfileRow {
+  user_id: string;
+  profile: ReadingProfile;
+  updated_at: string;
+}
+
+/**
+ * Syncs reading data through a PostgREST-compatible client — the Neon Data API
+ * (@neon/neon-js) or Supabase (supabase-js) — against the tables in
+ * neon/migrations or supabase/migrations. Row-level security scopes every row to its owner.
+ */
+export class PostgrestSync implements SyncAdapter {
+  constructor(private readonly getClient: () => Promise<DataClient>) {}
+
+  async pull(userId: string): Promise<RemoteData> {
+    const sb = await this.getClient();
+    const [lib, prog, marks, act, prof] = await Promise.all([
       sb.from('library_entries').select('*').eq('user_id', userId),
       sb.from('reading_progress').select('*').eq('user_id', userId),
       sb.from('bookmarks').select('*').eq('user_id', userId),
       sb.from('reading_activity').select('*').eq('user_id', userId),
+      sb.from('reading_profiles').select('*').eq('user_id', userId),
     ]);
-    const error = lib.error ?? prog.error ?? marks.error ?? act.error;
+    const error = lib.error ?? prog.error ?? marks.error ?? act.error ?? prof.error;
     if (error) throw error;
 
     const library: Record<string, LibraryEntry> = {};
@@ -77,11 +91,13 @@ export class SupabaseSync implements SyncAdapter {
     }));
     const activity: Record<string, number> = {};
     for (const r of (act.data ?? []) as ActivityRow[]) activity[r.day] = r.seconds;
-    return { library, progress, bookmarks, activity };
+    const profileRow = ((prof.data ?? []) as ProfileRow[])[0];
+    const profile = profileRow ? { ...profileRow.profile, updatedAt: profileRow.profile.updatedAt ?? profileRow.updated_at } : null;
+    return { library, progress, bookmarks, activity, profile };
   }
 
   async push(userId: string, batch: SyncBatch): Promise<void> {
-    const sb = await getSupabase();
+    const sb = await this.getClient();
     const ops: PromiseLike<{ error: unknown }>[] = [];
 
     const libUpserts = batch.library.filter((x) => x.entry).map(({ entry: e }) => ({
@@ -122,6 +138,10 @@ export class SupabaseSync implements SyncAdapter {
     const markDeletes = batch.bookmarks.filter((x) => !x.bookmark).map((x) => x.id);
     if (markUpserts.length) ops.push(sb.from('bookmarks').upsert(markUpserts));
     if (markDeletes.length) ops.push(sb.from('bookmarks').delete().eq('user_id', userId).in('id', markDeletes));
+
+    if (batch.profile) {
+      ops.push(sb.from('reading_profiles').upsert({ user_id: userId, profile: batch.profile, updated_at: batch.profile.updatedAt }));
+    }
 
     if (batch.activity.length) {
       ops.push(sb.from('reading_activity').upsert(batch.activity.map((a) => ({ user_id: userId, day: a.day, seconds: a.seconds }))));

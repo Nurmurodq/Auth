@@ -45,6 +45,19 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/auth/register.page').then((m) => m.RegisterPage),
   },
   {
+    path: 'auth/callback',
+    title: 'Signing in',
+    data: { layout: 'bare' },
+    loadComponent: () => import('./pages/auth/auth-callback.page').then((m) => m.AuthCallbackPage),
+  },
+  {
+    path: 'welcome',
+    title: 'Welcome to Folio',
+    data: { layout: 'bare' },
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/welcome/welcome.page').then((m) => m.WelcomePage),
+  },
+  {
     path: 'forgot-password',
     title: 'Reset your password',
     data: { layout: 'bare' },

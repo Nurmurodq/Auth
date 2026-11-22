@@ -7,14 +7,19 @@ import { friendlyAuthError } from '../../services/auth/auth-backend';
 import { ToastService } from '../../services/toast.service';
 import { IconComponent } from '../../shared/icon.component';
 import { AuthShellComponent } from './auth-shell.component';
+import { GoogleButtonComponent } from './google-button.component';
 
 @Component({
   selector: 'app-login',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, RouterLink, AuthShellComponent, IconComponent],
+  imports: [ReactiveFormsModule, RouterLink, AuthShellComponent, IconComponent, GoogleButtonComponent],
   template: `
     <app-auth-shell heading="Welcome back" subheading="Sign in to pick up right where you left off.">
+      <app-google-button class="social" [next]="destination()" />
       <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        @if (oauthError()) {
+          <div class="alert alert-error" role="alert"><app-icon name="alert" [size]="18" />Google sign-in didn’t complete. Please try again, or use your email.</div>
+        }
         @if (error()) {
           <div class="alert alert-error" role="alert"><app-icon name="alert" [size]="18" />{{ error() }}</div>
         }
@@ -89,6 +94,8 @@ export class LoginPage {
   private readonly fb = inject(NonNullableFormBuilder);
 
   readonly returnUrl = input<string>();
+  readonly oauthError = input<string>();
+  protected readonly destination = () => safeReturnUrl(this.returnUrl(), '/');
 
   protected readonly loading = signal(false);
   protected readonly error = signal<string | null>(null);
