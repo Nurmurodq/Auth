@@ -16,7 +16,7 @@ type Layout = 'default' | 'immersive' | 'bare';
 /** Best guess before the first navigation completes, so the right chrome renders immediately. */
 function layoutForPath(path: string): Layout {
   if (path.startsWith('/read/')) return 'immersive';
-  if (/^\/(login|register|forgot-password|reset-password|welcome|auth\/callback)/.test(path)) return 'bare';
+  if (/^\/(login|register|verify-email|forgot-password|reset-password|welcome|auth\/callback)/.test(path)) return 'bare';
   return 'default';
 }
 

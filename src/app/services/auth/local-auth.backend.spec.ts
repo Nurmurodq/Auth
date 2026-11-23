@@ -14,8 +14,8 @@ describe('LocalAuthBackend', () => {
   });
 
   it('registers, persists a hashed password and restores the session', async () => {
-    const { user, needsConfirmation } = await backend.signUp({ name: 'Ada', email: 'Ada@Example.com', password: 'Correct-Horse-42' });
-    expect(needsConfirmation).toBe(false);
+    const { user, needsVerification } = await backend.signUp({ name: 'Ada', email: 'Ada@Example.com', password: 'Correct-Horse-42' });
+    expect(needsVerification).toBe(false);
     expect(user?.email).toBe('ada@example.com');
     expect(localStorage.getItem('folio:accounts')).not.toContain('Correct-Horse-42');
     expect((await backend.restore())?.id).toBe(user?.id);

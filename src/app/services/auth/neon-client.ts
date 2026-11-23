@@ -32,6 +32,10 @@ export interface NeonAuthApi {
     }): Promise<NeonResult<{ url?: string; redirect?: boolean }>>;
   };
   signOut(): Promise<NeonResult<unknown>>;
+  emailOtp: {
+    verifyEmail(input: { email: string; otp: string }): Promise<NeonResult<{ status?: boolean; user?: NeonAuthUser }>>;
+    sendVerificationOtp(input: { email: string; type: 'email-verification' | 'sign-in' | 'forget-password' }): Promise<NeonResult<unknown>>;
+  };
   getSession(): Promise<NeonResult<NeonSessionData | null>>;
   updateUser(input: { name?: string }): Promise<NeonResult<unknown>>;
   changePassword(input: { currentPassword: string; newPassword: string; revokeOtherSessions?: boolean }): Promise<NeonResult<unknown>>;

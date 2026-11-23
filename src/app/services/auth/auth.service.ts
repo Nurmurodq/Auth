@@ -22,6 +22,7 @@ export class AuthService {
   readonly isAuthenticated = computed(() => this.user() !== null);
   readonly backendKind = this.backend.kind;
   readonly socialProviders = this.backend.socialProviders;
+  readonly verifiesEmail = this.backend.verifiesEmail;
 
   private readyPromise: Promise<void>;
 
@@ -49,6 +50,16 @@ export class AuthService {
     const user = await this.backend.signIn(email, password);
     this.user.set(user);
     return user;
+  }
+
+  async verifyEmail(email: string, code: string): Promise<User | null> {
+    const user = await this.backend.verifyEmail(email, code);
+    if (user) this.user.set(user);
+    return user;
+  }
+
+  resendVerification(email: string): Promise<void> {
+    return this.backend.resendVerification(email);
   }
 
   /** Leaves the app for the provider's consent screen; resolves only if the redirect fails to start. */

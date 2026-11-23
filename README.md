@@ -31,6 +31,7 @@ Folio is a reading platform for timeless books. It has a calm, ad-free library o
 
 **Personalised for every reader**
 - **Continue with Google**, or sign up with email and password.
+- **Email verification by code**: an email sign-up gets a 6-digit code by email and isn't signed in until the code is entered. The code screen survives reloads, submits as soon as the sixth digit is typed or pasted (with one-time-code autofill on phones), lets the reader resend after 60 seconds, and offers "Use a different email". If an unverified account tries to sign in later, a fresh code is sent and the reader goes straight to the code screen, then on to where they were heading.
 - After signing up, a four-step **welcome questionnaire** asks what you do (student, tech, healthcare, law, creative work and more), why you read, your favourite genres and moods, and your preferred length, difficulty and daily goal. You can skip it and edit it anytime from Account.
 - **"Picked for you"** on the home page ranks the library against your answers and history. Each pick explains itself ("Loved by people in tech", "Because you love Mystery & Crime", "Because you enjoyed *The Time Machine*"). Picks never repeat books you already have, and they stay varied across authors and your chosen genres.
 - **"Because you enjoyed…"** shelves follow your favourites and finished books.
@@ -70,22 +71,22 @@ Choose the backend in `src/environments/environment.ts`:
 
 | `backend` | Accounts | Library, progress, bookmarks, profile | Notes |
 | --- | --- | --- | --- |
-| `'neon'` (default) | Neon Managed Better Auth: email/password and **Google** | Neon Data API (PostgREST) over Postgres with row-level security, synced in the background (offline-first) | Already provisioned: project `folio` (`sweet-glade-29103999`). Schema in `neon/migrations/`. |
-| `'local'` | Stored in the browser (PBKDF2-SHA-256 password hashes via WebCrypto) | Local storage, synced across tabs | No server needed. Password-reset links are shown on screen because email can't be sent. Needs HTTPS or localhost. |
-| `'supabase'` | Supabase Auth (email confirmation and reset emails) | Postgres tables with row-level security, synced in the background (offline-first) | Apply the migrations first. The Supabase client is lazy-loaded, so local mode never downloads it. |
+| `'neon'` (default) | Neon Managed Better Auth: email/password with a **6-digit email code**, and **Google** | Neon Data API (PostgREST) over Postgres with row-level security, synced in the background (offline-first) | Already provisioned: project `folio` (`sweet-glade-29103999`). Schema in `neon/migrations/`. |
+| `'local'` | Stored in the browser (PBKDF2-SHA-256 password hashes via WebCrypto). No email codes, because nothing can be emailed | Local storage, synced across tabs | No server needed. Password-reset links are shown on screen because email can't be sent. Needs HTTPS or localhost. |
+| `'supabase'` | Supabase Auth (6-digit sign-up code and reset emails) | Postgres tables with row-level security, synced in the background (offline-first) | Apply the migrations first. The Supabase client is lazy-loaded, so local mode never downloads it. |
 
 ### Neon (default)
 
 The `folio` Neon project is set up and connected:
 
-- **Auth**: Managed Better Auth, with email/password on and email verification optional. **Google** works immediately with Neon's shared development credentials. Localhost origins are allowed for development.
+- **Auth**: Managed Better Auth, with email/password on and **email verification required by one-time code** (method `otp`; codes are sent on sign-up and on an unverified sign-in, expire after 5 minutes, and verifying signs the reader in). **Google** works immediately with Neon's shared development credentials. Localhost origins are allowed for development.
 - **Data API**: enabled with Neon Auth JWTs. Tables `library_entries`, `reading_progress`, `bookmarks`, `reading_activity` and `reading_profiles` each carry a `user_id`, and a row-level security policy compares it with `auth.user_id()`, so readers only ever see their own rows.
 
 **Before going live** (Neon Console → your project → Branch → Settings → Auth):
 
 1. **Add your own Google OAuth client.** With shared credentials, Google's consent screen shows Neon's name instead of yours. Create a "Web application" OAuth client in Google Cloud Console, add the redirect URI shown in Neon's "Add OAuth provider" dialog (`https://ep-lingering-fog-ar4uglrw.neonauth.c-4.us-west-2.aws.neon.tech/neondb/auth/callback/google`), then paste the client ID and secret into Neon.
 2. **Add your production domain** under trusted domains, and turn off "allow localhost".
-3. Optionally set up your own email sender for password-reset emails. The default is Neon's shared `auth@mail.myneon.app`.
+3. **Set up your own email sender** (Settings → Auth → Email provider, using SMTP from Resend, Postmark, SES or similar). Verification codes and password-reset emails go out from Neon's shared `auth@mail.myneon.app` by default. That's fine for testing, but it's rate-limited and its messages are more likely to land in spam.
 
 To point the app at a different Neon project, run `neon/migrations/0001_reading_platform.sql` in it (after enabling Auth and the Data API), then set `neonUrl` in `environment.ts` to `https://<endpoint>.<region>.aws.neon.tech/<database>`.
 
@@ -96,6 +97,7 @@ To use Supabase:
 1. Apply the SQL files in `supabase/migrations/` to your project, in order. They add the reading tables and reading profiles, and fix a recursive policy in the original `profiles` setup.
 2. In Supabase → Authentication → URL configuration, add your site URL and `/reset-password` as a redirect URL.
 3. Set `backend: 'supabase'` plus your project URL and anon (publishable) key in `environment.ts`. To offer Google, enable it under Authentication → Providers and set `supabaseGoogle: true`.
+4. For sign-up codes, keep "Confirm email" on (Authentication → Sign In / Providers → Email). Then edit Authentication → Emails → **Confirm signup** so the email shows the code, `{{ .Token }}`, rather than (or as well as) the link.
 
 All user data is written locally first, so reading works offline. Changes are pushed in the background and retried when the connection returns. On sign-in, local and remote data are merged, with the newest change winning.
 
@@ -134,7 +136,7 @@ src/app/
     home/  browse/  book/       discovery
     reader/                     reader + appearance and contents panels
     library/  account/          personal library and stats
-    auth/                       sign-in, sign-up (with Google), OAuth callback, forgot and reset password
+    auth/                       sign-in, sign-up (with Google), email code verification, OAuth callback, forgot and reset password
     welcome/                    post-sign-up questionnaire
   services/
     auth/                       AuthService facade + Neon, Supabase and local backends

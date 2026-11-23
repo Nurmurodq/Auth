@@ -9,10 +9,12 @@ import { NeonAuthUser, NeonResult, getNeon } from './neon-client';
 export class NeonAuthBackend implements AuthBackend {
   readonly kind = 'neon' as const;
   readonly socialProviders: readonly SocialProvider[] = ['google'];
+  /** Email/password sign-ups confirm their address with a 6-digit code (Neon setting: OTP verification). */
+  readonly verifiesEmail = true;
 
   async restore(): Promise<User | null> {
     const { auth } = await getNeon();
-    const res = await auth.getSession();
+    const res = await call(() => auth.getSession());
     return res.data?.user ? toUser(res.data.user) : null;
   }
 
@@ -38,29 +40,50 @@ export class NeonAuthBackend implements AuthBackend {
 
   async signUp(input: SignUpInput): Promise<SignUpResult> {
     const { auth } = await getNeon();
-    const res = await auth.signUp.email({ email: input.email.trim(), password: input.password, name: input.name.trim() });
-    const data = unwrap(res);
-    // Email verification is optional in this project, so a session exists right away.
-    const session = await auth.getSession();
-    return { user: session.data?.user ? toUser(session.data.user) : toUser(data.user), needsConfirmation: !session.data?.user };
+    const res = await call(() => auth.signUp.email({ email: input.email.trim(), password: input.password, name: input.name.trim() }));
+    unwrap(res);
+    // With email verification required, Neon emails a code and creates no session until it's confirmed.
+    const session = await call(() => auth.getSession());
+    const user = session.data?.user ? toUser(session.data.user) : null;
+    return { user, needsVerification: !user };
   }
 
   async signIn(email: string, password: string): Promise<User> {
     const { auth } = await getNeon();
-    const data = unwrap(await auth.signIn.email({ email: email.trim(), password }));
-    return toUser(data.user);
+    const res = await call(() => auth.signIn.email({ email: email.trim(), password }));
+    // The SDK normalises Better Auth's EMAIL_NOT_VERIFIED into `email_not_confirmed` / "Email verification required".
+    if (res.error && /EMAIL_NOT_VERIFIED|email_not_confirmed|email not verified|verification required/i.test(`${res.error.code} ${res.error.message}`)) {
+      // Neon sends a fresh code when an unverified account tries to sign in.
+      throw new AuthError('Please verify your email first — we’ve sent you a new code.', 'email_not_verified');
+    }
+    return toUser(unwrap(res).user);
+  }
+
+  async verifyEmail(email: string, code: string): Promise<User | null> {
+    const { auth } = await getNeon();
+    const res = await call(() => auth.emailOtp.verifyEmail({ email: email.trim(), otp: code.trim() }));
+    if (res.error) throw toError(res.error);
+    // Neon signs the reader in automatically after verification.
+    const session = await call(() => auth.getSession());
+    return session.data?.user ? toUser(session.data.user) : null;
+  }
+
+  async resendVerification(email: string): Promise<void> {
+    const { auth } = await getNeon();
+    const res = await call(() => auth.emailOtp.sendVerificationOtp({ email: email.trim(), type: 'email-verification' }));
+    if (res.error) throw toError(res.error);
   }
 
   async signInWithProvider(provider: SocialProvider, next: string): Promise<void> {
     const { auth } = await getNeon();
     const origin = location.origin;
     const dest = encodeURIComponent(next);
-    const res = await auth.signIn.social({
+    const res = await call(() => auth.signIn.social({
       provider,
       callbackURL: `${origin}/auth/callback?next=${dest}`,
       newUserCallbackURL: `${origin}/welcome?new=1&returnUrl=${dest}`,
       errorCallbackURL: `${origin}/login?oauthError=1&returnUrl=${dest}`,
-    });
+    }));
     if (res.error) throw toError(res.error);
     // The client normally redirects by itself; follow the URL explicitly if it didn't.
     if (res.data?.url && location.href !== res.data.url) location.assign(res.data.url);
@@ -68,12 +91,12 @@ export class NeonAuthBackend implements AuthBackend {
 
   async signOut(): Promise<void> {
     const { auth } = await getNeon();
-    await auth.signOut();
+    await call(() => auth.signOut());
   }
 
   async requestPasswordReset(email: string): Promise<ResetRequestResult> {
     const { auth } = await getNeon();
-    const res = await auth.requestPasswordReset({ email: email.trim(), redirectTo: `${location.origin}/reset-password` });
+    const res = await call(() => auth.requestPasswordReset({ email: email.trim(), redirectTo: `${location.origin}/reset-password` }));
     // Don't reveal whether the address is registered; only surface transport problems.
     if (res.error && (res.error.status ?? 0) >= 500) throw toError(res.error);
     return {};
@@ -85,12 +108,12 @@ export class NeonAuthBackend implements AuthBackend {
 
   async completePasswordReset(newPassword: string, params: Record<string, string>): Promise<void> {
     const { auth } = await getNeon();
-    unwrap(await auth.resetPassword({ newPassword, token: params['token'] ?? '' }));
+    unwrap(await call(() => auth.resetPassword({ newPassword, token: params['token'] ?? '' })));
   }
 
   async changePassword(currentPassword: string, newPassword: string): Promise<void> {
     const { auth } = await getNeon();
-    const res = await auth.changePassword({ currentPassword, newPassword, revokeOtherSessions: false });
+    const res = await call(() => auth.changePassword({ currentPassword, newPassword, revokeOtherSessions: false }));
     if (res.error) {
       if (/invalid password|INVALID_PASSWORD/i.test(`${res.error.code} ${res.error.message}`)) {
         throw new AuthError('Your current password is incorrect.', 'invalid_credentials');
@@ -104,10 +127,25 @@ export class NeonAuthBackend implements AuthBackend {
 
   async updateProfile(patch: { name: string }): Promise<User> {
     const { auth } = await getNeon();
-    unwrap(await auth.updateUser({ name: patch.name.trim() }));
+    unwrap(await call(() => auth.updateUser({ name: patch.name.trim() })));
     const user = await this.restore();
     if (!user) throw new AuthError('Your session has ended. Please sign in again.', 'no_session');
     return user;
+  }
+}
+
+/**
+ * Runs a Neon auth call and always resolves to `{ data, error }`. The SDK returns errors for some
+ * failures and throws for others (HTTP 4xx/5xx); this keeps Better Auth's raw code (e.g.
+ * EMAIL_NOT_VERIFIED, INVALID_OTP) when available, rather than the SDK's normalised one.
+ */
+async function call<T>(fn: () => Promise<NeonResult<T>>): Promise<NeonResult<T>> {
+  try {
+    const res = await fn();
+    return res ?? { data: null, error: null };
+  } catch (err) {
+    const e = err as { message?: string; code?: string; status?: number; error?: { code?: string; message?: string; status?: number } };
+    return { data: null, error: { code: e.error?.code ?? e.code, message: e.error?.message ?? e.message, status: e.error?.status ?? e.status } };
   }
 }
 
@@ -117,7 +155,9 @@ function toUser(u: NeonAuthUser): User {
 }
 
 function toError(error: NonNullable<NeonResult<unknown>['error']>): Error {
-  return new Error(error.message || error.code || 'Something went wrong. Please try again.');
+  // Keep the machine-readable code in the message so friendlyAuthError can map it.
+  const parts = [error.code, error.message].filter(Boolean);
+  return new Error(parts.join(': ') || 'Something went wrong. Please try again.');
 }
 
 function unwrap<T>(res: NeonResult<T>): T {

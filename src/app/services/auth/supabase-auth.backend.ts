@@ -8,6 +8,8 @@ import { getSupabase } from './supabase-client';
 export class SupabaseAuthBackend implements AuthBackend {
   readonly kind = 'supabase' as const;
   readonly socialProviders: readonly SocialProvider[] = environment.supabaseGoogle ? ['google'] : [];
+  /** Requires "Confirm email" with {{ .Token }} in the Supabase confirmation email template. */
+  readonly verifiesEmail = true;
   private recovery = false;
 
   async restore(): Promise<User | null> {
@@ -41,12 +43,16 @@ export class SupabaseAuthBackend implements AuthBackend {
     if (data.user && data.user.identities?.length === 0) {
       throw new AuthError('An account with this email already exists. Try signing in instead.', 'exists');
     }
-    return { user: data.session && data.user ? await this.toUser(sb, data.user) : null, needsConfirmation: !data.session };
+    return { user: data.session && data.user ? await this.toUser(sb, data.user) : null, needsVerification: !data.session };
   }
 
   async signIn(email: string, password: string): Promise<User> {
     const sb = await getSupabase();
     const { data, error } = await sb.auth.signInWithPassword({ email: email.trim(), password });
+    if (error && /email not confirmed/i.test(error.message)) {
+      await sb.auth.resend({ type: 'signup', email: email.trim() });
+      throw new AuthError('Please verify your email first — we’ve sent you a new code.', 'email_not_verified');
+    }
     if (error) throw error;
     const user = await this.toUser(sb, data.user);
     const { data: profile } = await sb.from('profiles').select('is_active').eq('id', data.user.id).maybeSingle();
@@ -55,6 +61,19 @@ export class SupabaseAuthBackend implements AuthBackend {
       throw new AuthError('This account has been disabled. Please contact support.', 'disabled');
     }
     return user;
+  }
+
+  async verifyEmail(email: string, code: string): Promise<User | null> {
+    const sb = await getSupabase();
+    const { data, error } = await sb.auth.verifyOtp({ email: email.trim(), token: code, type: 'signup' });
+    if (error) throw error;
+    return data.user && data.session ? this.toUser(sb, data.user) : null;
+  }
+
+  async resendVerification(email: string): Promise<void> {
+    const sb = await getSupabase();
+    const { error } = await sb.auth.resend({ type: 'signup', email: email.trim() });
+    if (error) throw error;
   }
 
   async signInWithProvider(provider: SocialProvider, next: string): Promise<void> {

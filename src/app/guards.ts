@@ -21,6 +21,6 @@ export const guestGuard: CanActivateFn = async () => {
 /** Returns a safe in-app path from a returnUrl query param (never an external URL). */
 export function safeReturnUrl(value: string | null | undefined, fallback = '/library'): string {
   if (!value || !value.startsWith('/') || value.startsWith('//') || value.startsWith('/\\')) return fallback;
-  if (/^\/(login|register|forgot-password|reset-password|welcome|auth\/callback)\b/.test(value)) return fallback;
+  if (/^\/(login|register|verify-email|forgot-password|reset-password|welcome|auth\/callback)\b/.test(value)) return fallback;
   return value;
 }

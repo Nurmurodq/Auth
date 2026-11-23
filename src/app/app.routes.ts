@@ -45,6 +45,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/auth/register.page').then((m) => m.RegisterPage),
   },
   {
+    path: 'verify-email',
+    title: 'Verify your email',
+    data: { layout: 'bare' },
+    loadComponent: () => import('./pages/auth/verify-email.page').then((m) => m.VerifyEmailPage),
+  },
+  {
     path: 'auth/callback',
     title: 'Signing in',
     data: { layout: 'bare' },

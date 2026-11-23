@@ -3,7 +3,8 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { safeReturnUrl } from '../../guards';
 import { AuthService } from '../../services/auth/auth.service';
-import { friendlyAuthError } from '../../services/auth/auth-backend';
+import { AuthError, friendlyAuthError } from '../../services/auth/auth-backend';
+import { savePendingVerification } from '../../utils/pending-verification';
 import { ToastService } from '../../services/toast.service';
 import { IconComponent } from '../../shared/icon.component';
 import { AuthShellComponent } from './auth-shell.component';
@@ -126,6 +127,13 @@ export class LoginPage {
       this.toast.success(`Welcome back, ${user.name.split(' ')[0]}.`);
       await this.router.navigateByUrl(safeReturnUrl(this.returnUrl()));
     } catch (err) {
+      if (err instanceof AuthError && err.code === 'email_not_verified') {
+        // Neon has just emailed a fresh code; take the reader straight to the code screen.
+        savePendingVerification({ email: this.form.getRawValue().email.trim(), returnUrl: safeReturnUrl(this.returnUrl(), '/library'), isNew: false });
+        this.toast.show('Please verify your email — we’ve sent you a new code.');
+        await this.router.navigate(['/verify-email']);
+        return;
+      }
       this.error.set(friendlyAuthError(err));
     } finally {
       this.loading.set(false);

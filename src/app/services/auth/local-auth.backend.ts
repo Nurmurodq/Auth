@@ -34,6 +34,8 @@ export class LocalAuthBackend implements AuthBackend {
   readonly kind = 'local' as const;
   /** Social sign-in needs a server-side OAuth client, which the browser-only backend doesn't have. */
   readonly socialProviders: readonly SocialProvider[] = [];
+  /** The browser-only backend can't send email, so addresses aren't verified. */
+  readonly verifiesEmail = false;
   private listeners: ((user: User | null) => void)[] = [];
 
   constructor() {
@@ -71,7 +73,7 @@ export class LocalAuthBackend implements AuthBackend {
     };
     writeJson(ACCOUNTS_KEY, [...accounts, account]);
     this.startSession(account.id);
-    return { user: toUser(account), needsConfirmation: false };
+    return { user: toUser(account), needsVerification: false };
   }
 
   async signIn(email: string, password: string): Promise<User> {
@@ -84,6 +86,14 @@ export class LocalAuthBackend implements AuthBackend {
     }
     this.startSession(account.id);
     return toUser(account);
+  }
+
+  async verifyEmail(): Promise<User | null> {
+    throw new AuthError('Email verification isn’t available in local mode.', 'unsupported');
+  }
+
+  async resendVerification(): Promise<void> {
+    throw new AuthError('Email verification isn’t available in local mode.', 'unsupported');
   }
 
   async signInWithProvider(): Promise<void> {
