@@ -3,6 +3,7 @@ import { BOOKS, GENRES } from '../data/catalog.data';
 import { BookRecord, EaseBucket, EraBucket, GenreRecord, LengthBucket } from '../models/book.model';
 import { WORDS_PER_MINUTE } from '../config';
 import { editDistance, normalize, tokenize } from '../utils/text';
+import { localized } from '../i18n/i18n';
 
 export type SortKey = 'featured' | 'relevance' | 'title' | 'author' | 'newest' | 'oldest' | 'shortest' | 'longest';
 
@@ -30,27 +31,27 @@ export interface Shelf {
   books: BookRecord[];
 }
 
-export const LENGTH_OPTIONS: { id: LengthBucket; label: string }[] = [
+export const LENGTH_OPTIONS: { id: LengthBucket; label: string }[] = localized([
   { id: 'short', label: 'Under 3 hours' },
   { id: 'medium', label: '3–7 hours' },
   { id: 'long', label: '7+ hours' },
-];
+], 'filter.length', ['label']);
 
-export const ERA_OPTIONS: { id: EraBucket; label: string }[] = [
+export const ERA_OPTIONS: { id: EraBucket; label: string }[] = localized([
   { id: 'ancient', label: 'Before 1500' },
   { id: 'early-modern', label: '1500–1799' },
   { id: 'romantic', label: '1800–1849' },
   { id: 'victorian', label: '1850–1899' },
   { id: 'modern', label: '1900 onwards' },
-];
+], 'filter.era', ['label']);
 
-export const EASE_OPTIONS: { id: EaseBucket; label: string }[] = [
+export const EASE_OPTIONS: { id: EaseBucket; label: string }[] = localized([
   { id: 'easy', label: 'Easy going' },
   { id: 'moderate', label: 'Moderate' },
   { id: 'challenging', label: 'Challenging' },
-];
+], 'filter.ease', ['label']);
 
-export const SORT_OPTIONS: { id: SortKey; label: string }[] = [
+export const SORT_OPTIONS: { id: SortKey; label: string }[] = localized([
   { id: 'featured', label: 'Featured' },
   { id: 'relevance', label: 'Best match' },
   { id: 'title', label: 'Title A–Z' },
@@ -59,7 +60,7 @@ export const SORT_OPTIONS: { id: SortKey; label: string }[] = [
   { id: 'newest', label: 'Newest first' },
   { id: 'shortest', label: 'Shortest first' },
   { id: 'longest', label: 'Longest first' },
-];
+], 'sort', ['label']);
 
 const EDITORS_PICKS = [
   'pride-and-prejudice',
@@ -109,12 +110,14 @@ export function easeBucket(score: number): EaseBucket {
 @Injectable({ providedIn: 'root' })
 export class CatalogService {
   readonly books: readonly BookRecord[] = BOOKS;
-  readonly genres: readonly GenreRecord[] = GENRES.filter((g) => g.count > 0);
+  private readonly allGenres: readonly GenreRecord[] = localized(GENRES, 'genre', ['name', 'blurb']);
+  readonly genres: readonly GenreRecord[] = this.allGenres.filter((g) => g.count > 0);
 
   private readonly byId = new Map(BOOKS.map((b) => [b.id, b]));
-  private readonly genreById = new Map(GENRES.map((g) => [g.id, g]));
+  private readonly genreById = new Map(this.allGenres.map((g) => [g.id, g]));
   private readonly index: IndexedBook[] = BOOKS.map((book, order) => {
-    const genreNames = book.genres.map((g) => this.genreById.get(g)?.name ?? g).join(' ');
+    // English genre names are indexed here; translated names are matched at query time (see genreTokens).
+    const genreNames = book.genres.map((g) => GENRES.find((x) => x.id === g)?.name ?? g).join(' ');
     return {
       book,
       order,
@@ -192,7 +195,7 @@ export class CatalogService {
       .sort((a, b) => a.words - b.words)
       .slice(0, 12);
     const russians = ['leo-tolstoy', 'fyodor-dostoevsky', 'ivan-turgenev', 'yevgeny-zamyatin'];
-    return [
+    return localized<Shelf>([
       { id: 'evening', title: 'Finish in an evening', description: 'Complete stories you can read in a single sitting.', books: evening },
       { id: 'mystery', title: 'Detectives & dark deeds', description: 'Locked rooms, false alibis and brilliant deductions.', books: this.byGenre('mystery') },
       {
@@ -212,7 +215,7 @@ export class CatalogService {
       { id: 'humor', title: 'Laugh out loud', description: 'Comic misadventures, sharp satire and impeccable valets.', books: this.byGenre('humor') },
       { id: 'russians', title: 'The great Russians', description: 'Sweeping, searching novels of conscience.', books: BOOKS.filter((b) => russians.includes(b.authorId)) },
       { id: 'wisdom', title: 'Wisdom for daily life', description: 'Ancient and modern thinking on how to live well.', books: this.byGenre('philosophy') },
-    ];
+    ], 'homeShelf', ['title', 'description']);
   }
 
   search(query: CatalogQuery): BookRecord[] {
@@ -256,9 +259,20 @@ export class CatalogService {
     if (!norm) return { books: [], authors: [], genres: [] };
     const books = this.search({ q, sort: 'relevance' }).slice(0, 6);
     const authors = this.authors.filter((a) => normalize(a.name).split(' ').some((t) => t.startsWith(norm)) || normalize(a.name).startsWith(norm)).slice(0, 4);
-    const genres = this.genres.filter((g) => normalize(g.name).split(' ').some((t) => t.startsWith(norm))).slice(0, 3);
+    const genres = this.genres
+      .filter((g) => [...this.localGenreTokens(g.id), ...tokenize(GENRES.find((x) => x.id === g.id)?.name ?? '')].some((t) => t.startsWith(norm)))
+      .slice(0, 3);
     return { books, authors, genres };
   }
+
+  /** Tokens of a genre's name in the active language (cached per name). */
+  private localGenreTokens(id: string): string[] {
+    const name = this.genreById.get(id)?.name ?? '';
+    let tokens = this.genreTokenCache.get(name);
+    if (!tokens) this.genreTokenCache.set(name, (tokens = tokenize(name)));
+    return tokens;
+  }
+  private readonly genreTokenCache = new Map<string, string[]>();
 
   private score(e: IndexedBook, tokens: string[], phrase: string): number {
     let total = 0;
@@ -268,7 +282,7 @@ export class CatalogService {
       if (e.titleTokens.includes(t)) best = 30;
       else if (prefix(e.titleTokens)) best = 22;
       if (prefix(e.authorTokens)) best = Math.max(best, e.authorTokens.includes(t) ? 24 : 18);
-      if (best < 12 && prefix(e.genreTokens)) best = 12;
+      if (best < 12 && (prefix(e.genreTokens) || e.book.genres.some((g) => this.localGenreTokens(g).some((w) => w.startsWith(t))))) best = 12;
       if (best < 10 && prefix(e.creditTokens)) best = 10;
       if (best < 8 && prefix(e.subjectTokens)) best = 8;
       if (best < 3 && t.length >= 3 && [...e.bodyTokens].some((w) => w.startsWith(t))) best = 3;

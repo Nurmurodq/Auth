@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, computed, inject, signal, viewChild } from '@angular/core';
+import { localized, t } from '../../i18n/i18n';
+import { LanguageSwitcherComponent } from '../../i18n/language-switcher.component';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
@@ -17,11 +19,12 @@ import { MIN_PASSWORD_LENGTH, passwordsMatch } from '../../utils/password';
 @Component({
   selector: 'app-account',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, RouterLink, IconComponent, BookCoverComponent],
+  imports: [ReactiveFormsModule, RouterLink, IconComponent, BookCoverComponent, LanguageSwitcherComponent],
   templateUrl: './account.page.html',
   styleUrl: './account.page.css',
 })
 export class AccountPage {
+  protected readonly t = t;
   protected readonly auth = inject(AuthService);
   protected readonly library = inject(LibraryService);
   protected readonly theme = inject(ThemeService);
@@ -67,12 +70,12 @@ export class AccountPage {
   protected readonly tiles = computed(() => {
     const s = this.stats();
     return [
-      { icon: 'flame' as const, label: 'Day streak', value: String(s.streak), hint: s.streak === 1 ? 'day' : 'days' },
-      { icon: 'clock' as const, label: 'This week', value: formatDuration(s.weekSeconds / 60), hint: '' },
-      { icon: 'book-open' as const, label: 'In progress', value: String(s.inProgress), hint: s.inProgress === 1 ? 'book' : 'books' },
-      { icon: 'trophy' as const, label: 'Finished', value: String(s.finished), hint: s.finished === 1 ? 'book' : 'books' },
-      { icon: 'bookmark' as const, label: 'Bookmarks', value: String(this.library.bookmarks().length), hint: '' },
-      { icon: 'sparkles' as const, label: 'All-time reading', value: formatDuration(s.totalSeconds / 60), hint: '' },
+      { id: 'streak', icon: 'flame' as const, label: t('library.streak'), value: String(s.streak) },
+      { id: 'week', icon: 'clock' as const, label: t('library.week'), value: formatDuration(s.weekSeconds / 60) },
+      { id: 'progress', icon: 'book-open' as const, label: t('account.inProgress'), value: String(s.inProgress) },
+      { id: 'finished', icon: 'trophy' as const, label: t('shelf.finished'), value: String(s.finished) },
+      { id: 'bookmarks', icon: 'bookmark' as const, label: t('nav.bookmarks'), value: String(this.library.bookmarks().length) },
+      { id: 'total', icon: 'sparkles' as const, label: t('account.allTime'), value: formatDuration(s.totalSeconds / 60) },
     ];
   });
 
@@ -88,7 +91,7 @@ export class AccountPage {
     const s = this.readerSettings.settings();
     const theme = READER_THEMES.find((t) => t.id === s.theme)?.label;
     const font = READER_FONTS.find((f) => f.id === s.font)?.label;
-    return `${theme} theme · ${font} ${s.fontSize}px · ${s.mode === 'paged' ? 'Pages' : 'Scrolling'}`;
+    return t('account.readerSummary', { theme: theme ?? '', font: font ?? '', size: s.fontSize, mode: s.mode === 'paged' ? t('account.modePages') : t('account.modeScroll') });
   });
 
   protected readonly interests = computed(() => {
@@ -100,11 +103,11 @@ export class AccountPage {
     return { occupation: occ ? `${occ.emoji} ${occ.label}` : null, genres, moods };
   });
 
-  protected readonly themeOptions: { id: ThemePreference; label: string; icon: 'sun' | 'moon' | 'monitor' }[] = [
+  protected readonly themeOptions: { id: ThemePreference; label: string; icon: 'sun' | 'moon' | 'monitor' }[] = localized([
     { id: 'light', label: 'Light', icon: 'sun' },
     { id: 'dark', label: 'Dark', icon: 'moon' },
     { id: 'system', label: 'System', icon: 'monitor' },
-  ];
+  ], 'appTheme', ['label']);
 
   /* Profile */
   protected readonly editingName = signal(false);
@@ -136,7 +139,7 @@ export class AccountPage {
     try {
       await this.auth.updateProfile({ name: this.nameForm.getRawValue().name });
       this.editingName.set(false);
-      this.toast.success('Name updated');
+      this.toast.success(t('account.nameUpdated'));
     } catch (err) {
       this.toast.error(friendlyAuthError(err));
     } finally {
@@ -146,12 +149,12 @@ export class AccountPage {
 
   protected setGoal(value: string): void {
     this.library.setDailyGoal(Number(value));
-    this.toast.success(`Daily goal set to ${value} minutes`);
+    this.toast.success(t('account.goalSet', { count: value }));
   }
 
   protected resetReader(): void {
     this.readerSettings.reset();
-    this.toast.success('Reading appearance reset to defaults');
+    this.toast.success(t('account.appearanceReset'));
   }
 
   protected passwordFieldError(name: 'current' | 'password' | 'confirm'): boolean {
@@ -176,7 +179,7 @@ export class AccountPage {
       await this.auth.changePassword(current, password);
       this.passwordForm.reset();
       this.passwordSubmitted.set(false);
-      this.toast.success('Password changed');
+      this.toast.success(t('account.passwordChanged'));
     } catch (err) {
       this.passwordError.set(friendlyAuthError(err));
     } finally {
@@ -192,7 +195,7 @@ export class AccountPage {
     a.download = `folio-library-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    this.toast.success('Your data was downloaded');
+    this.toast.success(t('account.downloaded'));
   }
 
   protected askClearHistory(): void {
@@ -202,7 +205,7 @@ export class AccountPage {
   protected confirmClear(): void {
     this.library.clearHistory();
     this.confirmDialog().nativeElement.close();
-    this.toast.show('Reading history cleared');
+    this.toast.show(t('account.cleared'));
   }
 
   protected closeConfirm(): void {
@@ -211,7 +214,7 @@ export class AccountPage {
 
   protected async signOut(): Promise<void> {
     await this.auth.signOut();
-    this.toast.show('You’ve been signed out. See you soon.');
+    this.toast.show(t('toast.signedOut'));
     void this.router.navigate(['/']);
   }
 }

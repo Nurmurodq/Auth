@@ -1,4 +1,5 @@
 import { Injectable, signal } from '@angular/core';
+import { localized } from '../i18n/i18n';
 import { readJson, writeJson } from '../utils/storage';
 
 export type ReaderTheme = 'paper' | 'sepia' | 'dusk' | 'night';
@@ -17,20 +18,20 @@ export interface ReaderSettings {
   mode: ReaderMode;
 }
 
-export const READER_THEMES: { id: ReaderTheme; label: string; bg: string; fg: string }[] = [
+export const READER_THEMES: { id: ReaderTheme; label: string; bg: string; fg: string }[] = localized([
   { id: 'paper', label: 'Paper', bg: '#fdfcf9', fg: '#22201c' },
   { id: 'sepia', label: 'Sepia', bg: '#f3e9d4', fg: '#5a4632' },
   { id: 'dusk', label: 'Dusk', bg: '#1f1e1c', fg: '#d9d2c5' },
   { id: 'night', label: 'Night', bg: '#000000', fg: '#b3ab9f' },
-];
+], 'readerTheme', ['label']);
 
-export const READER_FONTS: { id: ReaderFont; label: string; family: string; note: string }[] = [
+export const READER_FONTS: { id: ReaderFont; label: string; family: string; note: string }[] = localized([
   { id: 'literata', label: 'Literata', family: "'Literata Variable', Georgia, serif", note: 'Designed for screens' },
   { id: 'source-serif', label: 'Source Serif', family: "'Source Serif 4 Variable', Georgia, serif", note: 'Crisp and modern' },
   { id: 'garamond', label: 'Garamond', family: "'EB Garamond Variable', Garamond, Georgia, serif", note: 'Classic book face' },
   { id: 'inter', label: 'Inter', family: "'Inter Variable', system-ui, sans-serif", note: 'Clean sans-serif' },
   { id: 'atkinson', label: 'Atkinson', family: "'Atkinson Hyperlegible Next Variable', system-ui, sans-serif", note: 'Maximum legibility' },
-];
+], 'readerFont', ['note']);
 
 export const LINE_SPACING: Record<LineSpacing, number> = { compact: 1.5, comfortable: 1.7, airy: 1.9 };
 export const READER_WIDTHS: Record<ReaderWidth, string> = { narrow: '32em', medium: '38em', wide: '46em' };

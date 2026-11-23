@@ -1,45 +1,47 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { t } from '../i18n/i18n';
 import { RouterLink } from '@angular/router';
 import { CatalogService } from '../services/catalog.service';
 import { LogoComponent } from '../shared/logo.component';
+import { LanguageSwitcherComponent } from '../i18n/language-switcher.component';
 
 @Component({
   selector: 'app-footer',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, LogoComponent],
+  imports: [RouterLink, LogoComponent, LanguageSwitcherComponent],
   host: { role: 'contentinfo' },
   template: `
     <div class="container">
       <div class="top">
         <div class="brand">
           <app-logo />
-          <p>Great books, beautifully read. A calm, ad-free home for {{ catalog.books.length }} timeless works.</p>
+          <p>{{ t('footer.tagline', { count: catalog.books.length }) }}</p>
+          <app-language-switcher [labelled]="true" placement="up" align="start" class="lang" />
         </div>
-        <nav class="cols" aria-label="Footer">
+        <nav class="cols" [attr.aria-label]="t('footer.nav')">
           <div>
-            <h2>Explore</h2>
-            <a routerLink="/browse">All books</a>
+            <h2>{{ t('footer.explore') }}</h2>
+            <a routerLink="/browse">{{ t('footer.allBooks') }}</a>
             @for (g of topGenres; track g.id) {
               <a routerLink="/browse" [queryParams]="{ genre: g.id }">{{ g.name }}</a>
             }
           </div>
           <div>
-            <h2>Your reading</h2>
-            <a routerLink="/library">My Library</a>
-            <a routerLink="/library" [queryParams]="{ tab: 'bookmarks' }">Bookmarks</a>
-            <a routerLink="/account">Account & stats</a>
+            <h2>{{ t('footer.yourReading') }}</h2>
+            <a routerLink="/library">{{ t('nav.library') }}</a>
+            <a routerLink="/library" [queryParams]="{ tab: 'bookmarks' }">{{ t('nav.bookmarks') }}</a>
+            <a routerLink="/account">{{ t('nav.account') }}</a>
           </div>
           <div>
-            <h2>About</h2>
+            <h2>{{ t('footer.about') }}</h2>
             <a href="https://standardebooks.org" target="_blank" rel="noopener">Standard Ebooks</a>
-            <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener">CC0 licence</a>
+            <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener">{{ t('footer.licence') }}</a>
           </div>
         </nav>
       </div>
       <div class="bottom">
         <p>
-          Texts and cover artwork courtesy of <a href="https://standardebooks.org" target="_blank" rel="noopener">Standard Ebooks</a>, dedicated to the
-          public domain. Folio is not affiliated with Standard Ebooks.
+          {{ t('footer.creditBefore') }} <a href="https://standardebooks.org" target="_blank" rel="noopener">Standard Ebooks</a>{{ t('footer.creditAfter') }}
         </p>
         <p>© {{ year }} Folio</p>
       </div>
@@ -63,6 +65,9 @@ import { LogoComponent } from '../shared/logo.component';
       max-width: 34ch;
       color: var(--text-2);
       font-size: 0.94rem;
+    }
+    .lang {
+      margin-top: 18px;
     }
     .cols {
       display: grid;
@@ -122,6 +127,7 @@ import { LogoComponent } from '../shared/logo.component';
   `,
 })
 export class FooterComponent {
+  protected readonly t = t;
   protected readonly catalog = inject(CatalogService);
   protected readonly topGenres = this.catalog.genres.slice(0, 4);
   protected readonly year = new Date().getFullYear();

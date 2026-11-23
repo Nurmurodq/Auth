@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, input, signal } from '@angular/core';
+import { t } from '../../i18n/i18n';
 import { Router, RouterLink } from '@angular/router';
 import { safeReturnUrl } from '../../guards';
 import { AuthService } from '../../services/auth/auth.service';
@@ -21,15 +22,15 @@ import { LogoComponent } from '../../shared/logo.component';
       @if (failed()) {
         <div class="card fade-up" role="alert">
           <span class="icon err"><app-icon name="alert" [size]="26" /></span>
-          <h1 class="display">We couldn’t finish signing you in</h1>
-          <p class="muted">The sign-in window may have been closed, or your browser blocked the session. Please try again.</p>
-          <a routerLink="/login" class="btn btn-primary btn-lg">Back to sign in</a>
+          <h1 class="display">{{ t('callback.failed') }}</h1>
+          <p class="muted">{{ t('callback.failedText') }}</p>
+          <a routerLink="/login" class="btn btn-primary btn-lg">{{ t('auth.backToSignIn') }}</a>
         </div>
       } @else {
         <div class="card" aria-live="polite" aria-busy="true">
           <span class="spinner" aria-hidden="true"></span>
-          <h1 class="display">Signing you in…</h1>
-          <p class="muted">Setting up your library.</p>
+          <h1 class="display">{{ t('callback.signingIn') }}</h1>
+          <p class="muted">{{ t('callback.settingUp') }}</p>
         </div>
       }
     </section>
@@ -84,6 +85,7 @@ import { LogoComponent } from '../../shared/logo.component';
   `,
 })
 export class AuthCallbackPage implements OnInit {
+  protected readonly t = t;
   private readonly auth = inject(AuthService);
   private readonly library = inject(LibraryService);
   private readonly router = inject(Router);
@@ -106,7 +108,7 @@ export class AuthCallbackPage implements OnInit {
       await this.router.navigate(['/welcome'], { queryParams: { returnUrl: next }, replaceUrl: true });
       return;
     }
-    this.toast.success(`Welcome back, ${user.name.split(' ')[0]}.`);
+    this.toast.success(t('login.welcome', { name: user.name.split(' ')[0] }));
     await this.router.navigateByUrl(next, { replaceUrl: true });
   }
 }

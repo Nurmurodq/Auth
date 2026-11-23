@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { t } from '../i18n/i18n';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
 import { UiService } from '../services/ui.service';
@@ -9,32 +10,32 @@ import { IconComponent } from '../shared/icon.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, RouterLinkActive, IconComponent],
   template: `
-    <nav aria-label="Primary">
+    <nav [attr.aria-label]="t('header.primaryNav')">
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <app-icon name="home" [size]="22" />
-        <span>Home</span>
+        <span>{{ t('nav.home') }}</span>
       </a>
       <a routerLink="/browse" routerLinkActive="active">
         <app-icon name="compass" [size]="22" />
-        <span>Browse</span>
+        <span>{{ t('nav.browse') }}</span>
       </a>
       <button type="button" (click)="ui.openSearch()">
         <app-icon name="search" [size]="22" />
-        <span>Search</span>
+        <span>{{ t('nav.search') }}</span>
       </button>
       <a routerLink="/library" routerLinkActive="active">
         <app-icon name="library" [size]="22" />
-        <span>Library</span>
+        <span>{{ t('nav.libraryShort') }}</span>
       </a>
       @if (auth.isAuthenticated()) {
         <a routerLink="/account" routerLinkActive="active">
           <app-icon name="user" [size]="22" />
-          <span>Account</span>
+          <span>{{ t('nav.accountShort') }}</span>
         </a>
       } @else {
         <a routerLink="/login" routerLinkActive="active">
           <app-icon name="user" [size]="22" />
-          <span>Sign in</span>
+          <span>{{ t('auth.signIn') }}</span>
         </a>
       }
     </nav>
@@ -88,6 +89,7 @@ import { IconComponent } from '../shared/icon.component';
   `,
 })
 export class MobileNavComponent {
+  protected readonly t = t;
   protected readonly auth = inject(AuthService);
   protected readonly ui = inject(UiService);
 }

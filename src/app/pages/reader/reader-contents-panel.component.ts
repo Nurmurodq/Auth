@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, afterNextRender, computed, inject, input, model, output } from '@angular/core';
+import { t } from '../../i18n/i18n';
 import { TocChapter } from '../../models/book.model';
 import { Bookmark } from '../../models/user.model';
 import { IconComponent } from '../../shared/icon.component';
@@ -14,13 +15,13 @@ import { formatRelative, readingMinutes } from '../../utils/format';
         <strong>{{ bookTitle() }}</strong>
         <span>{{ author() }}</span>
       </div>
-      <button type="button" class="icon-btn" (click)="closed.emit()" aria-label="Close contents"><app-icon name="x" /></button>
+      <button type="button" class="icon-btn" (click)="closed.emit()" [attr.aria-label]="t('reader.closeContents')"><app-icon name="x" /></button>
     </div>
 
-    <div class="tabs" role="tablist">
-      <button type="button" role="tab" [attr.aria-selected]="tab() === 'contents'" (click)="tab.set('contents')">Contents</button>
+    <div class="tabs" role="tablist" [attr.aria-label]="t('reader.contents')">
+      <button type="button" role="tab" [attr.aria-selected]="tab() === 'contents'" (click)="tab.set('contents')">{{ t('book.contents') }}</button>
       <button type="button" role="tab" [attr.aria-selected]="tab() === 'bookmarks'" (click)="tab.set('bookmarks')">
-        Bookmarks
+        {{ t('nav.bookmarks') }}
         @if (bookmarks().length) {
           <span class="count">{{ bookmarks().length }}</span>
         }
@@ -47,7 +48,7 @@ import { formatRelative, readingMinutes } from '../../utils/format';
                 @if (row.index === current()) {
                   <span class="here">{{ currentPercent() }}%</span>
                 } @else {
-                  <span class="mins">{{ row.minutes }} min</span>
+                  <span class="mins">{{ t('time.min', { m: row.minutes }) }}</span>
                 }
               </button>
             </li>
@@ -57,12 +58,12 @@ import { formatRelative, readingMinutes } from '../../utils/format';
         @if (!signedIn()) {
           <div class="empty">
             <app-icon name="bookmark" [size]="26" />
-            <p>Sign in to bookmark passages and find them again on any visit.</p>
+            <p>{{ t('reader.bmSignIn') }}</p>
           </div>
         } @else if (!bookmarks().length) {
           <div class="empty">
             <app-icon name="bookmark" [size]="26" />
-            <p>No bookmarks yet. Tap the bookmark icon (or press <span class="kbd">B</span>) to save your place.</p>
+            <p>{{ t('reader.bmEmptyBefore') }} <span class="kbd">B</span>{{ t('reader.bmEmptyAfter') }}</p>
           </div>
         } @else {
           <ul class="marks">
@@ -72,7 +73,7 @@ import { formatRelative, readingMinutes } from '../../utils/format';
                   <span class="mark-meta">{{ chapterTitle(m.chapter) }} · {{ relative(m.createdAt) }}</span>
                   <span class="mark-excerpt">“{{ m.excerpt }}”</span>
                 </button>
-                <button type="button" class="icon-btn del" (click)="removeBookmark.emit(m.id)" aria-label="Delete bookmark">
+                <button type="button" class="icon-btn del" (click)="removeBookmark.emit(m.id)" [attr.aria-label]="t('bookmark.delete')">
                   <app-icon name="trash" [size]="16" />
                 </button>
               </li>
@@ -260,6 +261,7 @@ import { formatRelative, readingMinutes } from '../../utils/format';
   `,
 })
 export class ReaderContentsPanelComponent {
+  protected readonly t = t;
   private readonly host = inject(ElementRef);
 
   readonly bookTitle = input.required<string>();
@@ -292,7 +294,7 @@ export class ReaderContentsPanelComponent {
   }
 
   protected chapterTitle(i: number): string {
-    return this.chapters()[i]?.title ?? `Chapter ${i + 1}`;
+    return this.chapters()[i]?.title ?? t('common.chapterN', { n: i + 1 });
   }
 
   protected relative(iso: string): string {

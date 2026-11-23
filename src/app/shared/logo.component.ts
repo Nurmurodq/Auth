@@ -30,7 +30,7 @@ import { APP_NAME } from '../config';
       fill: #1c120d;
     }
     .word {
-      font-family: var(--font-display);
+      font-family: var(--font-brand);
       font-size: 1.42rem;
       font-weight: 560;
       letter-spacing: -0.03em;

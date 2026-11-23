@@ -1,23 +1,23 @@
 <header class="head container">
   <div>
-    <p class="eyebrow">Your reading</p>
-    <h1 class="display title">My Library</h1>
+    <p class="eyebrow">{{ t('footer.yourReading') }}</p>
+    <h1 class="display title">{{ t('nav.library') }}</h1>
   </div>
   <dl class="summary">
     <div>
-      <dt>Books saved</dt>
+      <dt>{{ t('library.saved') }}</dt>
       <dd>{{ summary().books }}</dd>
     </div>
     <div>
-      <dt>Finished</dt>
+      <dt>{{ t('shelf.finished') }}</dt>
       <dd>{{ summary().finished }}</dd>
     </div>
     <div>
-      <dt>This week</dt>
+      <dt>{{ t('library.week') }}</dt>
       <dd>{{ summary().week }}</dd>
     </div>
     <div>
-      <dt>Day streak</dt>
+      <dt>{{ t('library.streak') }}</dt>
       <dd><app-icon name="flame" [size]="18" class="flame" />{{ summary().streak }}</dd>
     </div>
   </dl>
@@ -25,31 +25,31 @@
 
 <div class="container">
   <div class="tabs-bar">
-    <div class="tabs" role="tablist" aria-label="Library shelves">
-      @for (t of tabs; track t.id; let i = $index) {
+    <div class="tabs" role="tablist" [attr.aria-label]="t('library.shelves')">
+      @for (tab of tabs; track tab.id; let i = $index) {
         <button
           type="button"
           role="tab"
           class="tab"
-          [id]="'tab-' + t.id"
-          [attr.aria-selected]="activeTab() === t.id"
-          [attr.aria-controls]="'panel-' + t.id"
-          [attr.tabindex]="activeTab() === t.id ? 0 : -1"
-          (click)="selectTab(t.id)"
+          [id]="'tab-' + tab.id"
+          [attr.aria-selected]="activeTab() === tab.id"
+          [attr.aria-controls]="'panel-' + tab.id"
+          [attr.tabindex]="activeTab() === tab.id ? 0 : -1"
+          (click)="selectTab(tab.id)"
           (keydown)="onTabKey($event, i)"
         >
-          {{ t.label }}
-          <span class="count">{{ counts()[t.id] }}</span>
+          {{ tab.label }}
+          <span class="count">{{ counts()[tab.id] }}</span>
         </button>
       }
     </div>
     @if (activeTab() !== 'bookmarks' && rows().length > 1) {
-      <label class="visually-hidden" for="lib-sort">Sort</label>
+      <label class="visually-hidden" for="lib-sort">{{ t('library.sort') }}</label>
       <select id="lib-sort" class="select" [value]="sort()" (change)="sort.set($any($event.target).value)">
-        <option value="recent">Recently read</option>
-        <option value="title">Title</option>
-        <option value="author">Author</option>
-        <option value="progress">Progress</option>
+        <option value="recent">{{ t('library.sortRecent') }}</option>
+        <option value="title">{{ t('library.sortTitle') }}</option>
+        <option value="author">{{ t('browse.author') }}</option>
+        <option value="progress">{{ t('library.sortProgress') }}</option>
       </select>
     }
   </div>
@@ -66,7 +66,7 @@
                 <div class="bm-cover"><app-book-cover [book]="g.book" sizes="56px" /></div>
                 <div>
                   <h2>{{ g.book.title }}</h2>
-                  <p class="muted">{{ g.book.author }} · {{ g.marks.length }} {{ g.marks.length === 1 ? 'bookmark' : 'bookmarks' }}</p>
+                  <p class="muted">{{ g.book.author }} · {{ t('library.bookmarksCount', { count: g.marks.length }) }}</p>
                 </div>
               </a>
               <ul class="bm-list">
@@ -78,22 +78,22 @@
                     </a>
                     @if (editingNote() === m.id) {
                       <form class="note-form" (submit)="$event.preventDefault(); saveNote(m.id, note.value)">
-                        <label class="visually-hidden" [for]="'note-' + m.id">Note</label>
-                        <textarea #note class="input note-input" [id]="'note-' + m.id" rows="2" maxlength="2000" [value]="m.note ?? ''" placeholder="Add a thought about this passage…"></textarea>
+                        <label class="visually-hidden" [for]="'note-' + m.id">{{ t('note.label') }}</label>
+                        <textarea #note class="input note-input" [id]="'note-' + m.id" rows="2" maxlength="2000" [value]="m.note ?? ''" [placeholder]="t('note.placeholder')"></textarea>
                         <div class="note-actions">
-                          <button type="button" class="btn btn-ghost btn-sm" (click)="editingNote.set(null)">Cancel</button>
-                          <button type="submit" class="btn btn-dark btn-sm">Save note</button>
+                          <button type="button" class="btn btn-ghost btn-sm" (click)="editingNote.set(null)">{{ t('common.cancel') }}</button>
+                          <button type="submit" class="btn btn-dark btn-sm">{{ t('note.save') }}</button>
                         </div>
                       </form>
                     } @else if (m.note) {
                       <p class="bm-note"><app-icon name="pencil" [size]="14" />{{ m.note }}</p>
                     }
                     <div class="bm-actions">
-                      <a class="btn btn-secondary btn-sm" [routerLink]="['/read', g.book.id]" [queryParams]="{ chapter: m.chapter, pos: m.position }">Open</a>
-                      <button type="button" class="icon-btn" (click)="editingNote.set(m.id)" [attr.aria-label]="m.note ? 'Edit note' : 'Add note'" title="Note">
+                      <a class="btn btn-secondary btn-sm" [routerLink]="['/read', g.book.id]" [queryParams]="{ chapter: m.chapter, pos: m.position }">{{ t('common.open') }}</a>
+                      <button type="button" class="icon-btn" (click)="editingNote.set(m.id)" [attr.aria-label]="m.note ? t('note.edit') : t('note.add')" [title]="t('note.label')">
                         <app-icon name="pencil" [size]="17" />
                       </button>
-                      <button type="button" class="icon-btn" (click)="removeBookmark(m.id)" aria-label="Delete bookmark" title="Delete">
+                      <button type="button" class="icon-btn" (click)="removeBookmark(m.id)" [attr.aria-label]="t('bookmark.delete')" [title]="t('common.delete')">
                         <app-icon name="trash" [size]="17" />
                       </button>
                     </div>
@@ -118,19 +118,19 @@
               <span class="item-author">{{ row.book.author }}</span>
 
               @if (activeTab() === 'finished' && row.entry?.finishedAt) {
-                <span class="item-meta"><app-icon name="trophy" [size]="14" />Finished {{ date(row.entry!.finishedAt!) }}</span>
+                <span class="item-meta"><app-icon name="trophy" [size]="14" />{{ t('library.finishedOn', { date: date(row.entry!.finishedAt!) }) }}</span>
               } @else if (row.percent !== null) {
                 <div class="item-progress">
                   <div class="progress"><span [style.width.%]="row.percent * 100"></span></div>
                   <span>{{ percent(row.percent) }}{{ row.lastRead ? ' · ' + relative(row.lastRead) : '' }}</span>
                 </div>
               } @else if (row.entry) {
-                <span class="item-meta">Added {{ relative(row.entry.addedAt) }}</span>
+                <span class="item-meta">{{ t('library.added', { when: relative(row.entry.addedAt) }) }}</span>
               }
 
               <div class="item-actions">
                 <a class="btn btn-primary btn-sm" [routerLink]="['/read', row.book.id]" [queryParams]="row.percent !== null && row.percent >= 0.995 ? { chapter: 0 } : {}">
-                  {{ row.percent === null ? 'Start' : row.percent >= 0.995 ? 'Read again' : 'Continue' }}
+                  {{ row.percent === null ? t('library.start') : row.percent >= 0.995 ? t('book.readAgain') : t('common.continue') }}
                 </a>
                 <app-shelf-menu [bookId]="row.book.id" [title]="row.book.title" [compact]="true" />
                 <button
@@ -138,7 +138,7 @@
                   class="icon-btn"
                   [attr.aria-pressed]="!!row.entry?.favorite"
                   (click)="toggleFavorite(row)"
-                  [attr.aria-label]="row.entry?.favorite ? 'Remove from favourites' : 'Add to favourites'"
+                  [attr.aria-label]="row.entry?.favorite ? t('fav.remove') : t('fav.add')"
                 >
                   <app-icon name="heart" [filled]="!!row.entry?.favorite" [size]="19" />
                 </button>
@@ -157,8 +157,8 @@
       <span></span><span></span><span></span>
       <app-icon [name]="activeMeta().icon" [size]="26" class="empty-icon" />
     </div>
-    <h2>{{ activeMeta().empty.title }}</h2>
-    <p>{{ activeMeta().empty.body }}</p>
-    <a class="btn btn-primary" [routerLink]="emptyLink().commands" [queryParams]="emptyLink().query ?? {}">{{ activeMeta().empty.cta }}</a>
+    <h2>{{ activeMeta().emptyTitle }}</h2>
+    <p>{{ activeMeta().emptyBody }}</p>
+    <a class="btn btn-primary" [routerLink]="emptyLink().commands" [queryParams]="emptyLink().query ?? {}">{{ activeMeta().emptyCta }}</a>
   </div>
 </ng-template>

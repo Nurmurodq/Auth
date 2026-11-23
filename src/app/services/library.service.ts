@@ -1,4 +1,5 @@
 import { Injectable, computed, effect, inject, signal, untracked } from '@angular/core';
+import { formatWeekdayLocale, t } from '../i18n/i18n';
 import { Router } from '@angular/router';
 import { BACKEND } from '../config';
 import { Bookmark, LibraryEntry, ReadingProfile, ReadingProgress, Shelf, User, UserData, emptyUserData } from '../models/user.model';
@@ -87,7 +88,7 @@ export class LibraryService {
     for (let i = 13; i >= 0; i--) {
       const d = new Date(today.getFullYear(), today.getMonth(), today.getDate() - i);
       const key = dayKey(d);
-      days.push({ key, label: d.toLocaleDateString('en', { weekday: 'narrow' }), seconds: activity[key] ?? 0 });
+      days.push({ key, label: formatWeekdayLocale(d), seconds: activity[key] ?? 0 });
     }
     let streak = 0;
     for (let i = 0; i < 3650; i++) {
@@ -150,9 +151,9 @@ export class LibraryService {
   /* ---------------------------- auth gate ---------------------------- */
 
   /** Returns true when signed in; otherwise sends the person to sign in and returns false. */
-  requireAccount(message = 'Sign in to save books to your library.'): boolean {
+  requireAccount(message?: string): boolean {
     if (this.auth.isAuthenticated()) return true;
-    this.toast.show(message);
+    this.toast.show(message ?? t('library.signInRequired'));
     void this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
     return false;
   }

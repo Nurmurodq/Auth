@@ -576,3 +576,16 @@
     width: 100%;
   }
 }
+
+.orig-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: -4px 0 14px;
+  color: var(--text-3);
+  font-size: 0.86rem;
+}
+.orig-note app-icon {
+  flex: none;
+  color: var(--accent-text);
+}

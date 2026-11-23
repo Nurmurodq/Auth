@@ -16,6 +16,11 @@
   align-items: center;
   justify-content: space-between;
 }
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
 .progress-wrap {
   display: flex;

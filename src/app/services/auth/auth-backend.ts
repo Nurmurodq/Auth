@@ -1,4 +1,5 @@
 import { User } from '../../models/user.model';
+import { MessageKey, t } from '../../i18n/i18n';
 
 export interface SignUpInput {
   name: string;
@@ -61,21 +62,31 @@ export class AuthError extends Error {
   }
 }
 
+/** Known auth failures (from any backend), mapped to translated messages. Order matters. */
+const AUTH_ERRORS: [RegExp, MessageKey][] = [
+  [/verify your email first|EMAIL_NOT_VERIFIED|email_not_confirmed|email not confirmed/i, 'login.verifyFirst'],
+  [/current password is incorrect/i, 'authErr.currentWrong'],
+  [/signed up with Google/i, 'authErr.noPassword'],
+  [/session has ended/i, 'authErr.noSession'],
+  [/needs HTTPS|insecure/i, 'authErr.insecure'],
+  [/account has been disabled/i, 'authErr.disabled'],
+  [/Email verification isn’t available in local mode/i, 'authErr.localVerify'],
+  [/Google sign-in isn’t available in local mode/i, 'authErr.localGoogle'],
+  [/invalid login credentials|don’t match our records|invalid (email or )?password|INVALID_EMAIL_OR_PASSWORD|invalid credentials/i, 'authErr.invalid'],
+  [/already registered|already exists|already been taken|USER_ALREADY_EXISTS/i, 'authErr.exists'],
+  [/TOO_MANY_ATTEMPTS|too many attempts/i, 'authErr.tooManyAttempts'],
+  [/rate limit|too many/i, 'authErr.rateLimit'],
+  [/password should be|weak password/i, 'authErr.weak'],
+  [/password (is )?too short|PASSWORD_TOO_SHORT/i, 'authErr.tooShort'],
+  [/failed to fetch|network/i, 'authErr.network'],
+  [/OTP_EXPIRED|otp expired|code expired/i, 'authErr.otpExpired'],
+  [/INVALID_OTP|invalid otp|token has expired or is invalid/i, 'authErr.otpInvalid'],
+  [/reset link is invalid|invalid token|INVALID_TOKEN|token expired/i, 'authErr.invalidToken'],
+];
+
 export function friendlyAuthError(err: unknown): string {
-  if (err instanceof AuthError) return err.message;
-  const msg = (err as { message?: string })?.message ?? '';
-  if (/invalid login credentials/i.test(msg)) return 'That email and password don’t match our records.';
-  if (/already registered|already exists/i.test(msg)) return 'An account with this email already exists. Try signing in instead.';
-  if (/email not confirmed/i.test(msg)) return 'Please confirm your email address first — check your inbox for the link.';
-  if (/rate limit|too many/i.test(msg)) return 'Too many attempts. Please wait a minute and try again.';
-  if (/password should be|weak password/i.test(msg)) return 'Please choose a stronger password (at least 8 characters).';
-  if (/failed to fetch|network/i.test(msg)) return 'We couldn’t reach the server. Check your connection and try again.';
-  if (/user already exists|already been taken|USER_ALREADY_EXISTS/i.test(msg)) return 'An account with this email already exists. Try signing in instead.';
-  if (/invalid (email or )?password|INVALID_EMAIL_OR_PASSWORD|invalid credentials/i.test(msg)) return 'That email and password don’t match our records.';
-  if (/password (is )?too short|PASSWORD_TOO_SHORT/i.test(msg)) return 'Please choose a longer password (at least 8 characters).';
-  if (/invalid token|INVALID_TOKEN|token expired/i.test(msg)) return 'This reset link is invalid or has expired. Please request a new one.';
-  if (/INVALID_OTP|invalid otp|token has expired or is invalid/i.test(msg)) return 'That code isn’t right. Check the latest email from us and try again.';
-  if (/OTP_EXPIRED|otp expired|code expired/i.test(msg)) return 'This code has expired. Request a new one below.';
-  if (/TOO_MANY_ATTEMPTS|too many attempts/i.test(msg)) return 'Too many incorrect attempts. Request a new code below.';
-  return msg || 'Something went wrong. Please try again.';
+  const raw = err as { message?: string; code?: string } | null;
+  const text = `${raw?.message ?? ''} ${err instanceof AuthError ? '' : (raw?.code ?? '')}`;
+  for (const [pattern, key] of AUTH_ERRORS) if (pattern.test(text)) return t(key);
+  return raw?.message || t('authErr.generic');
 }

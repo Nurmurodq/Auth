@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, computed, effect, inject, signal, viewChild } from '@angular/core';
+import { t } from '../i18n/i18n';
 import { Router } from '@angular/router';
 import { BookRecord } from '../models/book.model';
 import { CatalogService } from '../services/catalog.service';
@@ -25,7 +26,7 @@ interface PaletteItem {
   imports: [IconComponent, BookCoverComponent],
   host: { '(document:keydown)': 'onGlobalKey($event)' },
   template: `
-    <dialog #dialog class="palette" aria-label="Search the library" (close)="ui.closeSearch()" (click)="onDialogClick($event)">
+    <dialog #dialog class="palette" [attr.aria-label]="t('search.dialog')" (close)="ui.closeSearch()" (click)="onDialogClick($event)">
       <div class="panel">
         <div class="input-row">
           <app-icon name="search" [size]="20" />
@@ -35,7 +36,7 @@ interface PaletteItem {
             [value]="query()"
             (input)="setQuery($any($event.target).value)"
             (keydown)="onInputKey($event)"
-            placeholder="Search titles, authors, genres or themes…"
+            [placeholder]="t('search.placeholder')"
             role="combobox"
             aria-expanded="true"
             aria-controls="palette-results"
@@ -45,15 +46,15 @@ interface PaletteItem {
             spellcheck="false"
             enterkeyhint="search"
           />
-          <button type="button" class="esc" (click)="close()" aria-label="Close search"><span class="kbd">Esc</span></button>
+          <button type="button" class="esc" (click)="close()" [attr.aria-label]="t('search.close')"><span class="kbd">Esc</span></button>
         </div>
 
-        <div class="results" id="palette-results" role="listbox" aria-label="Search results">
+        <div class="results" id="palette-results" role="listbox" [attr.aria-label]="t('search.results')">
           @if (items().length === 0) {
             <div class="empty">
               <app-icon name="book-open" [size]="28" />
-              <p>No books match “{{ query() }}”.</p>
-              <span>Try an author’s surname, a genre, or a theme like “revenge”.</span>
+              <p>{{ t('search.noMatch', { query: query() }) }}</p>
+              <span>{{ t('search.noMatchHint') }}</span>
             </div>
           }
           @for (group of groups(); track group.name) {
@@ -89,9 +90,9 @@ interface PaletteItem {
         </div>
 
         <div class="foot">
-          <span><span class="kbd">↑</span><span class="kbd">↓</span> to navigate</span>
-          <span><span class="kbd">↵</span> to open</span>
-          <span class="total">{{ catalog.books.length }} books in the library</span>
+          <span><span class="kbd">↑</span><span class="kbd">↓</span> {{ t('search.navigate') }}</span>
+          <span><span class="kbd">↵</span> {{ t('search.open') }}</span>
+          <span class="total">{{ t('search.total', { count: catalog.books.length }) }}</span>
         </div>
       </div>
     </dialog>
@@ -268,6 +269,7 @@ interface PaletteItem {
   `,
 })
 export class SearchPaletteComponent {
+  protected readonly t = t;
   protected readonly ui = inject(UiService);
   protected readonly catalog = inject(CatalogService);
   private readonly router = inject(Router);
@@ -283,7 +285,7 @@ export class SearchPaletteComponent {
     if (!q) {
       const recent: PaletteItem[] = this.recent().map((r) => ({
         key: `recent-${r}`,
-        group: 'Recent searches',
+        group: t('search.recent'),
         label: r,
         icon: 'clock',
         commands: ['/browse'],
@@ -292,12 +294,12 @@ export class SearchPaletteComponent {
       const picks: PaletteItem[] = this.catalog
         .picks()
         .slice(0, 4)
-        .map((b) => ({ key: `pick-${b.id}`, group: 'Popular picks', label: b.title, hint: b.author, book: b, commands: ['/book', b.id] }));
+        .map((b) => ({ key: `pick-${b.id}`, group: t('search.popular'), label: b.title, hint: b.author, book: b, commands: ['/book', b.id] }));
       const genres: PaletteItem[] = this.catalog.genres.slice(0, 6).map((g) => ({
         key: `genre-${g.id}`,
-        group: 'Browse genres',
+        group: t('search.browseGenres'),
         label: g.name,
-        hint: `${g.count} books`,
+        hint: t('common.books', { count: g.count }),
         icon: 'compass',
         commands: ['/browse'],
         query: { genre: g.id },
@@ -307,20 +309,20 @@ export class SearchPaletteComponent {
     const { books, authors, genres } = this.catalog.suggest(q);
     const out: PaletteItem[] = books.map((b) => ({
       key: `book-${b.id}`,
-      group: 'Books',
+      group: t('search.books'),
       label: b.title,
       hint: `${b.author} · ${formatYear(b.year)}`,
       book: b,
       commands: ['/book', b.id],
     }));
     for (const a of authors) {
-      out.push({ key: `author-${a.id}`, group: 'Authors', label: a.name, hint: `${a.count} ${a.count === 1 ? 'book' : 'books'}`, icon: 'feather', commands: ['/browse'], query: { author: a.id } });
+      out.push({ key: `author-${a.id}`, group: t('search.authors'), label: a.name, hint: t('common.books', { count: a.count }), icon: 'feather', commands: ['/browse'], query: { author: a.id } });
     }
     for (const g of genres) {
-      out.push({ key: `genre-${g.id}`, group: 'Genres', label: g.name, hint: `${g.count} books`, icon: 'compass', commands: ['/browse'], query: { genre: g.id } });
+      out.push({ key: `genre-${g.id}`, group: t('search.genres'), label: g.name, hint: t('common.books', { count: g.count }), icon: 'compass', commands: ['/browse'], query: { genre: g.id } });
     }
     if (out.length) {
-      out.push({ key: 'all', group: 'Search', label: `See all results for “${q}”`, icon: 'search', commands: ['/browse'], query: { q } });
+      out.push({ key: 'all', group: t('nav.search'), label: t('search.seeAll', { query: q }), icon: 'search', commands: ['/browse'], query: { q } });
     }
     return out;
   });

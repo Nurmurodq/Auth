@@ -1,4 +1,5 @@
 import { Location, NgTemplateOutlet } from '@angular/common';
+import { t } from '../../i18n/i18n';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -72,6 +73,7 @@ const ACTIVITY_TICK = 15;
   },
 })
 export class ReaderPage implements OnDestroy {
+  protected readonly t = t;
   private readonly catalog = inject(CatalogService);
   private readonly content = inject(BookContentService);
   protected readonly library = inject(LibraryService);
@@ -287,14 +289,14 @@ export class ReaderPage implements OnDestroy {
         this.interacted = true;
       } else if (saved) {
         start = { chapter: saved.chapter, position: saved.percent >= 0.995 ? 0 : saved.position };
-        if (saved.percent > 0.005 && saved.percent < 0.995) this.toast.show('Welcome back — picking up where you left off.');
+        if (saved.percent > 0.005 && saved.percent < 0.995) this.toast.show(t('reader.welcomeBack'));
       }
       start.chapter = Math.min(Math.max(0, start.chapter), toc.chapters.length - 1);
       start.position = Math.min(Math.max(0, start.position), 1);
       if (this.chapter() || this.pos()) this.location.replaceState(`/read/${id}`);
       await this.loadChapter(start.chapter, start.position);
     } catch {
-      this.error.set('We couldn’t open this book. Check your connection and try again.');
+      this.error.set(t('reader.openError'));
       this.loading.set(false);
     }
   }
@@ -324,7 +326,7 @@ export class ReaderPage implements OnDestroy {
     } catch {
       if (token !== this.loadToken) return;
       this.loading.set(false);
-      this.error.set('This chapter didn’t load. Check your connection and try again.');
+      this.error.set(t('reader.chapterError'));
     }
   }
 
@@ -656,24 +658,24 @@ export class ReaderPage implements OnDestroy {
     const existing = this.activeBookmark();
     if (existing) {
       this.library.removeBookmark(existing.id);
-      this.toast.show('Bookmark removed', { action: { label: 'Undo', run: () => this.library.restoreBookmark(existing) } });
+      this.toast.show(t('bookmark.removed'), { action: { label: t('common.undo'), run: () => this.library.restoreBookmark(existing) } });
       return;
     }
-    if (!this.library.requireAccount('Sign in to bookmark passages.')) return;
+    if (!this.library.requireAccount(t('reader.signInBookmark'))) return;
     this.library.addBookmark({ bookId: book.id, chapter: this.chapterIndex(), position: this.position(), excerpt: this.visibleExcerpt() });
-    this.toast.success('Bookmarked this page');
+    this.toast.success(t('reader.bookmarked'));
   }
 
   protected removeBookmark(id: string): void {
     const removed = this.library.removeBookmark(id);
-    if (removed) this.toast.show('Bookmark removed', { action: { label: 'Undo', run: () => this.library.restoreBookmark(removed) } });
+    if (removed) this.toast.show(t('bookmark.removed'), { action: { label: t('common.undo'), run: () => this.library.restoreBookmark(removed) } });
   }
 
   protected markFinished(): void {
-    if (!this.library.requireAccount('Sign in to keep track of the books you finish.')) return;
+    if (!this.library.requireAccount(t('reader.signInFinish'))) return;
     this.library.setShelf(this.id(), 'finished');
     this.library.saveProgress(this.id(), this.chapterIndex(), 1, 1);
-    this.toast.success(`Finished “${this.book()?.title}”. Wonderful!`);
+    this.toast.success(t('reader.finished', { title: this.book()?.title ?? '' }));
   }
 
   protected async toggleFullscreen(): Promise<void> {

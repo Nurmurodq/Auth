@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { t } from '../../i18n/i18n';
 import { RouterLink } from '@angular/router';
 import { BookRecord } from '../../models/book.model';
 import { AuthService } from '../../services/auth/auth.service';
@@ -27,6 +28,7 @@ interface ContinueItem {
   styleUrl: './home.page.css',
 })
 export class HomePage {
+  protected readonly t = t;
   protected readonly catalog = inject(CatalogService);
   protected readonly auth = inject(AuthService);
   private readonly library = inject(LibraryService);
@@ -42,17 +44,18 @@ export class HomePage {
 
   protected readonly picks = this.catalog.picks();
   protected readonly shelves = this.catalog.shelves();
-  protected readonly genres = this.catalog.genres.map((g) => ({ ...g, books: this.catalog.byGenre(g.id).slice(0, 3) }));
+  protected readonly genres = this.catalog.genres.map((genre) => ({ genre, books: this.catalog.byGenre(genre.id).slice(0, 3) }));
   protected readonly themes = READER_THEMES;
   protected readonly fonts = READER_FONTS.slice(0, 4);
   protected readonly quoteBook = this.catalog.get('pride-and-prejudice');
 
-  protected readonly stats = [
-    { value: String(this.catalog.books.length), label: 'timeless books' },
-    { value: String(this.catalog.genres.length), label: 'genres' },
-    { value: `${Math.round(this.catalog.books.reduce((s, b) => s + b.words, 0) / 1_000_000)}M`, label: 'words to explore' },
-    { value: '0', label: 'ads, ever' },
-  ];
+  private readonly millionsOfWords = Math.round(this.catalog.books.reduce((s, b) => s + b.words, 0) / 1_000_000);
+  protected readonly stats = computed(() => [
+    { id: 'books', value: String(this.catalog.books.length), label: t('home.statBooks', { count: this.catalog.books.length }) },
+    { id: 'genres', value: String(this.catalog.genres.length), label: t('home.statGenres', { count: this.catalog.genres.length }) },
+    { id: 'words', value: t('home.statWordsValue', { n: this.millionsOfWords }), label: t('home.statWords') },
+    { id: 'ads', value: '0', label: t('home.statAds') },
+  ]);
 
   protected readonly continueReading = computed<ContinueItem[]>(() =>
     this.library
@@ -69,7 +72,7 @@ export class HomePage {
 
   protected readonly greeting = computed(() => {
     const h = new Date().getHours();
-    return h < 5 ? 'Good evening' : h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening';
+    return t(h < 5 ? 'home.evening' : h < 12 ? 'home.morning' : h < 18 ? 'home.afternoon' : 'home.evening');
   });
 
   protected readonly previewTheme = computed(() => READER_THEMES.find((t) => t.id === this.readerSettings.settings().theme) ?? READER_THEMES[0]);

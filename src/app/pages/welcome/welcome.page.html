@@ -1,15 +1,18 @@
 <div class="page">
   <header class="top">
     <app-logo />
-    @if (step() < 4) {
-      <button type="button" class="btn btn-ghost btn-sm" (click)="skip()">{{ editing() ? 'Cancel' : 'Skip for now' }}</button>
-    }
+    <div class="top-actions">
+      <app-language-switcher />
+      @if (step() < 4) {
+        <button type="button" class="btn btn-ghost btn-sm" (click)="skip()">{{ editing() ? t('common.cancel') : t('welcome.skip') }}</button>
+      }
+    </div>
   </header>
 
-  <div class="progress-wrap" role="progressbar" aria-label="Questionnaire progress" [attr.aria-valuenow]="step()" aria-valuemin="0" aria-valuemax="4">
+  <div class="progress-wrap" role="progressbar" [attr.aria-label]="t('welcome.progress')" [attr.aria-valuenow]="step()" aria-valuemin="0" aria-valuemax="4">
     <div class="progress"><span [style.width.%]="progress()"></span></div>
     @if (step() < 4) {
-      <span class="step-count">Step {{ step() + 1 }} of 4</span>
+      <span class="step-count">{{ t('welcome.step', { n: step() + 1, total: 4 }) }}</span>
     }
   </div>
 
@@ -17,9 +20,9 @@
     @switch (step()) {
       @case (0) {
         <section class="step fade-up" aria-labelledby="step-title">
-          <p class="eyebrow">{{ editing() ? 'Your reading profile' : 'Welcome, ' + firstName() }}</p>
-          <h1 id="step-title" class="display" tabindex="-1">What do you do?</h1>
-          <p class="lead">We’ll use this to suggest books people like you tend to love. You can change it anytime.</p>
+          <p class="eyebrow">{{ editing() ? t('welcome.profile') : t('welcome.hello', { name: firstName() }) }}</p>
+          <h1 id="step-title" class="display" tabindex="-1">{{ t('welcome.q1') }}</h1>
+          <p class="lead">{{ t('welcome.q1Lead') }}</p>
           <div class="grid occupations" role="radiogroup" aria-labelledby="step-title">
             @for (o of occupations; track o.id) {
               <button type="button" role="radio" class="option" [attr.aria-checked]="occupation() === o.id" (click)="pickOccupation(o.id)">
@@ -33,9 +36,9 @@
       }
       @case (1) {
         <section class="step fade-up" aria-labelledby="step-title">
-          <p class="eyebrow">Your reasons</p>
-          <h1 id="step-title" class="display" tabindex="-1">What brings you to Folio?</h1>
-          <p class="lead">Choose as many as you like.</p>
+          <p class="eyebrow">{{ t('welcome.reasons') }}</p>
+          <h1 id="step-title" class="display" tabindex="-1">{{ t('welcome.q2') }}</h1>
+          <p class="lead">{{ t('welcome.q2Lead') }}</p>
           <div class="grid goals" role="group" aria-labelledby="step-title">
             @for (g of goalOptions; track g.id) {
               <button type="button" class="option goal" [attr.aria-pressed]="goals().includes(g.id)" (click)="toggleGoal(g.id)">
@@ -51,25 +54,26 @@
       }
       @case (2) {
         <section class="step fade-up" aria-labelledby="step-title">
-          <p class="eyebrow">Your taste</p>
-          <h1 id="step-title" class="display" tabindex="-1">What do you love to read?</h1>
-          <p class="lead">Pick at least one genre. The more you choose, the better your recommendations.</p>
+          <p class="eyebrow">{{ t('welcome.taste') }}</p>
+          <h1 id="step-title" class="display" tabindex="-1">{{ t('welcome.q3') }}</h1>
+          <p class="lead">{{ t('welcome.q3Lead') }}</p>
           <div class="grid genres" role="group" aria-labelledby="step-title">
-            @for (g of genreOptions; track g.id) {
+            @for (opt of genreOptions; track opt.genre.id) {
+              @let g = opt.genre;
               <button type="button" class="genre" [attr.aria-pressed]="genres().includes(g.id)" (click)="toggleGenre(g.id)">
-                @if (g.cover) {
-                  <span class="genre-cover" aria-hidden="true"><app-book-cover [book]="g.cover" [flat]="true" sizes="56px" /></span>
+                @if (opt.cover) {
+                  <span class="genre-cover" aria-hidden="true"><app-book-cover [book]="opt.cover" [flat]="true" sizes="56px" /></span>
                 }
                 <span class="option-text">
                   <span class="option-label">{{ g.name }}</span>
-                  <span class="option-hint">{{ g.count }} books</span>
+                  <span class="option-hint">{{ t('common.books', { count: g.count }) }}</span>
                 </span>
                 <span class="check" aria-hidden="true"><app-icon name="check" [size]="14" [stroke]="3" /></span>
               </button>
             }
           </div>
 
-          <h2 class="sub-title" id="moods-title">Any particular mood?</h2>
+          <h2 class="sub-title" id="moods-title">{{ t('welcome.moods') }}</h2>
           <div class="chips" role="group" aria-labelledby="moods-title">
             @for (m of moodOptions; track m.id) {
               <button type="button" class="chip mood" [attr.aria-pressed]="moods().includes(m.id)" (click)="toggleMood(m.id)">
@@ -81,11 +85,11 @@
       }
       @case (3) {
         <section class="step fade-up" aria-labelledby="step-title">
-          <p class="eyebrow">Your habits</p>
-          <h1 id="step-title" class="display" tabindex="-1">How do you like to read?</h1>
-          <p class="lead">Last step: tell us about pace and length.</p>
+          <p class="eyebrow">{{ t('welcome.habits') }}</p>
+          <h1 id="step-title" class="display" tabindex="-1">{{ t('welcome.q4') }}</h1>
+          <p class="lead">{{ t('welcome.q4Lead') }}</p>
 
-          <h2 class="sub-title" id="length-title">Book length</h2>
+          <h2 class="sub-title" id="length-title">{{ t('welcome.length') }}</h2>
           <div class="segment-grid" role="radiogroup" aria-labelledby="length-title">
             @for (o of lengthOptions; track o.id) {
               <button type="button" role="radio" class="option compact" [attr.aria-checked]="length() === o.id" (click)="length.set(o.id)">
@@ -97,7 +101,7 @@
             }
           </div>
 
-          <h2 class="sub-title" id="level-title">Reading level</h2>
+          <h2 class="sub-title" id="level-title">{{ t('browse.level') }}</h2>
           <div class="segment-grid" role="radiogroup" aria-labelledby="level-title">
             @for (o of levelOptions; track o.id) {
               <button type="button" role="radio" class="option compact" [attr.aria-checked]="level() === o.id" (click)="level.set(o.id)">
@@ -109,11 +113,11 @@
             }
           </div>
 
-          <h2 class="sub-title" id="goal-title">Daily reading goal</h2>
+          <h2 class="sub-title" id="goal-title">{{ t('welcome.goal') }}</h2>
           <div class="chips" role="radiogroup" aria-labelledby="goal-title">
             @for (m of goalMinutes; track m) {
               <button type="button" role="radio" class="chip" [attr.aria-checked]="dailyGoal() === m" [class.is-active]="dailyGoal() === m" (click)="dailyGoal.set(m)">
-                {{ m }} min
+                {{ t('time.min', { m }) }}
               </button>
             }
           </div>
@@ -122,9 +126,9 @@
       @case (4) {
         <section class="step done fade-up" aria-labelledby="step-title">
           <span class="done-icon" aria-hidden="true"><app-icon name="sparkles" [size]="28" /></span>
-          <p class="eyebrow">All set</p>
-          <h1 id="step-title" class="display" tabindex="-1">Your library is ready, {{ firstName() }}.</h1>
-          <p class="lead">Here are a few books we think you’ll love. You’ll find more under “Picked for you” on the home page.</p>
+          <p class="eyebrow">{{ t('welcome.allSet') }}</p>
+          <h1 id="step-title" class="display" tabindex="-1">{{ t('welcome.ready', { name: firstName() }) }}</h1>
+          <p class="lead">{{ t('welcome.readyLead') }}</p>
           <ol class="picks">
             @for (p of picks(); track p.book.id; let i = $index) {
               <li class="pick" [style.--i]="i">
@@ -143,19 +147,19 @@
 
   <footer class="nav">
     @if (step() < 4) {
-      <button type="button" class="btn btn-ghost" (click)="back()" [disabled]="step() === 0"><app-icon name="arrow-left" [size]="18" />Back</button>
+      <button type="button" class="btn btn-ghost" (click)="back()" [disabled]="step() === 0"><app-icon name="arrow-left" [size]="18" />{{ t('common.back') }}</button>
       <div class="nav-right">
         @if (step() === 2 && !canContinue()) {
-          <span class="nav-hint" aria-live="polite">Choose a genre to continue</span>
+          <span class="nav-hint" aria-live="polite">{{ t('welcome.chooseGenre') }}</span>
         }
         <button type="button" class="btn btn-primary btn-lg" (click)="next()" [disabled]="!canContinue()">
-          {{ step() === 3 ? 'See my picks' : 'Continue' }}
+          {{ step() === 3 ? t('welcome.seePicks') : t('common.continue') }}
           <app-icon name="arrow-right" [size]="18" />
         </button>
       </div>
     } @else {
       <span></span>
-      <button type="button" class="btn btn-primary btn-lg" (click)="finish()">Start exploring <app-icon name="arrow-right" [size]="18" /></button>
+      <button type="button" class="btn btn-primary btn-lg" (click)="finish()">{{ t('welcome.start') }} <app-icon name="arrow-right" [size]="18" /></button>
     }
   </footer>
 </div>

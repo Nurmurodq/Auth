@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, afterNextRender, input, signal, viewChild } from '@angular/core';
+import { t } from '../i18n/i18n';
 import { RouterLink } from '@angular/router';
 import { BookRecord } from '../models/book.model';
 import { BookCardComponent } from './book-card.component';
@@ -19,12 +20,12 @@ import { IconComponent } from './icon.component';
       </div>
       <div class="controls">
         @if (link()) {
-          <a class="btn btn-ghost btn-sm see-all" [routerLink]="link()!.commands" [queryParams]="link()!.query">{{ linkLabel() }}</a>
+          <a class="btn btn-ghost btn-sm see-all" [routerLink]="link()!.commands" [queryParams]="link()!.query">{{ linkLabel() ?? t('shelf.seeAll') }}</a>
         }
-        <button class="icon-btn nav" type="button" (click)="scroll(-1)" [disabled]="atStart()" aria-label="Scroll left">
+        <button class="icon-btn nav" type="button" (click)="scroll(-1)" [disabled]="atStart()" [attr.aria-label]="t('shelf.scrollLeft')">
           <app-icon name="chevron-left" />
         </button>
-        <button class="icon-btn nav" type="button" (click)="scroll(1)" [disabled]="atEnd()" aria-label="Scroll right">
+        <button class="icon-btn nav" type="button" (click)="scroll(1)" [disabled]="atEnd()" [attr.aria-label]="t('shelf.scrollRight')">
           <app-icon name="chevron-right" />
         </button>
       </div>
@@ -68,11 +69,12 @@ import { IconComponent } from './icon.component';
   `,
 })
 export class BookShelfComponent {
+  protected readonly t = t;
   readonly heading = input.required<string>();
   readonly description = input('');
   readonly books = input.required<BookRecord[]>();
   readonly link = input<{ commands: unknown[]; query?: Record<string, string> } | null>(null);
-  readonly linkLabel = input('See all');
+  readonly linkLabel = input<string | null>(null);
   /** Optional per-book notes (keyed by book id), e.g. recommendation reasons. */
   readonly notes = input<Partial<Record<string, string>>>({});
 

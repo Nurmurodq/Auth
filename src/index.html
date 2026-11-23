@@ -21,6 +21,9 @@
           var pref = localStorage.getItem('folio:theme') || 'system';
           var dark = pref === 'dark' || (pref === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
           document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+          // Match <html lang> to the saved language early, so fonts and hyphenation are right from the start.
+          var lang = new URLSearchParams(location.search).get('lang') || localStorage.getItem('folio:lang');
+          if (lang === 'ru' || lang === 'uz' || lang === 'en') document.documentElement.lang = lang === 'uz' ? 'uz-Latn' : lang;
         } catch (e) {
           document.documentElement.dataset.theme = 'light';
         }

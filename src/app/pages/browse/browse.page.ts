@@ -1,4 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
+import { bookTagline, t } from '../../i18n/i18n';
 import { ChangeDetectionStrategy, Component, ElementRef, Injector, afterNextRender, computed, effect, inject, signal, untracked, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -17,7 +18,7 @@ import { ToastService } from '../../services/toast.service';
 import { BookCardComponent } from '../../shared/book-card.component';
 import { BookCoverComponent } from '../../shared/book-cover.component';
 import { IconComponent } from '../../shared/icon.component';
-import { easeLabel, formatReadingTime, formatYear } from '../../utils/format';
+import { easeLabel, formatReadingTime, formatYear, formatNumber } from '../../utils/format';
 import { readString, writeString } from '../../utils/storage';
 
 type FacetKey = 'genre' | 'length' | 'era' | 'ease';
@@ -38,6 +39,7 @@ const list = (v: string | null) => (v ? v.split(',').filter(Boolean) : []);
   styleUrl: './browse.page.css',
 })
 export class BrowsePage {
+  protected readonly t = t;
   protected readonly catalog = inject(CatalogService);
   protected readonly library = inject(LibraryService);
   private readonly toast = inject(ToastService);
@@ -92,10 +94,10 @@ export class BrowsePage {
         ),
       }));
     return [
-      { key: 'genre' as FacetKey, title: 'Genre', options: make('genre', this.catalog.genres.map((g) => ({ id: g.id, label: g.name }))) },
-      { key: 'length' as FacetKey, title: 'Reading time', options: make('length', LENGTH_OPTIONS) },
-      { key: 'era' as FacetKey, title: 'Published', options: make('era', ERA_OPTIONS) },
-      { key: 'ease' as FacetKey, title: 'Reading level', options: make('ease', EASE_OPTIONS) },
+      { key: 'genre' as FacetKey, title: t('browse.genre'), options: make('genre', this.catalog.genres.map((g) => ({ id: g.id, label: g.name }))) },
+      { key: 'length' as FacetKey, title: t('browse.readingTime'), options: make('length', LENGTH_OPTIONS) },
+      { key: 'era' as FacetKey, title: t('browse.published'), options: make('era', ERA_OPTIONS) },
+      { key: 'ease' as FacetKey, title: t('browse.level'), options: make('ease', EASE_OPTIONS) },
     ];
   });
 
@@ -183,14 +185,17 @@ export class BrowsePage {
   }
 
   protected toggleFavorite(bookId: string, title: string): void {
-    if (!this.library.requireAccount('Sign in to save favourites.')) return;
+    if (!this.library.requireAccount(t('fav.signIn'))) return;
     const fav = this.library.toggleFavorite(bookId);
-    this.toast.show(fav ? `Added “${title}” to favourites` : `Removed “${title}” from favourites`);
+    this.toast.show(fav ? t('fav.added', { title }) : t('fav.removed', { title }));
   }
 
   protected progressOf(bookId: string): number | null {
     return this.library.progress(bookId)?.percent ?? null;
   }
+
+  protected readonly tagline = bookTagline;
+  protected readonly number = formatNumber;
 
   protected meta = {
     year: formatYear,

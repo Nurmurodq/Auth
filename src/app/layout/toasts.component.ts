@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { t } from '../i18n/i18n';
 import { Toast, ToastService } from '../services/toast.service';
 import { IconComponent } from '../shared/icon.component';
 
@@ -8,18 +9,18 @@ import { IconComponent } from '../shared/icon.component';
   imports: [IconComponent],
   template: `
     <div class="stack" role="status" aria-live="polite" aria-atomic="false">
-      @for (t of toasts.toasts(); track t.id) {
-        <div class="toast" [class.success]="t.tone === 'success'" [class.error]="t.tone === 'error'">
-          @if (t.tone === 'success') {
+      @for (toast of toasts.toasts(); track toast.id) {
+        <div class="toast" [class.success]="toast.tone === 'success'" [class.error]="toast.tone === 'error'">
+          @if (toast.tone === 'success') {
             <app-icon name="check" [size]="18" class="tone" />
-          } @else if (t.tone === 'error') {
+          } @else if (toast.tone === 'error') {
             <app-icon name="alert" [size]="18" class="tone" />
           }
-          <span class="msg">{{ t.message }}</span>
-          @if (t.action) {
-            <button type="button" class="action" (click)="run(t)">{{ t.action.label }}</button>
+          <span class="msg">{{ toast.message }}</span>
+          @if (toast.action) {
+            <button type="button" class="action" (click)="run(toast)">{{ toast.action.label }}</button>
           }
-          <button type="button" class="close" (click)="toasts.dismiss(t.id)" aria-label="Dismiss notification">
+          <button type="button" class="close" (click)="toasts.dismiss(toast.id)" [attr.aria-label]="t('toast.dismiss')">
             <app-icon name="x" [size]="16" />
           </button>
         </div>
@@ -114,6 +115,7 @@ import { IconComponent } from '../shared/icon.component';
   `,
 })
 export class ToastsComponent {
+  protected readonly t = t;
   protected readonly toasts = inject(ToastService);
 
   protected run(t: Toast): void {

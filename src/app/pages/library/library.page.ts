@@ -12,6 +12,7 @@ import { BookCoverComponent } from '../../shared/book-cover.component';
 import { IconComponent, IconName } from '../../shared/icon.component';
 import { ShelfMenuComponent } from '../../shared/shelf-menu.component';
 import { formatDate, formatDuration, formatPercent, formatRelative } from '../../utils/format';
+import { localized, t } from '../../i18n/i18n';
 
 type Tab = 'reading' | 'want' | 'finished' | 'favorites' | 'bookmarks';
 type Sort = 'recent' | 'title' | 'author' | 'progress';
@@ -23,38 +24,26 @@ interface Row {
   lastRead?: string;
 }
 
-const TABS: { id: Tab; label: string; icon: IconName; empty: { title: string; body: string; cta: string } }[] = [
-  {
-    id: 'reading',
-    label: 'Reading',
-    icon: 'book-open',
-    empty: { title: 'Nothing on the go', body: 'Open any book and it will appear here, with your progress saved as you read.', cta: 'Find something to read' },
-  },
-  {
-    id: 'want',
-    label: 'Want to read',
-    icon: 'bookmark',
-    empty: { title: 'Your reading list is empty', body: 'Add books you’d like to get to — use “Add to library” on any book page.', cta: 'Browse the library' },
-  },
-  {
-    id: 'finished',
-    label: 'Finished',
-    icon: 'trophy',
-    empty: { title: 'No finished books yet', body: 'Reach the last page of a book and mark it as finished to celebrate it here.', cta: 'Pick a short read' },
-  },
-  {
-    id: 'favorites',
-    label: 'Favourites',
-    icon: 'heart',
-    empty: { title: 'No favourites yet', body: 'Tap the heart on any book to keep your best-loved titles close at hand.', cta: 'Discover editor’s picks' },
-  },
-  {
-    id: 'bookmarks',
-    label: 'Bookmarks',
-    icon: 'bookmark',
-    empty: { title: 'No bookmarks yet', body: 'While reading, tap the bookmark icon or press B to save a passage.', cta: 'Continue reading' },
-  },
-];
+interface TabMeta {
+  id: Tab;
+  label: string;
+  icon: IconName;
+  emptyTitle: string;
+  emptyBody: string;
+  emptyCta: string;
+}
+
+const TABS: TabMeta[] = localized<TabMeta>(
+  [
+    { id: 'reading', label: 'Reading', icon: 'book-open', emptyTitle: 'Nothing on the go', emptyBody: 'Open any book and it will appear here, with your progress saved as you read.', emptyCta: 'Find something to read' },
+    { id: 'want', label: 'Want to read', icon: 'bookmark', emptyTitle: 'Your reading list is empty', emptyBody: 'Add books you’d like to get to — use “Add to library” on any book page.', emptyCta: 'Browse the library' },
+    { id: 'finished', label: 'Finished', icon: 'trophy', emptyTitle: 'No finished books yet', emptyBody: 'Reach the last page of a book and mark it as finished to celebrate it here.', emptyCta: 'Pick a short read' },
+    { id: 'favorites', label: 'Favourites', icon: 'heart', emptyTitle: 'No favourites yet', emptyBody: 'Tap the heart on any book to keep your best-loved titles close at hand.', emptyCta: 'Discover editor’s picks' },
+    { id: 'bookmarks', label: 'Bookmarks', icon: 'bookmark', emptyTitle: 'No bookmarks yet', emptyBody: 'While reading, tap the bookmark icon or press B to save a passage.', emptyCta: 'Continue reading' },
+  ],
+  'libraryTab',
+  ['label', 'emptyTitle', 'emptyBody', 'emptyCta'],
+);
 
 @Component({
   selector: 'app-library',
@@ -64,6 +53,7 @@ const TABS: { id: Tab; label: string; icon: IconName; empty: { title: string; bo
   styleUrl: './library.page.css',
 })
 export class LibraryPage {
+  protected readonly t = t;
   private readonly catalog = inject(CatalogService);
   private readonly content = inject(BookContentService);
   protected readonly library = inject(LibraryService);
@@ -153,7 +143,7 @@ export class LibraryPage {
         if (this.tocTitles()[g.book.id]) continue;
         this.content
           .toc(g.book.id)
-          .then((t) => this.tocTitles.update((m) => ({ ...m, [g.book.id]: t.chapters.map((c) => c.title) })))
+          .then((toc) => this.tocTitles.update((m) => ({ ...m, [g.book.id]: toc.chapters.map((c) => c.title) })))
           .catch(() => undefined);
       }
     });
@@ -174,26 +164,26 @@ export class LibraryPage {
 
   protected toggleFavorite(row: Row): void {
     const fav = this.library.toggleFavorite(row.book.id);
-    this.toast.show(fav ? 'Added to favourites' : 'Removed from favourites');
+    this.toast.show(fav ? t('fav.addedShort') : t('fav.removedShort'));
   }
 
   protected removeBookmark(id: string): void {
     const removed = this.library.removeBookmark(id);
-    if (removed) this.toast.show('Bookmark removed', { action: { label: 'Undo', run: () => this.library.restoreBookmark(removed) } });
+    if (removed) this.toast.show(t('bookmark.removed'), { action: { label: t('common.undo'), run: () => this.library.restoreBookmark(removed) } });
   }
 
   protected saveNote(id: string, note: string): void {
     this.library.updateBookmarkNote(id, note);
     this.editingNote.set(null);
-    this.toast.success(note.trim() ? 'Note saved' : 'Note removed');
+    this.toast.success(note.trim() ? t('note.saved') : t('note.removed'));
   }
 
   protected chapterTitle(bookId: string, index: number): string {
-    return this.tocTitles()[bookId]?.[index] ?? `Chapter ${index + 1}`;
+    return this.tocTitles()[bookId]?.[index] ?? t('common.chapterN', { n: index + 1 });
   }
 
   protected shelfLabel(shelf: Shelf | null | undefined): string {
-    return shelf === 'reading' ? 'Reading' : shelf === 'want' ? 'Want to read' : shelf === 'finished' ? 'Finished' : '';
+    return shelf === 'reading' ? t('book.reading') : shelf === 'want' ? t('shelf.want') : shelf === 'finished' ? t('shelf.finished') : '';
   }
 
   protected emptyLink(): { commands: unknown[]; query?: Record<string, string> } {

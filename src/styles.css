@@ -4,7 +4,9 @@
 
 :root {
   --font-ui: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Fraunces Variable', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  /* Literata follows Fraunces so glyphs Fraunces lacks (e.g. Uzbek ʻ) fall back to a matching serif. */
+  --font-display: 'Fraunces Variable', 'Literata Variable', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-brand: 'Fraunces Variable', 'Iowan Old Style', Georgia, serif;
   --font-serif: 'Literata Variable', Georgia, 'Times New Roman', serif;
 
   /* Light theme — warm paper */
@@ -54,6 +56,11 @@
   --gutter: clamp(16px, 4vw, 40px);
 
   color-scheme: light;
+}
+
+/* Fraunces has no Cyrillic: Russian headings use Literata, which does (and pairs well with the reader). */
+:root:lang(ru) {
+  --font-display: 'Literata Variable', Georgia, 'Times New Roman', serif;
 }
 
 :root[data-theme='dark'] {

@@ -1,4 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { t } from '../i18n/i18n';
 
 export const MIN_PASSWORD_LENGTH = 8;
 
@@ -16,9 +17,9 @@ export function passwordStrength(pw: string): PasswordStrength {
   if (/[a-z]/.test(pw) && /[A-Z]/.test(pw)) points++;
   if (/\d/.test(pw)) points++;
   if (/[^A-Za-z0-9]/.test(pw)) points++;
-  if (pw.length < MIN_PASSWORD_LENGTH) return { score: 1, label: 'Too short' };
+  if (pw.length < MIN_PASSWORD_LENGTH) return { score: 1, label: t('password.tooShort') };
   const score = Math.min(4, Math.max(1, points - 1)) as PasswordStrength['score'];
-  return { score, label: ['', 'Weak', 'Fair', 'Good', 'Strong'][score] };
+  return { score, label: score === 1 ? t('password.weak') : score === 2 ? t('password.fair') : score === 3 ? t('password.good') : t('password.strong') };
 }
 
 /** Group validator: `confirm` must equal `password`. */

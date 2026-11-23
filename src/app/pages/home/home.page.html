@@ -3,10 +3,10 @@
   <section class="welcome container fade-up">
     <div class="welcome-head">
       <div>
-        <p class="eyebrow">{{ greeting() }}{{ firstName() ? ', ' + firstName() : '' }}</p>
-        <h1 class="display welcome-title">Pick up where you left off.</h1>
+        <p class="eyebrow">{{ firstName() ? t('home.greetingName', { greeting: greeting(), name: firstName() }) : greeting() }}</p>
+        <h1 class="display welcome-title">{{ t('home.pickUp') }}</h1>
       </div>
-      <a routerLink="/library" class="btn btn-secondary btn-sm hide-sm">Open my library</a>
+      <a routerLink="/library" class="btn btn-secondary btn-sm hide-sm">{{ t('home.openLibrary') }}</a>
     </div>
 
     @let lead = continueReading()[0];
@@ -14,14 +14,14 @@
       <a class="continue-lead" [routerLink]="['/read', lead.book.id]" [style.--tint]="lead.book.cover.color">
         <div class="lead-cover"><app-book-cover [book]="lead.book" [eager]="true" sizes="180px" /></div>
         <div class="lead-body">
-          <span class="tag">Chapter {{ lead.chapter + 1 }} of {{ lead.book.chapters }}</span>
+          <span class="tag">{{ t('common.chapterOf', { n: lead.chapter + 1, total: lead.book.chapters }) }}</span>
           <h2>{{ lead.book.title }}</h2>
           <p class="muted">{{ lead.book.author }}</p>
           <div class="lead-progress">
             <div class="progress"><span [style.width.%]="lead.percent * 100"></span></div>
-            <span>{{ percent(lead.percent) }} · about {{ duration(lead.minutesLeft) }} left</span>
+            <span>{{ percent(lead.percent) }} · {{ t('home.aboutLeft', { time: duration(lead.minutesLeft) }) }}</span>
           </div>
-          <span class="btn btn-primary resume"><app-icon name="book-open" [size]="18" />Continue reading</span>
+          <span class="btn btn-primary resume"><app-icon name="book-open" [size]="18" />{{ t('common.continueReading') }}</span>
         </div>
       </a>
       @if (continueReading().length > 1) {
@@ -46,22 +46,19 @@
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy fade-up">
-        <p class="eyebrow">A library of {{ catalog.books.length }} timeless books</p>
-        <h1 class="display hero-title">Great books, <em>beautifully</em> read.</h1>
-        <p class="hero-lead">
-          A calm, ad-free home for the classics — with a reader designed for long, comfortable sessions. Adjust the type, choose your light, and
-          always pick up exactly where you left off.
-        </p>
+        <p class="eyebrow">{{ t('home.heroEyebrow', { count: catalog.books.length }) }}</p>
+        <h1 class="display hero-title">{{ t('home.heroTitleBefore') }}<em>{{ t('home.heroTitleEm') }}</em>{{ t('home.heroTitleAfter') }}</h1>
+        <p class="hero-lead">{{ t('home.heroLead') }}</p>
         <div class="hero-cta">
-          <a routerLink="/browse" class="btn btn-primary btn-lg">Explore the library <app-icon name="arrow-right" [size]="18" /></a>
+          <a routerLink="/browse" class="btn btn-primary btn-lg">{{ t('home.explore') }} <app-icon name="arrow-right" [size]="18" /></a>
           @if (!auth.isAuthenticated()) {
-            <a routerLink="/register" class="btn btn-secondary btn-lg">Create a free account</a>
+            <a routerLink="/register" class="btn btn-secondary btn-lg">{{ t('home.createAccount') }}</a>
           } @else {
-            <a routerLink="/library" class="btn btn-secondary btn-lg">My library</a>
+            <a routerLink="/library" class="btn btn-secondary btn-lg">{{ t('nav.library') }}</a>
           }
         </div>
         <dl class="hero-stats">
-          @for (s of stats; track s.label) {
+          @for (s of stats(); track s.id) {
             <div>
               <dt>{{ s.label }}</dt>
               <dd>{{ s.value }}</dd>
@@ -86,14 +83,14 @@
 
 <!-- Personalised -->
 @if (recs.hasProfile() && forYouBooks().length) {
-  <section class="container block" aria-label="Picked for you">
+  <section class="container block" [attr.aria-label]="t('home.forYou')">
     <app-book-shelf
-      heading="Picked for you"
-      description="Chosen from your interests and what you read. Each pick says why."
+      [heading]="t('home.forYou')"
+      [description]="t('home.forYouDesc')"
       [books]="forYouBooks()"
       [notes]="forYouNotes()"
       [link]="{ commands: ['/welcome'] }"
-      linkLabel="Edit interests"
+      [linkLabel]="t('home.editInterests')"
     />
   </section>
 } @else if (recs.needsProfile()) {
@@ -101,41 +98,41 @@
     <div class="personalize fade-up">
       <span class="personalize-icon" aria-hidden="true"><app-icon name="sparkles" [size]="24" /></span>
       <div class="personalize-copy">
-        <h2 class="display">Get recommendations made for you</h2>
-        <p>Answer four quick questions about what you do and what you love to read, and we’ll tailor the library to you.</p>
+        <h2 class="display">{{ t('home.personaliseTitle') }}</h2>
+        <p>{{ t('home.personaliseText') }}</p>
       </div>
-      <a routerLink="/welcome" class="btn btn-primary">Personalise my library <app-icon name="arrow-right" [size]="18" /></a>
+      <a routerLink="/welcome" class="btn btn-primary">{{ t('home.personaliseCta') }} <app-icon name="arrow-right" [size]="18" /></a>
     </div>
   </section>
 }
 
 @if (recs.becauseYouEnjoyed(); as because) {
   <section class="container block">
-    <app-book-shelf [heading]="'Because you enjoyed ' + because.book.title" description="More books with the same spirit." [books]="because.related" />
+    <app-book-shelf [heading]="t('home.becauseEnjoyed', { title: because.book.title })" [description]="t('home.becauseDesc')" [books]="because.related" />
   </section>
 }
 
 <!-- Editor's picks -->
 <section class="container block">
-  <app-book-shelf heading="Editor’s picks" description="Twelve unforgettable places to begin." [books]="picks" [link]="{ commands: ['/browse'] }" />
+  <app-book-shelf [heading]="t('home.picks')" [description]="t('home.picksDesc')" [books]="picks" [link]="{ commands: ['/browse'] }" />
 </section>
 
 <!-- Genres -->
 <section class="container block" aria-labelledby="genres-title">
   <div class="section-head">
     <div>
-      <h2 class="section-title" id="genres-title">Browse by genre</h2>
-      <p>From gothic chills to gentle comedies of manners.</p>
+      <h2 class="section-title" id="genres-title">{{ t('home.genres') }}</h2>
+      <p>{{ t('home.genresDesc') }}</p>
     </div>
-    <a routerLink="/browse" class="btn btn-ghost btn-sm">All books</a>
+    <a routerLink="/browse" class="btn btn-ghost btn-sm">{{ t('footer.allBooks') }}</a>
   </div>
   <div class="genre-grid">
-    @for (g of genres; track g.id) {
-      <a class="genre" [routerLink]="['/browse']" [queryParams]="{ genre: g.id }" [style.--tint]="g.books[0]?.cover?.color">
+    @for (g of genres; track g.genre.id) {
+      <a class="genre" [routerLink]="['/browse']" [queryParams]="{ genre: g.genre.id }" [style.--tint]="g.books[0]?.cover?.color">
         <div class="genre-text">
-          <h3>{{ g.name }}</h3>
-          <p>{{ g.blurb }}</p>
-          <span class="genre-count">{{ g.count }} {{ g.count === 1 ? 'book' : 'books' }}</span>
+          <h3>{{ g.genre.name }}</h3>
+          <p>{{ g.genre.blurb }}</p>
+          <span class="genre-count">{{ t('common.books', { count: g.genre.count }) }}</span>
         </div>
         <div class="genre-covers" aria-hidden="true">
           @for (b of g.books; track b.id; let i = $index) {
@@ -151,40 +148,40 @@
 <section class="container block">
   <div class="showcase">
     <div class="showcase-copy">
-      <p class="eyebrow">The reader</p>
-      <h2 class="display showcase-title">Designed for deep, unhurried reading.</h2>
+      <p class="eyebrow">{{ t('home.readerEyebrow') }}</p>
+      <h2 class="display showcase-title">{{ t('home.readerTitle') }}</h2>
       <ul class="features">
         <li>
           <span class="f-icon"><app-icon name="type" /></span>
-          <div><strong>Typography you control</strong><span>Five typefaces, fine-grained size, spacing and line width.</span></div>
+          <div><strong>{{ t('home.f1Title') }}</strong><span>{{ t('home.f1Text') }}</span></div>
         </li>
         <li>
           <span class="f-icon"><app-icon name="sun" /></span>
-          <div><strong>Light that suits the hour</strong><span>Paper, Sepia, Dusk and true-black Night themes.</span></div>
+          <div><strong>{{ t('home.f2Title') }}</strong><span>{{ t('home.f2Text') }}</span></div>
         </li>
         <li>
           <span class="f-icon"><app-icon name="bookmark" /></span>
-          <div><strong>Never lose your place</strong><span>Progress saves as you read; bookmark any passage.</span></div>
+          <div><strong>{{ t('home.f3Title') }}</strong><span>{{ t('home.f3Text') }}</span></div>
         </li>
         <li>
           <span class="f-icon"><app-icon name="columns" /></span>
-          <div><strong>Scroll or turn pages</strong><span>Swipe, tap or use the keyboard — whatever feels natural.</span></div>
+          <div><strong>{{ t('home.f4Title') }}</strong><span>{{ t('home.f4Text') }}</span></div>
         </li>
       </ul>
     </div>
 
     <div class="preview-wrap">
-      <div class="preview-controls" role="group" aria-label="Try a reading theme">
+      <div class="preview-controls" role="group" [attr.aria-label]="t('home.tryTheme')">
         <div class="swatches">
-          @for (t of themes; track t.id) {
+          @for (th of themes; track th.id) {
             <button
               type="button"
               class="swatch"
-              [style.background]="t.bg"
-              [style.color]="t.fg"
-              [attr.aria-pressed]="readerSettings.settings().theme === t.id"
-              (click)="setTheme(t.id)"
-              [attr.aria-label]="t.label + ' theme'"
+              [style.background]="th.bg"
+              [style.color]="th.fg"
+              [attr.aria-pressed]="readerSettings.settings().theme === th.id"
+              (click)="setTheme(th.id)"
+              [attr.aria-label]="t('home.themeLabel', { theme: th.label })"
             >
               Aa
             </button>
@@ -209,11 +206,11 @@
         </p>
         <div class="preview-foot">
           <div class="progress"><span style="width: 12%"></span></div>
-          <span>3 min left in chapter</span>
+          <span>{{ t('reader.leftInChapter', { time: duration(3) }) }}</span>
         </div>
       </article>
-      <a routerLink="/read/pride-and-prejudice" class="btn btn-dark try-btn">Open the reader <app-icon name="arrow-right" [size]="18" /></a>
-      <p class="preview-note">Your choice is saved for the reader.</p>
+      <a routerLink="/read/pride-and-prejudice" class="btn btn-dark try-btn">{{ t('home.openReader') }} <app-icon name="arrow-right" [size]="18" /></a>
+      <p class="preview-note">{{ t('home.previewNote') }}</p>
     </div>
   </div>
 </section>
@@ -234,9 +231,9 @@
   <section class="container block">
     <figure class="quote">
       <app-icon name="quote" [size]="36" class="quote-mark" />
-      <blockquote class="display">“I declare after all there is no enjoyment like reading! How much sooner one tires of any thing than of a book!”</blockquote>
+      <blockquote class="display">{{ t('home.quote') }}</blockquote>
       <figcaption>
-        Caroline Bingley in <a [routerLink]="['/book', quoteBook.id]"><em>Pride and Prejudice</em></a>, Jane Austen
+        {{ t('home.quoteWho') }} <a [routerLink]="['/book', quoteBook.id]"><em>{{ t('home.quoteBook') }}</em></a>{{ t('home.quoteAuthor') }}
       </figcaption>
     </figure>
   </section>
@@ -247,12 +244,12 @@
   <section class="container block">
     <div class="join">
       <div class="join-copy">
-        <h2 class="display">Your personal library, always in order.</h2>
-        <p>Create a free account to save favourites, organise your shelves, bookmark passages and track your reading streak.</p>
+        <h2 class="display">{{ t('home.joinTitle') }}</h2>
+        <p>{{ t('home.joinText') }}</p>
       </div>
       <div class="join-cta">
-        <a routerLink="/register" class="btn btn-primary btn-lg">Get started — it’s free</a>
-        <a routerLink="/login" class="btn btn-ghost btn-lg">I have an account</a>
+        <a routerLink="/register" class="btn btn-primary btn-lg">{{ t('home.joinCta') }}</a>
+        <a routerLink="/login" class="btn btn-ghost btn-lg">{{ t('home.haveAccount') }}</a>
       </div>
     </div>
   </section>

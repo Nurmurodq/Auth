@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
+import { localized, t } from '../../i18n/i18n';
 import {
   FONT_SIZE_RANGE,
   LineSpacing,
@@ -15,32 +16,32 @@ import { IconComponent } from '../../shared/icon.component';
   imports: [IconComponent],
   template: `
     <div class="head">
-      <h2 id="settings-title">Appearance</h2>
-      <button type="button" class="icon-btn" (click)="closed.emit()" aria-label="Close appearance settings"><app-icon name="x" /></button>
+      <h2 id="settings-title">{{ t('reader.appearance') }}</h2>
+      <button type="button" class="icon-btn" (click)="closed.emit()" [attr.aria-label]="t('reader.closeAppearance')"><app-icon name="x" /></button>
     </div>
 
     <div class="group">
-      <span class="label" id="lbl-theme">Theme</span>
+      <span class="label" id="lbl-theme">{{ t('reader.theme') }}</span>
       <div class="themes" role="radiogroup" aria-labelledby="lbl-theme">
-        @for (t of themes; track t.id) {
+        @for (th of themes; track th.id) {
           <button
             type="button"
             role="radio"
             class="theme"
-            [attr.aria-checked]="s().theme === t.id"
-            (click)="svc.update({ theme: t.id })"
+            [attr.aria-checked]="s().theme === th.id"
+            (click)="svc.update({ theme: th.id })"
           >
-            <span class="theme-swatch" [style.background]="t.bg" [style.color]="t.fg">Aa</span>
-            <span class="theme-name">{{ t.label }}</span>
+            <span class="theme-swatch" [style.background]="th.bg" [style.color]="th.fg">Aa</span>
+            <span class="theme-name">{{ th.label }}</span>
           </button>
         }
       </div>
     </div>
 
     <div class="group">
-      <span class="label" id="lbl-size">Text size</span>
+      <span class="label" id="lbl-size">{{ t('reader.textSize') }}</span>
       <div class="size-row">
-        <button type="button" class="icon-btn step" (click)="svc.update({ fontSize: s().fontSize - 1 })" [disabled]="s().fontSize <= range.min" aria-label="Decrease text size">
+        <button type="button" class="icon-btn step" (click)="svc.update({ fontSize: s().fontSize - 1 })" [disabled]="s().fontSize <= range.min" [attr.aria-label]="t('reader.smaller')">
           <span class="a-small">A</span>
         </button>
         <input
@@ -51,9 +52,9 @@ import { IconComponent } from '../../shared/icon.component';
           [value]="s().fontSize"
           (input)="svc.update({ fontSize: +$any($event.target).value })"
           aria-labelledby="lbl-size"
-          [attr.aria-valuetext]="s().fontSize + ' pixels'"
+          [attr.aria-valuetext]="t('reader.pixels', { count: s().fontSize })"
         />
-        <button type="button" class="icon-btn step" (click)="svc.update({ fontSize: s().fontSize + 1 })" [disabled]="s().fontSize >= range.max" aria-label="Increase text size">
+        <button type="button" class="icon-btn step" (click)="svc.update({ fontSize: s().fontSize + 1 })" [disabled]="s().fontSize >= range.max" [attr.aria-label]="t('reader.larger')">
           <span class="a-large">A</span>
         </button>
         <span class="value">{{ s().fontSize }}</span>
@@ -61,7 +62,7 @@ import { IconComponent } from '../../shared/icon.component';
     </div>
 
     <div class="group">
-      <span class="label" id="lbl-font">Typeface</span>
+      <span class="label" id="lbl-font">{{ t('reader.typeface') }}</span>
       <div class="fonts" role="radiogroup" aria-labelledby="lbl-font">
         @for (f of fonts; track f.id) {
           <button type="button" role="radio" class="font" [attr.aria-checked]="s().font === f.id" (click)="svc.update({ font: f.id })">
@@ -80,7 +81,7 @@ import { IconComponent } from '../../shared/icon.component';
 
     <div class="group two">
       <div>
-        <span class="label" id="lbl-spacing">Line spacing</span>
+        <span class="label" id="lbl-spacing">{{ t('reader.lineSpacing') }}</span>
         <div class="segmented" role="radiogroup" aria-labelledby="lbl-spacing">
           @for (o of spacing; track o.id) {
             <button type="button" role="radio" [attr.aria-checked]="s().lineSpacing === o.id" (click)="svc.update({ lineSpacing: o.id })" [attr.aria-label]="o.label">
@@ -90,7 +91,7 @@ import { IconComponent } from '../../shared/icon.component';
         </div>
       </div>
       <div class="width-group">
-        <span class="label" id="lbl-width">Line width</span>
+        <span class="label" id="lbl-width">{{ t('reader.lineWidth') }}</span>
         <div class="segmented" role="radiogroup" aria-labelledby="lbl-width">
           @for (o of widths; track o.id) {
             <button type="button" role="radio" [attr.aria-checked]="s().width === o.id" (click)="svc.update({ width: o.id })" [attr.aria-label]="o.label">
@@ -103,32 +104,32 @@ import { IconComponent } from '../../shared/icon.component';
 
     <div class="group two">
       <div>
-        <span class="label" id="lbl-align">Alignment</span>
+        <span class="label" id="lbl-align">{{ t('reader.alignment') }}</span>
         <div class="segmented" role="radiogroup" aria-labelledby="lbl-align">
-          <button type="button" role="radio" [attr.aria-checked]="!s().justify" (click)="svc.update({ justify: false })" aria-label="Align left">
+          <button type="button" role="radio" [attr.aria-checked]="!s().justify" (click)="svc.update({ justify: false })" [attr.aria-label]="t('reader.alignLeft')">
             <app-icon name="align-left" [size]="18" />
           </button>
-          <button type="button" role="radio" [attr.aria-checked]="s().justify" (click)="svc.update({ justify: true })" aria-label="Justify">
+          <button type="button" role="radio" [attr.aria-checked]="s().justify" (click)="svc.update({ justify: true })" [attr.aria-label]="t('reader.justify')">
             <app-icon name="align-justify" [size]="18" />
           </button>
         </div>
       </div>
       <div>
-        <span class="label" id="lbl-mode">Layout</span>
+        <span class="label" id="lbl-mode">{{ t('browse.layout') }}</span>
         <div class="segmented" role="radiogroup" aria-labelledby="lbl-mode">
           <button type="button" role="radio" [attr.aria-checked]="s().mode === 'scroll'" (click)="svc.update({ mode: 'scroll' })">
-            <app-icon name="scroll" [size]="17" /><span>Scroll</span>
+            <app-icon name="scroll" [size]="17" /><span>{{ t('reader.scroll') }}</span>
           </button>
           <button type="button" role="radio" [attr.aria-checked]="s().mode === 'paged'" (click)="svc.update({ mode: 'paged' })">
-            <app-icon name="columns" [size]="17" /><span>Pages</span>
+            <app-icon name="columns" [size]="17" /><span>{{ t('account.modePages') }}</span>
           </button>
         </div>
       </div>
     </div>
 
     <div class="foot">
-      <button type="button" class="btn btn-ghost btn-sm" (click)="svc.reset()"><app-icon name="reset" [size]="16" />Reset</button>
-      <button type="button" class="btn btn-ghost btn-sm shortcuts-btn" (click)="shortcuts.emit()"><app-icon name="keyboard" [size]="16" />Shortcuts</button>
+      <button type="button" class="btn btn-ghost btn-sm" (click)="svc.reset()"><app-icon name="reset" [size]="16" />{{ t('common.reset') }}</button>
+      <button type="button" class="btn btn-ghost btn-sm shortcuts-btn" (click)="shortcuts.emit()"><app-icon name="keyboard" [size]="16" />{{ t('reader.shortcutsShort') }}</button>
     </div>
   `,
   styles: `
@@ -342,6 +343,7 @@ import { IconComponent } from '../../shared/icon.component';
   `,
 })
 export class ReaderSettingsPanelComponent {
+  protected readonly t = t;
   protected readonly svc = inject(ReaderSettingsService);
   protected readonly s = this.svc.settings;
   readonly closed = output<void>();
@@ -350,14 +352,14 @@ export class ReaderSettingsPanelComponent {
   protected readonly themes = READER_THEMES;
   protected readonly fonts = READER_FONTS;
   protected readonly range = FONT_SIZE_RANGE;
-  protected readonly spacing: { id: LineSpacing; label: string; gap: number }[] = [
+  protected readonly spacing: { id: LineSpacing; label: string; gap: number }[] = localized([
     { id: 'compact', label: 'Compact spacing', gap: 2 },
     { id: 'comfortable', label: 'Comfortable spacing', gap: 4 },
     { id: 'airy', label: 'Airy spacing', gap: 6 },
-  ];
-  protected readonly widths: { id: ReaderWidth; label: string; px: number }[] = [
+  ], 'spacing', ['label']);
+  protected readonly widths: { id: ReaderWidth; label: string; px: number }[] = localized([
     { id: 'narrow', label: 'Narrow lines', px: 14 },
     { id: 'medium', label: 'Medium lines', px: 22 },
     { id: 'wide', label: 'Wide lines', px: 30 },
-  ];
+  ], 'lineWidth', ['label']);
 }

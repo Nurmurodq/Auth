@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { t } from '../../i18n/i18n';
 import { RouterLink } from '@angular/router';
 import { BookRecord } from '../../models/book.model';
 import { AuthService } from '../../services/auth/auth.service';
@@ -6,6 +7,7 @@ import { CatalogService } from '../../services/catalog.service';
 import { BookCoverComponent } from '../../shared/book-cover.component';
 import { IconComponent } from '../../shared/icon.component';
 import { LogoComponent } from '../../shared/logo.component';
+import { LanguageSwitcherComponent } from '../../i18n/language-switcher.component';
 
 const COLLAGE = [
   'jane-eyre',
@@ -26,13 +28,16 @@ const COLLAGE = [
 @Component({
   selector: 'app-auth-shell',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, BookCoverComponent, IconComponent, LogoComponent],
+  imports: [RouterLink, BookCoverComponent, IconComponent, LogoComponent, LanguageSwitcherComponent],
   template: `
     <div class="shell">
       <section class="form-side">
         <div class="top">
-          <a routerLink="/" aria-label="Folio home"><app-logo /></a>
-          <a routerLink="/" class="back"><app-icon name="arrow-left" [size]="16" />Back to library</a>
+          <a routerLink="/" [attr.aria-label]="t('header.home')"><app-logo /></a>
+          <div class="top-actions">
+            <app-language-switcher />
+            <a routerLink="/" class="back"><app-icon name="arrow-left" [size]="16" />{{ t('auth.backToLibrary') }}</a>
+          </div>
         </div>
         <div class="form-wrap fade-up">
           <h1 class="display">{{ heading() }}</h1>
@@ -44,9 +49,9 @@ const COLLAGE = [
         <p class="mode-note">
           <app-icon name="shield" [size]="15" />
           @if (auth.backendKind === 'local') {
-            Your account and reading data are stored securely on this device.
+            {{ t('auth.storedLocal') }}
           } @else {
-            Your library syncs securely across your devices.
+            {{ t('auth.syncs') }}
           }
         </p>
       </section>
@@ -59,8 +64,8 @@ const COLLAGE = [
         </div>
         <div class="art-overlay"></div>
         <figure class="art-quote">
-          <blockquote class="display">“A reader lives a thousand lives before he dies. The man who never reads lives only one.”</blockquote>
-          <figcaption>George R. R. Martin</figcaption>
+          <blockquote class="display">{{ t('auth.quote') }}</blockquote>
+          <figcaption>{{ t('auth.quoteAuthor') }}</figcaption>
         </figure>
       </aside>
     </div>
@@ -81,6 +86,11 @@ const COLLAGE = [
       align-items: center;
       justify-content: space-between;
       gap: 16px;
+    }
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
     .back {
       display: inline-flex;
@@ -187,6 +197,7 @@ const COLLAGE = [
   `,
 })
 export class AuthShellComponent {
+  protected readonly t = t;
   protected readonly auth = inject(AuthService);
   private readonly catalog = inject(CatalogService);
   readonly heading = input.required<string>();

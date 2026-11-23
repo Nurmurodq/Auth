@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { t } from '../i18n/i18n';
 import { RouterLink } from '@angular/router';
 import { UiService } from '../services/ui.service';
 import { IconComponent } from '../shared/icon.component';
@@ -10,11 +11,11 @@ import { IconComponent } from '../shared/icon.component';
   template: `
     <section class="container wrap fade-up">
       <p class="code display" aria-hidden="true">404</p>
-      <h1 class="display">This page has wandered off the shelf</h1>
-      <p class="quote">“Not all those who wander are lost.” — but this link might be.</p>
+      <h1 class="display">{{ t('notFound.title') }}</h1>
+      <p class="quote">{{ t('notFound.quote') }}</p>
       <div class="actions">
-        <a routerLink="/" class="btn btn-primary btn-lg"><app-icon name="home" [size]="18" />Back home</a>
-        <button type="button" class="btn btn-secondary btn-lg" (click)="ui.openSearch()"><app-icon name="search" [size]="18" />Search books</button>
+        <a routerLink="/" class="btn btn-primary btn-lg"><app-icon name="home" [size]="18" />{{ t('notFound.home') }}</a>
+        <button type="button" class="btn btn-secondary btn-lg" (click)="ui.openSearch()"><app-icon name="search" [size]="18" />{{ t('notFound.search') }}</button>
       </div>
     </section>
   `,
@@ -53,5 +54,6 @@ import { IconComponent } from '../shared/icon.component';
   `,
 })
 export class NotFoundPage {
+  protected readonly t = t;
   protected readonly ui = inject(UiService);
 }

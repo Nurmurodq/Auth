@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, computed, inject, signal, viewChild } from '@angular/core';
+import { t } from '../i18n/i18n';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
 import { ThemeService } from '../services/theme.service';
@@ -6,12 +7,13 @@ import { ToastService } from '../services/toast.service';
 import { UiService } from '../services/ui.service';
 import { IconComponent } from '../shared/icon.component';
 import { LogoComponent } from '../shared/logo.component';
+import { LanguageSwitcherComponent } from '../i18n/language-switcher.component';
 import { initials } from '../utils/format';
 
 @Component({
   selector: 'app-header',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterLinkActive, IconComponent, LogoComponent],
+  imports: [RouterLink, RouterLinkActive, IconComponent, LogoComponent, LanguageSwitcherComponent],
   host: {
     role: 'banner',
     '[class.scrolled]': 'scrolled()',
@@ -21,31 +23,32 @@ import { initials } from '../utils/format';
   },
   template: `
     <div class="container bar">
-      <a routerLink="/" class="brand" aria-label="Folio home"><app-logo /></a>
+      <a routerLink="/" class="brand" [attr.aria-label]="t('header.home')"><app-logo /></a>
 
-      <nav class="nav" aria-label="Primary">
-        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-        <a routerLink="/browse" routerLinkActive="active">Browse</a>
-        <a routerLink="/library" routerLinkActive="active">My Library</a>
+      <nav class="nav" [attr.aria-label]="t('header.primaryNav')">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ t('nav.home') }}</a>
+        <a routerLink="/browse" routerLinkActive="active">{{ t('nav.browse') }}</a>
+        <a routerLink="/library" routerLinkActive="active">{{ t('nav.library') }}</a>
       </nav>
 
       <div class="actions">
-        <button type="button" class="search-pill" (click)="ui.openSearch()" aria-label="Search books (Ctrl K)">
+        <button type="button" class="search-pill" (click)="ui.openSearch()" [attr.aria-label]="t('header.searchLabel', { shortcut })">
           <app-icon name="search" [size]="18" />
-          <span class="search-text">Search books, authors…</span>
+          <span class="search-text">{{ t('header.searchPlaceholder') }}</span>
           <span class="kbd">{{ shortcut }}</span>
         </button>
-        <button type="button" class="icon-btn search-icon" (click)="ui.openSearch()" aria-label="Search">
+        <button type="button" class="icon-btn search-icon" (click)="ui.openSearch()" [attr.aria-label]="t('header.search')">
           <app-icon name="search" />
         </button>
         <button
           type="button"
           class="icon-btn"
           (click)="theme.toggle()"
-          [attr.aria-label]="theme.resolved() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'"
+          [attr.aria-label]="theme.resolved() === 'dark' ? t('theme.toLight') : t('theme.toDark')"
         >
           <app-icon [name]="theme.resolved() === 'dark' ? 'sun' : 'moon'" />
         </button>
+        <app-language-switcher class="lang" />
 
         @if (auth.user(); as user) {
           <div class="account" #menuRoot>
@@ -55,7 +58,7 @@ import { initials } from '../utils/format';
               (click)="menuOpen.set(!menuOpen())"
               [attr.aria-expanded]="menuOpen()"
               aria-haspopup="menu"
-              aria-label="Account menu"
+              [attr.aria-label]="t('header.accountMenu')"
             >
               <span class="avatar">{{ userInitials() }}</span>
               <app-icon name="chevron-down" [size]="16" class="chev" />
@@ -69,19 +72,19 @@ import { initials } from '../utils/format';
                     <span>{{ user.email }}</span>
                   </div>
                 </div>
-                <a role="menuitem" routerLink="/library" (click)="menuOpen.set(false)"><app-icon name="library" [size]="18" />My Library</a>
+                <a role="menuitem" routerLink="/library" (click)="menuOpen.set(false)"><app-icon name="library" [size]="18" />{{ t('nav.library') }}</a>
                 <a role="menuitem" routerLink="/library" [queryParams]="{ tab: 'bookmarks' }" (click)="menuOpen.set(false)"
-                  ><app-icon name="bookmark" [size]="18" />Bookmarks</a
+                  ><app-icon name="bookmark" [size]="18" />{{ t('nav.bookmarks') }}</a
                 >
-                <a role="menuitem" routerLink="/account" (click)="menuOpen.set(false)"><app-icon name="user" [size]="18" />Account & stats</a>
+                <a role="menuitem" routerLink="/account" (click)="menuOpen.set(false)"><app-icon name="user" [size]="18" />{{ t('nav.account') }}</a>
                 <hr class="divider" />
-                <button role="menuitem" type="button" (click)="signOut()"><app-icon name="log-out" [size]="18" />Sign out</button>
+                <button role="menuitem" type="button" (click)="signOut()"><app-icon name="log-out" [size]="18" />{{ t('auth.signOut') }}</button>
               </div>
             }
           </div>
         } @else if (auth.ready()) {
-          <a routerLink="/login" class="btn btn-ghost btn-sm signin">Sign in</a>
-          <a routerLink="/register" class="btn btn-dark btn-sm join">Get started</a>
+          <a routerLink="/login" class="btn btn-ghost btn-sm signin">{{ t('auth.signIn') }}</a>
+          <a routerLink="/register" class="btn btn-dark btn-sm join">{{ t('auth.getStarted') }}</a>
         }
       </div>
     </div>
@@ -260,7 +263,12 @@ import { initials } from '../utils/format';
     .menu .divider {
       margin: 6px 4px;
     }
-    @media (max-width: 1024px) {
+    .search-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    @media (max-width: 1100px) {
       .search-pill {
         width: 220px;
       }
@@ -289,6 +297,7 @@ import { initials } from '../utils/format';
   `,
 })
 export class HeaderComponent {
+  protected readonly t = t;
   protected readonly auth = inject(AuthService);
   protected readonly theme = inject(ThemeService);
   protected readonly ui = inject(UiService);
@@ -313,7 +322,7 @@ export class HeaderComponent {
   protected async signOut(): Promise<void> {
     this.menuOpen.set(false);
     await this.auth.signOut();
-    this.toast.show('You’ve been signed out. See you soon.');
+    this.toast.show(t('toast.signedOut'));
     void this.router.navigate(['/']);
   }
 }

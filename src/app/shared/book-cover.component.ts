@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { t } from '../i18n/i18n';
 import { BookRecord } from '../models/book.model';
 
 /**
@@ -156,5 +157,5 @@ export class BookCoverComponent {
   protected readonly src = computed(() => `covers/${this.book().id}-480.webp`);
   protected readonly srcset = computed(() => `covers/${this.book().id}-240.webp 240w, covers/${this.book().id}-480.webp 480w`);
   protected readonly titleLength = computed(() => this.book().title.length);
-  protected readonly label = computed(() => `${this.book().title} by ${this.book().author}`);
+  protected readonly label = computed(() => t('card.label', { title: this.book().title, author: this.book().author }));
 }

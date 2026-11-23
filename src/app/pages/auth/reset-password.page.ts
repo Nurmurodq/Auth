@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, input, signal } from '@angular/core';
+import { t } from '../../i18n/i18n';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -14,15 +15,15 @@ import { AuthShellComponent } from './auth-shell.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, RouterLink, AuthShellComponent, IconComponent],
   template: `
-    <app-auth-shell heading="Choose a new password" subheading="Make it memorable for you and hard to guess for anyone else.">
+    <app-auth-shell [heading]="t('reset.title')" [subheading]="t('reset.subtitle')">
       @if (checking()) {
-        <div class="success-state" aria-busy="true"><span class="spinner" aria-label="Checking your reset link"></span></div>
+        <div class="success-state" aria-busy="true"><span class="spinner" [attr.aria-label]="t('reset.checking')"></span></div>
       } @else if (!valid()) {
         <div class="success-state" role="alert">
           <span class="success-icon error-icon"><app-icon name="alert" [size]="26" /></span>
-          <h2>This link has expired</h2>
-          <p class="muted">Password reset links work once and expire after 30 minutes. Request a new one to continue.</p>
-          <a routerLink="/forgot-password" class="btn btn-primary btn-lg">Request a new link</a>
+          <h2>{{ t('reset.expired') }}</h2>
+          <p class="muted">{{ t('reset.expiredText') }}</p>
+          <a routerLink="/forgot-password" class="btn btn-primary btn-lg">{{ t('reset.requestNew') }}</a>
         </div>
       } @else {
         <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
@@ -30,7 +31,7 @@ import { AuthShellComponent } from './auth-shell.component';
             <div class="alert alert-error" role="alert"><app-icon name="alert" [size]="18" />{{ error() }}</div>
           }
           <div class="field">
-            <label class="field-label" for="password">New password</label>
+            <label class="field-label" for="password">{{ t('account.newPassword') }}</label>
             <div class="pw-wrap">
               <input
                 id="password"
@@ -38,25 +39,25 @@ import { AuthShellComponent } from './auth-shell.component';
                 [type]="showPassword() ? 'text' : 'password'"
                 formControlName="password"
                 autocomplete="new-password"
-                [placeholder]="'At least ' + minLength + ' characters'"
+                [placeholder]="t('register.pwPlaceholder', { count: minLength })"
                 [attr.aria-invalid]="showError('password')"
               />
               <button
                 type="button"
                 class="icon-btn pw-toggle"
                 (click)="showPassword.set(!showPassword())"
-                [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+                [attr.aria-label]="showPassword() ? t('auth.hidePassword') : t('auth.showPassword')"
               >
                 <app-icon [name]="showPassword() ? 'eye-off' : 'eye'" [size]="18" />
               </button>
             </div>
             <div class="strength" [attr.data-score]="strength().score" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
             @if (showError('password')) {
-              <span class="field-error">Use at least {{ minLength }} characters.</span>
+              <span class="field-error">{{ t('register.pwTooShort', { count: minLength }) }}</span>
             }
           </div>
           <div class="field">
-            <label class="field-label" for="confirm">Confirm password</label>
+            <label class="field-label" for="confirm">{{ t('reset.confirm') }}</label>
             <input
               id="confirm"
               class="input"
@@ -66,14 +67,14 @@ import { AuthShellComponent } from './auth-shell.component';
               [attr.aria-invalid]="mismatch()"
             />
             @if (mismatch()) {
-              <span class="field-error">Passwords don’t match.</span>
+              <span class="field-error">{{ t('auth.mismatch') }}</span>
             }
           </div>
           <button type="submit" class="btn btn-primary btn-lg btn-block submit" [disabled]="loading()">
             @if (loading()) {
-              <span class="spinner" aria-hidden="true"></span> Saving…
+              <span class="spinner" aria-hidden="true"></span> {{ t('common.saving') }}
             } @else {
-              Save new password
+              {{ t('reset.save') }}
             }
           </button>
         </form>
@@ -89,6 +90,7 @@ import { AuthShellComponent } from './auth-shell.component';
   `,
 })
 export class ResetPasswordPage implements OnInit {
+  protected readonly t = t;
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
@@ -144,10 +146,10 @@ export class ResetPasswordPage implements OnInit {
     try {
       const user = await this.auth.completePasswordReset(this.form.getRawValue().password, this.params());
       if (user) {
-        this.toast.success('Password updated. You’re signed in.');
+        this.toast.success(t('reset.doneSignedIn'));
         await this.router.navigateByUrl('/library');
       } else {
-        this.toast.success('Password updated. Sign in with your new password.');
+        this.toast.success(t('reset.doneSignIn'));
         await this.router.navigateByUrl('/login');
       }
     } catch (err) {

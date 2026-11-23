@@ -4,7 +4,7 @@ export function normalize(text: string): string {
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
     .toLowerCase()
-    .replace(/['’‘`]/g, '')
+    .replace(/['’‘`ʻʼ]/g, '')
     .replace(/[^\p{L}\p{N}]+/gu, ' ')
     .trim();
 }

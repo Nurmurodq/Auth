@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { t } from '../../i18n/i18n';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
@@ -11,23 +12,19 @@ import { AuthShellComponent } from './auth-shell.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, RouterLink, AuthShellComponent, IconComponent],
   template: `
-    <app-auth-shell heading="Forgot your password?" subheading="It happens to the best of readers. Enter your email and we’ll help you reset it.">
+    <app-auth-shell [heading]="t('forgot.title')" [subheading]="t('forgot.subtitle')">
       @if (sent()) {
         <div class="success-state" role="status">
           <span class="success-icon"><app-icon name="mail" [size]="26" /></span>
           @if (directLink()) {
-            <h2>Reset link ready</h2>
-            <p class="muted">
-              This copy of Folio keeps accounts on this device, so we can’t send email. Use the secure one-time link below within 30 minutes.
-            </p>
-            <button type="button" class="btn btn-primary btn-lg" (click)="openLink()">Choose a new password</button>
+            <h2>{{ t('forgot.linkReady') }}</h2>
+            <p class="muted">{{ t('forgot.localText') }}</p>
+            <button type="button" class="btn btn-primary btn-lg" (click)="openLink()">{{ t('reset.title') }}</button>
           } @else {
-            <h2>Check your email</h2>
-            <p class="muted">
-              If an account exists for <strong>{{ form.controls.email.value }}</strong>, you’ll receive a link to reset your password in the next few minutes.
-            </p>
+            <h2>{{ t('verify.title') }}</h2>
+            <p class="muted">{{ t('forgot.sentBefore') }} <strong>{{ form.controls.email.value }}</strong>{{ t('forgot.sentAfter') }}</p>
           }
-          <a routerLink="/login" class="btn btn-ghost">Back to sign in</a>
+          <a routerLink="/login" class="btn btn-ghost">{{ t('auth.backToSignIn') }}</a>
         </div>
       } @else {
         <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
@@ -35,7 +32,7 @@ import { AuthShellComponent } from './auth-shell.component';
             <div class="alert alert-error" role="alert"><app-icon name="alert" [size]="18" />{{ error() }}</div>
           }
           <div class="field">
-            <label class="field-label" for="email">Email</label>
+            <label class="field-label" for="email">{{ t('auth.email') }}</label>
             <input
               id="email"
               class="input"
@@ -43,29 +40,30 @@ import { AuthShellComponent } from './auth-shell.component';
               formControlName="email"
               autocomplete="email"
               inputmode="email"
-              placeholder="you@example.com"
+              [placeholder]="t('auth.emailPlaceholder')"
               [attr.aria-invalid]="showError()"
               aria-describedby="email-error"
             />
             @if (showError()) {
-              <span class="field-error" id="email-error">Enter a valid email address.</span>
+              <span class="field-error" id="email-error">{{ t('auth.emailInvalid') }}</span>
             }
           </div>
           <button type="submit" class="btn btn-primary btn-lg btn-block submit" [disabled]="loading()">
             @if (loading()) {
-              <span class="spinner" aria-hidden="true"></span> Sending…
+              <span class="spinner" aria-hidden="true"></span> {{ t('forgot.sending') }}
             } @else {
-              Send reset link
+              {{ t('forgot.send') }}
             }
           </button>
         </form>
-        <p class="switch">Remembered it? <a routerLink="/login" class="link">Back to sign in</a></p>
+        <p class="switch">{{ t('forgot.remembered') }} <a routerLink="/login" class="link">{{ t('auth.backToSignIn') }}</a></p>
       }
     </app-auth-shell>
   `,
   styleUrl: './auth-form.css',
 })
 export class ForgotPasswordPage {
+  protected readonly t = t;
   private readonly auth = inject(AuthService);
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly router = inject(Router);

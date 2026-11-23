@@ -1,4 +1,5 @@
 import { ViewportScroller } from '@angular/common';
+import { t } from './i18n/i18n';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet, Scroll } from '@angular/router';
@@ -26,7 +27,7 @@ function layoutForPath(path: string): Layout {
   imports: [RouterOutlet, HeaderComponent, FooterComponent, MobileNavComponent, SearchPaletteComponent, ToastsComponent],
   host: { '[class.immersive]': 'layout() === "immersive"' },
   template: `
-    <a class="skip-link" href="#main" (click)="skipToMain($event)">Skip to content</a>
+    <a class="skip-link" href="#main" (click)="skipToMain($event)">{{ t('app.skip') }}</a>
     @if (layout() === 'default') {
       <app-header />
     }
@@ -53,6 +54,7 @@ function layoutForPath(path: string): Layout {
   `,
 })
 export class AppComponent {
+  protected readonly t = t;
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 

@@ -1,10 +1,15 @@
 import { ChangeDetectionStrategy, Component, ElementRef, computed, inject, input, signal } from '@angular/core';
+import { t } from '../i18n/i18n';
 import { Shelf } from '../models/user.model';
 import { LibraryService } from '../services/library.service';
 import { ToastService } from '../services/toast.service';
 import { IconComponent } from './icon.component';
 
-const LABELS: Record<Shelf, string> = { want: 'Want to read', reading: 'Currently reading', finished: 'Finished' };
+/** Shelf names, translated on read. */
+export function shelfLabel(shelf: Shelf): string {
+  return t(SHELF_KEYS[shelf]);
+}
+const SHELF_KEYS = { want: 'shelf.want', reading: 'shelf.reading', finished: 'shelf.finished' } as const;
 
 /** Button + menu for placing a book on a shelf or removing it from the library. */
 @Component({
@@ -26,7 +31,7 @@ const LABELS: Record<Shelf, string> = { want: 'Want to read', reading: 'Currentl
       aria-haspopup="menu"
     >
       <app-icon [name]="shelf() ? 'check' : 'plus'" [size]="compact() ? 16 : 18" />
-      <span>{{ shelf() ? labels[shelf()!] : 'Add to library' }}</span>
+      <span>{{ shelf() ? labels(shelf()!) : t('shelf.add') }}</span>
       <app-icon name="chevron-down" [size]="16" class="chev" />
     </button>
     @if (open()) {
@@ -34,14 +39,14 @@ const LABELS: Record<Shelf, string> = { want: 'Want to read', reading: 'Currentl
         @for (s of shelves; track s) {
           <button type="button" role="menuitemradio" [attr.aria-checked]="shelf() === s" (click)="choose(s)">
             <span class="radio" aria-hidden="true">@if (shelf() === s) {<app-icon name="check" [size]="15" [stroke]="2.5" />}</span>
-            {{ labels[s] }}
+            {{ labels(s) }}
           </button>
         }
         @if (entry()) {
           <hr class="divider" />
           <button type="button" role="menuitem" class="danger" (click)="remove()">
             <span class="radio" aria-hidden="true"><app-icon name="trash" [size]="15" /></span>
-            Remove from library
+            {{ t('shelf.remove') }}
           </button>
         }
       </div>
@@ -110,6 +115,7 @@ const LABELS: Record<Shelf, string> = { want: 'Want to read', reading: 'Currentl
   `,
 })
 export class ShelfMenuComponent {
+  protected readonly t = t;
   private readonly library = inject(LibraryService);
   private readonly toast = inject(ToastService);
   private readonly host = inject(ElementRef<HTMLElement>);
@@ -121,7 +127,7 @@ export class ShelfMenuComponent {
 
   protected readonly open = signal(false);
   protected readonly shelves: Shelf[] = ['want', 'reading', 'finished'];
-  protected readonly labels = LABELS;
+  protected readonly labels = shelfLabel;
   protected readonly entry = computed(() => this.library.data().library[this.bookId()]);
   protected readonly shelf = computed(() => this.entry()?.shelf ?? null);
 
@@ -133,14 +139,14 @@ export class ShelfMenuComponent {
   protected choose(shelf: Shelf): void {
     this.library.setShelf(this.bookId(), shelf);
     this.open.set(false);
-    this.toast.success(`Moved to ${LABELS[shelf]}`);
+    this.toast.success(t('toast.movedTo', { shelf: shelfLabel(shelf) }));
   }
 
   protected remove(): void {
     const prev = this.library.removeFromLibrary(this.bookId());
     this.open.set(false);
-    this.toast.show(`Removed ${this.title() ? `“${this.title()}”` : 'book'} from your library`, {
-      action: prev ? { label: 'Undo', run: () => this.library.restoreEntry(prev) } : undefined,
+    this.toast.show(this.title() ? t('toast.removedTitle', { title: this.title() }) : t('toast.removedBook'), {
+      action: prev ? { label: t('common.undo'), run: () => this.library.restoreEntry(prev) } : undefined,
     });
   }
 

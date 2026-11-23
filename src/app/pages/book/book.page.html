@@ -2,8 +2,8 @@
   <div class="backdrop" [style.--tint]="b.cover.color" aria-hidden="true"></div>
 
   <div class="container">
-    <nav class="crumbs" aria-label="Breadcrumb">
-      <a routerLink="/browse">Browse</a>
+    <nav class="crumbs" [attr.aria-label]="t('book.breadcrumb')">
+      <a routerLink="/browse">{{ t('nav.browse') }}</a>
       @if (genres()[0]; as g) {
         <app-icon name="chevron-right" [size]="14" />
         <a routerLink="/browse" [queryParams]="{ genre: g.id }">{{ g.name }}</a>
@@ -30,21 +30,21 @@
           <p class="subtitle">{{ b.subtitle }}</p>
         }
         <p class="byline">
-          by <a routerLink="/browse" [queryParams]="{ author: b.authorId }" class="author">{{ b.author }}</a>
+          {{ t('book.by') }} <a routerLink="/browse" [queryParams]="{ author: b.authorId }" class="author">{{ b.author }}</a>
           @if (b.translator) {
-            <span class="credit">· Translated by {{ b.translator }}</span>
+            <span class="credit">· {{ t('book.translatedBy', { name: b.translator }) }}</span>
           }
           @if (b.illustrator) {
-            <span class="credit">· Illustrated by {{ b.illustrator }}</span>
+            <span class="credit">· {{ t('book.illustratedBy', { name: b.illustrator }) }}</span>
           }
         </p>
-        <p class="tagline">{{ b.tagline }}</p>
+        <p class="tagline">{{ tagline(b) }}</p>
 
         <div class="actions">
           <a class="btn btn-primary btn-lg" [routerLink]="readLink().commands" [queryParams]="readLink().query">
             <app-icon name="book-open" [size]="19" />
-            {{ readLabel() }}
-            @if (readLabel() === 'Continue reading') {
+            {{ readText() }}
+            @if (readMode() === 'continue') {
               <span class="pct">{{ percent(progress()!.percent) }}</span>
             }
           </a>
@@ -54,12 +54,12 @@
             class="icon-btn round"
             [attr.aria-pressed]="isFavorite()"
             (click)="toggleFavorite()"
-            [attr.aria-label]="isFavorite() ? 'Remove from favourites' : 'Add to favourites'"
-            [title]="isFavorite() ? 'Remove from favourites' : 'Add to favourites'"
+            [attr.aria-label]="isFavorite() ? t('fav.remove') : t('fav.add')"
+            [title]="isFavorite() ? t('fav.remove') : t('fav.add')"
           >
             <app-icon name="heart" [filled]="isFavorite()" />
           </button>
-          <button type="button" class="icon-btn round" (click)="share()" aria-label="Share this book" title="Share">
+          <button type="button" class="icon-btn round" (click)="share()" [attr.aria-label]="t('book.share')" [title]="t('book.shareShort')">
             <app-icon name="share" />
           </button>
         </div>
@@ -85,9 +85,12 @@
     <div class="columns">
       <div class="main-col">
         <section class="panel" aria-labelledby="about-title">
-          <h2 id="about-title" class="panel-title">About this book</h2>
+          <h2 id="about-title" class="panel-title">{{ t('book.about') }}</h2>
+          @if (showOriginalNote()) {
+            <p class="orig-note"><app-icon name="globe" [size]="15" />{{ t('book.descriptionOriginal') }}</p>
+          }
           @if (description() === null) {
-            <div class="desc-skeleton" aria-label="Loading description">
+            <div class="desc-skeleton" [attr.aria-label]="t('book.loadingDescription')">
               <span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span>
             </div>
           } @else {
@@ -95,18 +98,18 @@
           }
           @if ((description()?.length ?? 0) > 600) {
             <button type="button" class="link more" (click)="descExpanded.set(!descExpanded())">
-              {{ descExpanded() ? 'Show less' : 'Read more' }}
+              {{ descExpanded() ? t('book.showLess') : t('book.readMore') }}
             </button>
           }
         </section>
 
         <section class="panel" aria-labelledby="toc-title">
           <div class="panel-head">
-            <h2 id="toc-title" class="panel-title">Contents</h2>
-            <span class="muted small">{{ b.chapters }} {{ b.genres.includes('poetry') ? 'sections' : 'chapters' }}</span>
+            <h2 id="toc-title" class="panel-title">{{ t('book.contents') }}</h2>
+            <span class="muted small">{{ b.genres.includes('poetry') ? t('book.sectionsCount', { count: b.chapters }) : t('book.chaptersCount', { count: b.chapters }) }}</span>
           </div>
           @if (tocError()) {
-            <p class="alert alert-error">We couldn’t load the table of contents. Check your connection and refresh.</p>
+            <p class="alert alert-error">{{ t('book.tocError') }}</p>
           } @else if (!toc()) {
             <div class="toc-skeleton">
               @for (i of [1, 2, 3, 4, 5]; track i) {
@@ -135,18 +138,18 @@
                       {{ row.title }}
                     </span>
                     @if (row.status === 'current') {
-                      <span class="tag here">Reading</span>
+                      <span class="tag here">{{ t('book.reading') }}</span>
                     } @else if (row.status === 'read') {
                       <app-icon name="check" [size]="16" class="done" />
                     }
-                    <span class="toc-time">{{ row.minutes }} min</span>
+                    <span class="toc-time">{{ t('time.min', { m: row.minutes }) }}</span>
                   </a>
                 </li>
               }
             </ol>
             @if (tocRows().length > 10) {
               <button type="button" class="btn btn-secondary btn-sm toc-more" (click)="tocExpanded.set(!tocExpanded())">
-                {{ tocExpanded() ? 'Show fewer' : 'Show all ' + tocRows().length }}
+                {{ tocExpanded() ? t('book.showFewer') : t('book.showAll', { count: tocRows().length }) }}
                 <app-icon [name]="tocExpanded() ? 'chevron-up' : 'chevron-down'" [size]="16" />
               </button>
             }
@@ -156,7 +159,7 @@
         @if (bookmarks().length) {
           <section class="panel" aria-labelledby="bm-title">
             <div class="panel-head">
-              <h2 id="bm-title" class="panel-title">Your bookmarks</h2>
+              <h2 id="bm-title" class="panel-title">{{ t('book.yourBookmarks') }}</h2>
               <span class="muted small">{{ bookmarks().length }}</span>
             </div>
             <ul class="bookmarks">
@@ -172,7 +175,7 @@
                       }
                     </span>
                   </a>
-                  <button type="button" class="icon-btn" (click)="removeBookmark(m.id)" aria-label="Remove bookmark">
+                  <button type="button" class="icon-btn" (click)="removeBookmark(m.id)" [attr.aria-label]="t('bookmark.remove')">
                     <app-icon name="trash" [size]="17" />
                   </button>
                 </li>
@@ -184,33 +187,33 @@
 
       <aside class="side-col">
         <div class="card details">
-          <h2 class="panel-title small-title">Details</h2>
+          <h2 class="panel-title small-title">{{ t('book.details') }}</h2>
           <dl>
             <div>
-              <dt>Author</dt>
+              <dt>{{ t('browse.author') }}</dt>
               <dd>
                 <a routerLink="/browse" [queryParams]="{ author: b.authorId }" class="link">{{ b.author }}</a>
               </dd>
             </div>
             <div>
-              <dt>First published</dt>
+              <dt>{{ t('book.firstPublished') }}</dt>
               <dd>{{ stats()[0].value }}</dd>
             </div>
             <div>
-              <dt>Language</dt>
+              <dt>{{ t('book.language') }}</dt>
               <dd>{{ language() }}</dd>
             </div>
             <div>
-              <dt>Words</dt>
-              <dd>{{ b.words.toLocaleString('en') }}</dd>
+              <dt>{{ t('book.words') }}</dt>
+              <dd>{{ number(b.words) }}</dd>
             </div>
             <div>
-              <dt>Reading ease</dt>
-              <dd>{{ b.readingEase }} / 100 <span class="muted">(Flesch)</span></dd>
+              <dt>{{ t('book.readingEase') }}</dt>
+              <dd>{{ b.readingEase }} / 100 <span class="muted">({{ t('book.flesch') }})</span></dd>
             </div>
           </dl>
           @if (b.subjects.length) {
-            <h3 class="mini-title">Subjects</h3>
+            <h3 class="mini-title">{{ t('book.subjects') }}</h3>
             <div class="subjects">
               @for (s of b.subjects.slice(0, 8); track s) {
                 <a class="tag" routerLink="/browse" [queryParams]="{ q: s }">{{ s }}</a>
@@ -218,7 +221,7 @@
             </div>
           }
           @if (b.collections.length) {
-            <h3 class="mini-title">Featured in</h3>
+            <h3 class="mini-title">{{ t('book.featuredIn') }}</h3>
             <ul class="collections">
               @for (c of b.collections; track c) {
                 <li><app-icon name="trophy" [size]="15" />{{ c }}</li>
@@ -226,7 +229,7 @@
             </ul>
           }
           <p class="source">
-            Public-domain edition from
+            {{ t('book.edition') }}
             <a [href]="b.source" target="_blank" rel="noopener" class="link">Standard Ebooks <app-icon name="external" [size]="13" /></a>
           </p>
         </div>
@@ -235,20 +238,20 @@
 
     @if (moreByAuthor().length) {
       <section class="block">
-        <app-book-shelf [heading]="'More by ' + b.author" [books]="moreByAuthor()" [link]="{ commands: ['/browse'], query: { author: b.authorId } }" />
+        <app-book-shelf [heading]="t('book.moreBy', { author: b.author })" [books]="moreByAuthor()" [link]="{ commands: ['/browse'], query: { author: b.authorId } }" />
       </section>
     }
     @if (related().length) {
       <section class="block">
-        <app-book-shelf heading="You might also enjoy" description="Chosen for shared genres, themes and era." [books]="related()" />
+        <app-book-shelf [heading]="t('book.alsoEnjoy')" [description]="t('book.alsoEnjoyDesc')" [books]="related()" />
       </section>
     }
   </div>
 } @else {
   <div class="container missing">
     <div class="missing-icon"><app-icon name="book-open" [size]="30" /></div>
-    <h1 class="display">We couldn’t find that book</h1>
-    <p class="muted">It may have been moved, or the link might be mistyped.</p>
-    <a routerLink="/browse" class="btn btn-primary">Browse the library</a>
+    <h1 class="display">{{ t('book.missingTitle') }}</h1>
+    <p class="muted">{{ t('book.missingText') }}</p>
+    <a routerLink="/browse" class="btn btn-primary">{{ t('book.browseLibrary') }}</a>
   </div>
 }

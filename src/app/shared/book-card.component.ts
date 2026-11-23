@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { t } from '../i18n/i18n';
 import { RouterLink } from '@angular/router';
 import { BookRecord } from '../models/book.model';
 import { formatPercent, formatReadingTime, formatYear } from '../utils/format';
@@ -150,6 +151,6 @@ export class BookCardComponent {
   protected readonly ariaLabel = computed(() => {
     const b = this.book();
     const p = this.progress();
-    return `${b.title} by ${b.author}${p !== null ? `, ${formatPercent(p)} read` : ''}`;
+    return p !== null ? t('card.labelProgress', { title: b.title, author: b.author, percent: formatPercent(p) }) : t('card.label', { title: b.title, author: b.author });
   });
 }

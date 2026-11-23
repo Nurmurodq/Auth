@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
+import { bookTagline, currentLang, languageName, t } from '../../i18n/i18n';
 import { RouterLink } from '@angular/router';
 import { WORDS_PER_MINUTE } from '../../config';
 import { TocChapter } from '../../models/book.model';
@@ -22,7 +23,6 @@ import {
   readingMinutes,
 } from '../../utils/format';
 
-const LANGUAGES: Record<string, string> = { 'en-GB': 'English (British)', 'en-US': 'English (American)', en: 'English' };
 const TOC_PREVIEW = 10;
 
 interface TocRow extends TocChapter {
@@ -40,6 +40,7 @@ interface TocRow extends TocChapter {
   styleUrl: './book.page.css',
 })
 export class BookPage {
+  protected readonly t = t;
   private readonly catalog = inject(CatalogService);
   private readonly content = inject(BookContentService);
   protected readonly library = inject(LibraryService);
@@ -72,15 +73,22 @@ export class BookPage {
     return b ? this.catalog.related(b, 12) : [];
   });
 
-  protected readonly readLabel = computed(() => {
+  protected readonly readMode = computed<'again' | 'continue' | 'start'>(() => {
     const p = this.progress();
-    if (this.entry()?.shelf === 'finished' || (p && p.percent >= 0.995)) return 'Read again';
-    if (p && p.percent > 0) return `Continue reading`;
-    return 'Start reading';
+    if (this.entry()?.shelf === 'finished' || (p && p.percent >= 0.995)) return 'again';
+    if (p && p.percent > 0) return 'continue';
+    return 'start';
   });
+  protected readonly readText = computed(() =>
+    t(this.readMode() === 'again' ? 'book.readAgain' : this.readMode() === 'continue' ? 'common.continueReading' : 'book.startReading'),
+  );
+  /** Descriptions are in English; say so when the interface is in another language. */
+  protected readonly showOriginalNote = computed(() => currentLang() !== 'en');
+  protected readonly tagline = bookTagline;
+  protected readonly number = formatNumber;
 
   protected readonly readLink = computed(() => {
-    const restart = this.readLabel() === 'Read again';
+    const restart = this.readMode() === 'again';
     return { commands: ['/read', this.id()], query: restart ? { chapter: 0 } : {} };
   });
 
@@ -88,11 +96,11 @@ export class BookPage {
     const b = this.book();
     if (!b) return [];
     return [
-      { label: 'Published', value: formatYear(b.year) },
-      { label: 'Length', value: `${formatNumber(estimatePages(b.words))} pages` },
-      { label: 'Reading time', value: formatReadingTime(b.words) },
-      { label: b.genres.includes('poetry') ? 'Sections' : 'Chapters', value: String(b.chapters) },
-      { label: 'Level', value: easeLabel(b.readingEase) },
+      { label: t('browse.published'), value: formatYear(b.year) },
+      { label: t('book.length'), value: t('book.pages', { count: estimatePages(b.words) }) },
+      { label: t('browse.readingTime'), value: formatReadingTime(b.words) },
+      { label: b.genres.includes('poetry') ? t('book.sections') : t('book.chapters'), value: String(b.chapters) },
+      { label: t('book.level'), value: easeLabel(b.readingEase) },
     ];
   });
 
@@ -101,7 +109,7 @@ export class BookPage {
     const p = this.progress();
     if (!b || !p) return '';
     const left = (b.words * (1 - p.percent)) / WORDS_PER_MINUTE;
-    return `${formatPercent(p.percent)} complete · ${formatDuration(left)} left · last read ${formatRelative(p.updatedAt)}`;
+    return t('book.progressSummary', { percent: formatPercent(p.percent), left: formatDuration(left), when: formatRelative(p.updatedAt) });
   });
 
   protected readonly tocRows = computed<TocRow[]>(() => {
@@ -118,7 +126,10 @@ export class BookPage {
   });
 
   protected readonly visibleToc = computed(() => (this.tocExpanded() ? this.tocRows() : this.tocRows().slice(0, TOC_PREVIEW)));
-  protected readonly language = computed(() => LANGUAGES[this.book()?.language ?? 'en'] ?? this.book()?.language);
+  protected readonly language = computed(() => {
+    currentLang();
+    return languageName(this.book()?.language ?? 'en');
+  });
 
   constructor() {
     effect((onCleanup) => {
@@ -133,10 +144,10 @@ export class BookPage {
       if (!this.catalog.get(id)) return;
       this.content
         .toc(id)
-        .then((t) => {
+        .then((data) => {
           if (cancelled) return;
-          this.toc.set(t.chapters);
-          this.description.set(t.description ?? '');
+          this.toc.set(data.chapters);
+          this.description.set(data.description ?? '');
         })
         .catch(() => !cancelled && this.tocError.set(true));
     });
@@ -144,35 +155,35 @@ export class BookPage {
 
   protected toggleFavorite(): void {
     const b = this.book();
-    if (!b || !this.library.requireAccount('Sign in to save favourites.')) return;
+    if (!b || !this.library.requireAccount(t('fav.signIn'))) return;
     const fav = this.library.toggleFavorite(b.id);
-    this.toast.show(fav ? 'Added to favourites' : 'Removed from favourites');
+    this.toast.show(fav ? t('fav.addedShort') : t('fav.removedShort'));
   }
 
   protected async share(): Promise<void> {
     const b = this.book();
     if (!b) return;
     const url = location.href;
-    const data = { title: `${b.title} by ${b.author}`, text: b.tagline, url };
+    const data = { title: t('card.label', { title: b.title, author: b.author }), text: bookTagline(b), url };
     try {
       if (navigator.share && navigator.canShare?.(data)) {
         await navigator.share(data);
         return;
       }
       await navigator.clipboard.writeText(url);
-      this.toast.success('Link copied to clipboard');
+      this.toast.success(t('book.linkCopied'));
     } catch (err) {
-      if ((err as DOMException)?.name !== 'AbortError') this.toast.error('Couldn’t share this link. Try copying it from the address bar.');
+      if ((err as DOMException)?.name !== 'AbortError') this.toast.error(t('book.shareFailed'));
     }
   }
 
   protected removeBookmark(id: string): void {
     const removed = this.library.removeBookmark(id);
-    if (removed) this.toast.show('Bookmark removed', { action: { label: 'Undo', run: () => this.library.restoreBookmark(removed) } });
+    if (removed) this.toast.show(t('bookmark.removed'), { action: { label: t('common.undo'), run: () => this.library.restoreBookmark(removed) } });
   }
 
   protected chapterTitle(index: number): string {
-    return this.toc()?.[index]?.title ?? `Chapter ${index + 1}`;
+    return this.toc()?.[index]?.title ?? t('common.chapterN', { n: index + 1 });
   }
 
   protected relative(iso: string): string {

@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, WritableSignal, computed, inject, input, signal } from '@angular/core';
+import { t } from '../../i18n/i18n';
+import { LanguageSwitcherComponent } from '../../i18n/language-switcher.component';
 import { Router, RouterLink } from '@angular/router';
 import { safeReturnUrl } from '../../guards';
 import { GOALS, LENGTH_PREFS, LEVEL_PREFS, MOODS, OCCUPATIONS } from '../../models/profile-options';
@@ -17,11 +19,12 @@ type Step = 0 | 1 | 2 | 3 | 4;
 @Component({
   selector: 'app-welcome',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, BookCoverComponent, IconComponent, LogoComponent],
+  imports: [RouterLink, BookCoverComponent, IconComponent, LogoComponent, LanguageSwitcherComponent],
   templateUrl: './welcome.page.html',
   styleUrl: './welcome.page.css',
 })
 export class WelcomePage implements OnInit {
+  protected readonly t = t;
   private readonly auth = inject(AuthService);
   private readonly library = inject(LibraryService);
   private readonly catalog = inject(CatalogService);
@@ -44,7 +47,7 @@ export class WelcomePage implements OnInit {
       const books = this.catalog.byGenre(g.id);
       const cover = books.find((b) => b.genres[0] === g.id && !used.has(b.id)) ?? books.find((b) => !used.has(b.id)) ?? books[0];
       if (cover) used.add(cover.id);
-      return { ...g, cover };
+      return { genre: g, cover };
     });
   })();
 
@@ -58,7 +61,7 @@ export class WelcomePage implements OnInit {
   protected readonly dailyGoal = signal(20);
   protected readonly editing = signal(false);
 
-  protected readonly firstName = computed(() => this.auth.user()?.name.split(' ')[0] ?? 'reader');
+  protected readonly firstName = computed(() => this.auth.user()?.name.split(' ')[0] ?? t('welcome.reader'));
   protected readonly canContinue = computed(() => (this.step() === 2 ? this.genres().length > 0 : true));
   protected readonly progress = computed(() => (Math.min(this.step(), 4) / 4) * 100);
 
@@ -119,7 +122,7 @@ export class WelcomePage implements OnInit {
   }
 
   protected finish(): void {
-    this.toast.success(this.editing() ? 'Your reading preferences are updated.' : 'Your library is ready. Happy reading!');
+    this.toast.success(this.editing() ? t('welcome.updated') : t('welcome.done'));
     void this.router.navigateByUrl(this.destination());
   }
 
