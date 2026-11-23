@@ -62,8 +62,15 @@ export class AuthError extends Error {
   }
 }
 
+/** The provider rejected the request because this web address isn't on its trusted list. */
+export function isOriginError(err: unknown): boolean {
+  const e = err as { message?: string; code?: string } | null;
+  return /INVALID_ORIGIN|MISSING_OR_NULL_ORIGIN|invalid origin|null origin|INVALID_CALLBACK_?URL|invalid callback ?url/i.test(`${e?.code ?? ''} ${e?.message ?? ''}`);
+}
+
 /** Known auth failures (from any backend), mapped to translated messages. Order matters. */
 const AUTH_ERRORS: [RegExp, MessageKey][] = [
+  [/INVALID_ORIGIN|MISSING_OR_NULL_ORIGIN|invalid origin|null origin|INVALID_CALLBACK_?URL|invalid callback ?url/i, 'authErr.origin'],
   [/verify your email first|EMAIL_NOT_VERIFIED|email_not_confirmed|email not confirmed/i, 'login.verifyFirst'],
   [/current password is incorrect/i, 'authErr.currentWrong'],
   [/signed up with Google/i, 'authErr.noPassword'],

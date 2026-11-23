@@ -100,7 +100,7 @@ The `folio` Neon project is set up and connected:
 **Before going live** (Neon Console → your project → Branch → Settings → Auth):
 
 1. **Add your own Google OAuth client.** With shared credentials, Google's consent screen shows Neon's name instead of yours. Create a "Web application" OAuth client in Google Cloud Console, add the redirect URI shown in Neon's "Add OAuth provider" dialog (`https://ep-lingering-fog-ar4uglrw.neonauth.c-4.us-west-2.aws.neon.tech/neondb/auth/callback/google`), then paste the client ID and secret into Neon.
-2. **Add your production domain** under trusted domains, and turn off "allow localhost".
+2. **Add your production domain** under trusted domains, and turn off "allow localhost". Neon Auth accepts sign-up and sign-in only from trusted addresses. `localhost` is always allowed, and so is `http://127.0.0.1:4200`, which is on the list. From any other address, Neon answers "Invalid origin". Folio then switches that address to on-device accounts, so readers can still register and sign in, and the sign-in pages explain that accounts there aren't synced. Add the address to the trusted list to turn cloud accounts on for it.
 3. **Set up your own email sender** (Settings → Auth → Email provider, using SMTP from Resend, Postmark, SES or similar). Verification codes and password-reset emails go out from Neon's shared `auth@mail.myneon.app` by default. That's fine for testing, but it's rate-limited and its messages are more likely to land in spam.
 
 To point the app at a different Neon project, run `neon/migrations/0001_reading_platform.sql` in it (after enabling Auth and the Data API), then set `neonUrl` in `environment.ts` to `https://<endpoint>.<region>.aws.neon.tech/<database>`.

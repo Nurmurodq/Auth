@@ -53,7 +53,11 @@ export class LibraryService {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
-  private readonly sync: SyncAdapter | null = createSync();
+  private readonly cloudSync: SyncAdapter | null = createSync();
+  /** Cloud sync, unless this address is using on-device accounts (see AuthService.onDeviceFallback). */
+  private get sync(): SyncAdapter | null {
+    return this.auth.backendKind === 'local' ? null : this.cloudSync;
+  }
 
   readonly data = signal<UserData>(emptyUserData());
   readonly syncing = signal(false);

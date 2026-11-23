@@ -125,8 +125,10 @@ export class LoginPage {
     this.loading.set(true);
     try {
       const { email, password } = this.form.getRawValue();
+      const wasCloud = !this.auth.onDeviceFallback();
       const user = await this.auth.signIn(email, password);
-      this.toast.success(t('login.welcome', { name: user.name.split(' ')[0] }));
+      if (wasCloud && this.auth.onDeviceFallback()) this.toast.show(t('auth.deviceToast'), { duration: 9000 });
+      else this.toast.success(t('login.welcome', { name: user.name.split(' ')[0] }));
       await this.router.navigateByUrl(safeReturnUrl(this.returnUrl()));
     } catch (err) {
       if (err instanceof AuthError && err.code === 'email_not_verified') {

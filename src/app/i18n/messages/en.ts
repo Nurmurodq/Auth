@@ -691,6 +691,10 @@ export const en = {
   "search.seeAll": "See all results for “{query}”",
   "common.books": { one: "{count} book", other: "{count} books" },
   "app.skip": "Skip to content",
+  "authErr.origin": "This web address isn’t connected to cloud accounts yet, so accounts here are kept on this device. Please try again.",
+  "authErr.googleOrigin": "Google sign-in isn’t available on this web address yet. Create an account with your email instead.",
+  "auth.deviceNotice": "Cloud accounts aren’t enabled for this web address yet, so your account is kept securely on this device.",
+  "auth.deviceToast": "You’re in! Your account is saved on this device, because cloud sync isn’t enabled for this web address yet.",
 } satisfies Record<string, Msg>;
 
 export type MessageKey = keyof typeof en;

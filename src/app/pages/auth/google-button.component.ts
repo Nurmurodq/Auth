@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { t } from '../../i18n/i18n';
 import { AuthService } from '../../services/auth/auth.service';
 import { friendlyAuthError } from '../../services/auth/auth-backend';
@@ -9,7 +9,7 @@ import { ToastService } from '../../services/toast.service';
   selector: 'app-google-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @if (available) {
+    @if (available()) {
       <button type="button" class="btn btn-secondary btn-lg btn-block google" (click)="start()" [disabled]="busy()">
         @if (busy()) {
           <span class="spinner" aria-hidden="true"></span> {{ t('google.redirecting') }}
@@ -74,7 +74,8 @@ export class GoogleButtonComponent {
   readonly label = input<string | null>(null);
   readonly dividerText = input<string | null>(null);
 
-  protected readonly available = this.auth.socialProviders.includes('google');
+  /** Hidden when the backend can't do Google sign-in (e.g. on-device accounts on this address). */
+  protected readonly available = computed(() => this.auth.socialProviders.includes('google'));
   protected readonly busy = signal(false);
 
   protected async start(): Promise<void> {

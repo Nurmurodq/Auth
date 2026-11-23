@@ -689,6 +689,10 @@ export const dictionary: Dictionary = {
     "search.seeAll": "«{query}» boʻyicha barcha natijalar",
     "common.books": "{count} ta kitob",
     "app.skip": "Asosiy mazmunga oʻtish",
+    "authErr.origin": "Bu sayt manzili hali bulutli hisoblarga ulanmagan, shuning uchun bu yerdagi hisoblar qurilmada saqlanadi. Qayta urinib koʻring.",
+    "authErr.googleOrigin": "Bu sayt manzilida Google orqali kirish hozircha mavjud emas. Elektron pochta orqali hisob yarating.",
+    "auth.deviceNotice": "Bu sayt manzili uchun bulutli hisoblar hali yoqilmagan, shuning uchun hisobingiz shu qurilmada xavfsiz saqlanadi.",
+    "auth.deviceToast": "Tayyor! Hisobingiz shu qurilmada saqlandi, chunki bu sayt manzili uchun bulutli sinxronlash hali yoqilmagan.",
   },
   extras: {
     /** One-line book summaries (by book id), shown on book pages and in list view. */

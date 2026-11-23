@@ -48,7 +48,9 @@ const COLLAGE = [
         </div>
         <p class="mode-note">
           <app-icon name="shield" [size]="15" />
-          @if (auth.backendKind === 'local') {
+          @if (auth.onDeviceFallback()) {
+            {{ t('auth.deviceNotice') }}
+          } @else if (auth.backendKind === 'local') {
             {{ t('auth.storedLocal') }}
           } @else {
             {{ t('auth.syncs') }}

@@ -76,6 +76,8 @@ The unit tests include a check that every English message has a Russian and an U
 
 ## Troubleshooting
 
+- **The sign-in page says "your account is kept securely on this device"**, or a hosted copy can't use cloud accounts: Neon only accepts sign-ups and sign-ins from its trusted web addresses (`localhost` and `http://127.0.0.1:4200` are allowed). Add your site's exact address, such as `https://your-app.vercel.app`, under Neon Console → project **folio** → **Settings → Auth → Trusted domains**. Until then, Folio keeps accounts on the device for that address, so everything still works, just without syncing. It tries the cloud again after a day.
+- **Opening the dev server from a phone on your Wi-Fi** (for example `http://192.168.1.20:4200`): run `npm start -- --host 0.0.0.0`. Plain-HTTP network addresses aren't trusted by Neon, so accounts there are kept on the phone, and Folio's built-in fallbacks handle the browser features that only exist on secure (HTTPS) pages.
 - **Google sign-in returns to the sign-in page with an error**: the site's domain probably isn't in Neon's trusted domains. Add it under Neon Console → Settings → Auth.
 - **The verification code never arrives**: check spam and promotions, then use *Send a new code*. Codes expire after 5 minutes, and only the newest one works. For reliable delivery in production, connect your own email provider (see section 3).
 - **Animations don't play**: your system's *reduce motion* setting is on, so Folio deliberately shows everything without movement. Cover tilt and spotlights only respond to a mouse, not to touch.

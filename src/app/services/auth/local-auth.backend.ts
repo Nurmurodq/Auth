@@ -1,5 +1,6 @@
 import { User } from '../../models/user.model';
 import { readJson, removeKey, storageKey, writeJson } from '../../utils/storage';
+import { pbkdf2Sha256, sha256Bytes } from '../../utils/sha256';
 import { uid } from '../../utils/text';
 import { AuthBackend, AuthError, ResetRequestResult, SignUpInput, SignUpResult, SocialProvider } from './auth-backend';
 
@@ -49,6 +50,11 @@ export class LocalAuthBackend implements AuthBackend {
 
   async restore(): Promise<User | null> {
     return this.currentUser();
+  }
+
+  /** Whether someone is signed in to an on-device account in this browser. */
+  hasSession(): boolean {
+    return this.currentUser() !== null;
   }
 
   onExternalChange(listener: (user: User | null) => void): void {
@@ -186,22 +192,29 @@ function toUser(a: StoredAccount): User {
   return { id: a.id, email: a.email, name: a.name, createdAt: a.createdAt };
 }
 
-function subtle(): SubtleCrypto {
-  if (!globalThis.crypto?.subtle) {
-    throw new AuthError('Secure sign-in needs HTTPS (or localhost). Please open Folio over a secure connection.', 'insecure_context');
-  }
-  return crypto.subtle;
+/** WebCrypto when available (secure origins); otherwise the identical pure-TypeScript fallback. */
+function subtle(): SubtleCrypto | null {
+  return globalThis.crypto?.subtle ?? null;
 }
 
 async function hashPassword(password: string, salt: Uint8Array, iterations: number): Promise<string> {
-  const key = await subtle().importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
-  const bits = await subtle().deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: salt as BufferSource, iterations }, key, 256);
+  const secret = new TextEncoder().encode(password);
+  const webCrypto = subtle();
+  if (!webCrypto) {
+    // Let the "Creating your account…" state paint before the (synchronous) fallback runs.
+    await new Promise((r) => setTimeout(r, 30));
+    return toBase64(pbkdf2Sha256(secret, salt, iterations));
+  }
+  const key = await webCrypto.importKey('raw', secret, 'PBKDF2', false, ['deriveBits']);
+  const bits = await webCrypto.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: salt as BufferSource, iterations }, key, 256);
   return toBase64(new Uint8Array(bits));
 }
 
 async function sha256(text: string): Promise<string> {
-  const digest = await subtle().digest('SHA-256', new TextEncoder().encode(text));
-  return toBase64(new Uint8Array(digest));
+  const bytes = new TextEncoder().encode(text);
+  const webCrypto = subtle();
+  if (!webCrypto) return toBase64(sha256Bytes(bytes));
+  return toBase64(new Uint8Array(await webCrypto.digest('SHA-256', bytes)));
 }
 
 function randomBytes(n: number): Uint8Array {

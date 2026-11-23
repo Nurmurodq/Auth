@@ -7,6 +7,7 @@ import { safeReturnUrl } from '../../guards';
 import { AuthService } from '../../services/auth/auth.service';
 import { friendlyAuthError } from '../../services/auth/auth-backend';
 import { IconComponent } from '../../shared/icon.component';
+import { ToastService } from '../../services/toast.service';
 import { MIN_PASSWORD_LENGTH, passwordStrength } from '../../utils/password';
 import { savePendingVerification } from '../../utils/pending-verification';
 import { AuthShellComponent } from './auth-shell.component';
@@ -113,6 +114,7 @@ export class RegisterPage {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly fb = inject(NonNullableFormBuilder);
+  private readonly toast = inject(ToastService);
 
   readonly returnUrl = input<string>();
   protected readonly destination = () => safeReturnUrl(this.returnUrl(), '/');
@@ -147,7 +149,10 @@ export class RegisterPage {
     this.loading.set(true);
     try {
       const { name, email, password } = this.form.getRawValue();
+      const wasCloud = !this.auth.onDeviceFallback();
       const result = await this.auth.signUp({ name, email, password });
+      // The cloud refused this web address, so the account was created on this device instead.
+      if (wasCloud && this.auth.onDeviceFallback()) this.toast.show(t('auth.deviceToast'), { duration: 9000 });
       if (result.needsVerification) {
         // A 6-digit code is on its way; confirm it before the account can be used.
         savePendingVerification({ email: email.trim(), returnUrl: safeReturnUrl(this.returnUrl(), '/'), isNew: true });
