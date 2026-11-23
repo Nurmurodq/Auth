@@ -10,6 +10,10 @@ import { READER_FONTS, READER_THEMES, ReaderFont, ReaderSettingsService, ReaderT
 import { BookCoverComponent } from '../../shared/book-cover.component';
 import { BookShelfComponent } from '../../shared/book-shelf.component';
 import { IconComponent } from '../../shared/icon.component';
+import { CountUpDirective } from '../../shared/motion/count-up.directive';
+import { ParallaxDirective } from '../../shared/motion/parallax.directive';
+import { RevealDirective } from '../../shared/motion/reveal.directive';
+import { SpotlightDirective } from '../../shared/motion/spotlight.directive';
 import { WORDS_PER_MINUTE } from '../../config';
 import { formatDuration, formatNumber, formatPercent } from '../../utils/format';
 
@@ -23,7 +27,7 @@ interface ContinueItem {
 @Component({
   selector: 'app-home',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, BookCoverComponent, BookShelfComponent, IconComponent],
+  imports: [RouterLink, BookCoverComponent, BookShelfComponent, IconComponent, CountUpDirective, ParallaxDirective, RevealDirective, SpotlightDirective],
   templateUrl: './home.page.html',
   styleUrl: './home.page.css',
 })
@@ -50,11 +54,13 @@ export class HomePage {
   protected readonly quoteBook = this.catalog.get('pride-and-prejudice');
 
   private readonly millionsOfWords = Math.round(this.catalog.books.reduce((s, b) => s + b.words, 0) / 1_000_000);
+  private readonly whole = (n: number) => formatNumber(Math.round(n));
+  private readonly millions = (n: number) => t('home.statWordsValue', { n: Math.round(n) });
   protected readonly stats = computed(() => [
-    { id: 'books', value: String(this.catalog.books.length), label: t('home.statBooks', { count: this.catalog.books.length }) },
-    { id: 'genres', value: String(this.catalog.genres.length), label: t('home.statGenres', { count: this.catalog.genres.length }) },
-    { id: 'words', value: t('home.statWordsValue', { n: this.millionsOfWords }), label: t('home.statWords') },
-    { id: 'ads', value: '0', label: t('home.statAds') },
+    { id: 'books', count: this.catalog.books.length, format: this.whole, label: t('home.statBooks', { count: this.catalog.books.length }) },
+    { id: 'genres', count: this.catalog.genres.length, format: this.whole, label: t('home.statGenres', { count: this.catalog.genres.length }) },
+    { id: 'words', count: this.millionsOfWords, format: this.millions, label: t('home.statWords') },
+    { id: 'ads', count: 0, format: this.whole, label: t('home.statAds') },
   ]);
 
   protected readonly continueReading = computed<ContinueItem[]>(() =>

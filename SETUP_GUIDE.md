@@ -24,8 +24,9 @@ To work offline, with accounts and data kept only in your browser, run `npm run 
    - With email, a **6-digit code** is sent to your inbox. Enter it on the *Check your email* screen. Check spam if it's slow to arrive, and you can request a new code after 60 seconds. Google accounts skip this step, because Google has already verified the address.
    - Next comes a short **welcome questionnaire**: what you do, why you read, favourite genres and moods, and preferred length and difficulty. Your first personal picks appear at the end.
    - The home page then shows **"Picked for you"**, and each book says why it was chosen. Change your answers anytime under *Account → Reading interests*.
-4. **Organise**: favourite books, add them to *Want to read*, and see everything under *My Library*.
-5. **Track**: *Account & stats* shows your streak, daily goal and reading-time chart.
+4. **Switch language**: open the globe menu in the header and choose *Русский* or *Oʻzbekcha*. Everything switches instantly and stays that way next time. You can also open `http://localhost:4200/?lang=uz`.
+5. **Organise**: favourite books, add them to *Want to read*, and see everything under *My Library*.
+6. **Track**: *Account & stats* shows your streak, daily goal and reading-time chart.
 
 ## 3. Google sign-in and going live
 
@@ -71,10 +72,14 @@ Deploy `dist/folio/browser` to any static host, configured to rewrite unknown pa
 npm test
 ```
 
+The unit tests include a check that every English message has a Russian and an Uzbek translation with matching placeholders.
+
 ## Troubleshooting
 
 - **Google sign-in returns to the sign-in page with an error**: the site's domain probably isn't in Neon's trusted domains. Add it under Neon Console → Settings → Auth.
 - **The verification code never arrives**: check spam and promotions, then use *Send a new code*. Codes expire after 5 minutes, and only the newest one works. For reliable delivery in production, connect your own email provider (see section 3).
+- **Animations don't play**: your system's *reduce motion* setting is on, so Folio deliberately shows everything without movement. Cover tilt and spotlights only respond to a mouse, not to touch.
+- **Dates in Uzbek look unusual**: some browsers lack Uzbek locale data. Folio then formats Uzbek dates and numbers itself, so they read like "23-noyabr, 2026".
 - **"Secure sign-in needs HTTPS"**: local mode uses the WebCrypto API, which browsers only allow on `https://` or `localhost`.
 - **A book or chapter won't load**: make sure the host serves files under `/books/` directly rather than rewriting them to `index.html`.
 - **Re-importing books**: `npm run import-books` needs ImageMagick (`convert`, `identify`) and internet access to standardebooks.org.

@@ -233,9 +233,15 @@ export async function setLang(lang: Lang, persist = true): Promise<void> {
   }
 }
 
-/** Loads the reader's language before the app renders. */
+/** Loads the reader's language before the app renders. A language chosen in the URL is remembered. */
 export function initI18n(): Promise<void> {
-  pending ??= setLang(detectLang(), false).catch(() => setLang('en', false));
+  let fromUrl = false;
+  try {
+    fromUrl = isLang(new URLSearchParams(location.search).get('lang'));
+  } catch {
+    /* no URL */
+  }
+  pending ??= setLang(detectLang(), fromUrl).catch(() => setLang('en', false));
   return pending;
 }
 

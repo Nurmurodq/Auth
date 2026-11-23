@@ -1,4 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
+import { BurstDirective } from '../../shared/motion/burst.directive';
+import { RevealDirective } from '../../shared/motion/reveal.directive';
+import { TiltDirective } from '../../shared/motion/tilt.directive';
 import { bookTagline, t } from '../../i18n/i18n';
 import { ChangeDetectionStrategy, Component, ElementRef, Injector, afterNextRender, computed, effect, inject, signal, untracked, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -34,7 +37,7 @@ const list = (v: string | null) => (v ? v.split(',').filter(Boolean) : []);
 @Component({
   selector: 'app-browse',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, NgTemplateOutlet, BookCardComponent, BookCoverComponent, IconComponent],
+  imports: [RouterLink, NgTemplateOutlet, BookCardComponent, BookCoverComponent, IconComponent, BurstDirective, RevealDirective, TiltDirective],
   templateUrl: './browse.page.html',
   styleUrl: './browse.page.css',
 })

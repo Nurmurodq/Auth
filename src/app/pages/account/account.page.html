@@ -28,7 +28,7 @@
     <section class="section" aria-labelledby="stats-title">
       <h2 class="section-title" id="stats-title">{{ t('account.stats') }}</h2>
       <div class="stats-grid">
-        <div class="card goal-card">
+        <div class="card goal-card" [style.--ring-c]="ring().c">
           <div class="ring-wrap">
             <svg viewBox="0 0 120 120" class="ring" aria-hidden="true">
               <circle cx="60" cy="60" [attr.r]="ring().r" class="ring-track" />
@@ -67,25 +67,29 @@
         </div>
 
         <div class="tiles">
-          @for (tile of tiles(); track tile.id) {
-            <div class="card tile">
+          @for (tile of tiles(); track tile.id; let i = $index) {
+            <div class="card tile" [appReveal]="i">
               <app-icon [name]="tile.icon" [size]="18" class="tile-icon" />
-              <span class="tile-value">{{ tile.value }}</span>
+              @if (tile.count !== null) {
+                <span class="tile-value" [appCountUp]="tile.count"></span>
+              } @else {
+                <span class="tile-value">{{ tile.value }}</span>
+              }
               <span class="tile-label">{{ tile.label }}</span>
             </div>
           }
         </div>
       </div>
 
-      <div class="card chart-card">
+      <div class="card chart-card" appReveal>
         <div class="chart-head">
           <h3>{{ t('account.last14') }}</h3>
           <span class="legend"><i class="dot met"></i>{{ t('account.goalMet') }} <i class="dot"></i>{{ t('account.read') }}</span>
         </div>
         <div class="chart" role="img" [attr.aria-label]="t('account.chartLabel')">
           <span class="goal-line" [style.bottom.%]="goalLine()" aria-hidden="true"><span>{{ t('time.min', { m: goal() }) }}</span></span>
-          @for (d of chart(); track d.key) {
-            <div class="bar-col" [class.today]="d.today">
+          @for (d of chart(); track d.key; let i = $index) {
+            <div class="bar-col" [class.today]="d.today" [style.--i]="i">
               <div class="bar-area">
                 <div class="bar" [class.met]="d.metGoal" [style.height.%]="d.height" [title]="t('account.barTitle', { m: d.minutes, date: d.key })"></div>
               </div>

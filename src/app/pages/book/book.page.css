@@ -60,6 +60,11 @@
   transform: rotateY(0deg) rotateX(0deg) translateY(-4px);
 }
 
+/* Arriving from a card, the cover morphs into place instead of playing its entrance. */
+.cover-3d.no-entrance {
+  animation: none;
+}
+
 .cover-3d app-book-cover {
   box-shadow: var(--shadow-lg), 18px 24px 48px -24px rgb(var(--shadow-color) / 0.45);
 }
@@ -159,6 +164,16 @@
   color: #d1453b;
   border-color: color-mix(in srgb, #d1453b 40%, var(--border));
   background: color-mix(in srgb, #d1453b 8%, var(--bg-elevated));
+}
+
+.progress-block .progress span {
+  animation: grow 1100ms var(--ease-out) 250ms backwards;
+}
+
+@keyframes grow {
+  from {
+    width: 0;
+  }
 }
 
 .progress-block {

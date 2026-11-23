@@ -4,15 +4,17 @@ import { RouterLink } from '@angular/router';
 import { BookRecord } from '../models/book.model';
 import { formatPercent, formatReadingTime, formatYear } from '../utils/format';
 import { BookCoverComponent } from './book-cover.component';
+import { markCoverSource } from './motion/cover-transition';
+import { TiltDirective } from './motion/tilt.directive';
 
 @Component({
   selector: 'app-book-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, BookCoverComponent],
+  imports: [RouterLink, BookCoverComponent, TiltDirective],
   template: `
-    <a class="book-card" [routerLink]="['/book', book().id]" [attr.aria-label]="ariaLabel()">
+    <a class="book-card" [routerLink]="['/book', book().id]" [attr.aria-label]="ariaLabel()" (click)="onClick($event)">
       <div class="cover-wrap">
-        <app-book-cover [book]="book()" [eager]="eager()" [sizes]="sizes()" />
+        <app-book-cover appTilt="12" [book]="book()" [eager]="eager()" [sizes]="sizes()" />
         @if (badge()) {
           <span class="badge">{{ badge() }}</span>
         }
@@ -136,6 +138,11 @@ import { BookCoverComponent } from './book-cover.component';
   `,
 })
 export class BookCardComponent {
+  /** Lets the clicked cover morph into the book page's cover. */
+  protected onClick(event: MouseEvent): void {
+    markCoverSource((event.currentTarget as HTMLElement).querySelector<HTMLElement>('app-book-cover'), event);
+  }
+
   readonly book = input.required<BookRecord>();
   readonly progress = input<number | null>(null);
   readonly badge = input<string | null>(null);

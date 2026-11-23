@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, computed, inject, signal, viewChild } from '@angular/core';
+import { CountUpDirective } from '../../shared/motion/count-up.directive';
+import { RevealDirective } from '../../shared/motion/reveal.directive';
 import { localized, t } from '../../i18n/i18n';
 import { LanguageSwitcherComponent } from '../../i18n/language-switcher.component';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -19,7 +21,7 @@ import { MIN_PASSWORD_LENGTH, passwordsMatch } from '../../utils/password';
 @Component({
   selector: 'app-account',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, RouterLink, IconComponent, BookCoverComponent, LanguageSwitcherComponent],
+  imports: [ReactiveFormsModule, RouterLink, IconComponent, BookCoverComponent, LanguageSwitcherComponent, CountUpDirective, RevealDirective],
   templateUrl: './account.page.html',
   styleUrl: './account.page.css',
 })
@@ -70,12 +72,12 @@ export class AccountPage {
   protected readonly tiles = computed(() => {
     const s = this.stats();
     return [
-      { id: 'streak', icon: 'flame' as const, label: t('library.streak'), value: String(s.streak) },
-      { id: 'week', icon: 'clock' as const, label: t('library.week'), value: formatDuration(s.weekSeconds / 60) },
-      { id: 'progress', icon: 'book-open' as const, label: t('account.inProgress'), value: String(s.inProgress) },
-      { id: 'finished', icon: 'trophy' as const, label: t('shelf.finished'), value: String(s.finished) },
-      { id: 'bookmarks', icon: 'bookmark' as const, label: t('nav.bookmarks'), value: String(this.library.bookmarks().length) },
-      { id: 'total', icon: 'sparkles' as const, label: t('account.allTime'), value: formatDuration(s.totalSeconds / 60) },
+      { id: 'streak', icon: 'flame' as const, label: t('library.streak'), value: String(s.streak), count: s.streak as number | null },
+      { id: 'week', icon: 'clock' as const, label: t('library.week'), value: formatDuration(s.weekSeconds / 60), count: null },
+      { id: 'progress', icon: 'book-open' as const, label: t('account.inProgress'), value: String(s.inProgress), count: s.inProgress },
+      { id: 'finished', icon: 'trophy' as const, label: t('shelf.finished'), value: String(s.finished), count: s.finished },
+      { id: 'bookmarks', icon: 'bookmark' as const, label: t('nav.bookmarks'), value: String(this.library.bookmarks().length), count: this.library.bookmarks().length },
+      { id: 'total', icon: 'sparkles' as const, label: t('account.allTime'), value: formatDuration(s.totalSeconds / 60), count: null },
     ];
   });
 

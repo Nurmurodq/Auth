@@ -116,15 +116,15 @@
     } @else if (view() === 'grid') {
       <div class="grid">
         @for (book of results(); track book.id; let i = $index) {
-          <app-book-card [book]="book" [eager]="i < 8" [progress]="progressOf(book.id)" />
+          <app-book-card [appReveal]="i % 5" [book]="book" [eager]="i < 8" [progress]="progressOf(book.id)" />
         }
       </div>
     } @else {
       <ol class="rows">
-        @for (book of results(); track book.id) {
-          <li class="row">
+        @for (book of results(); track book.id; let i = $index) {
+          <li class="row" [appReveal]="i % 4">
             <a class="row-cover" [routerLink]="['/book', book.id]" tabindex="-1" aria-hidden="true">
-              <app-book-cover [book]="book" sizes="96px" />
+              <app-book-cover appTilt="10" [book]="book" sizes="96px" />
             </a>
             <div class="row-body">
               <a class="row-title" [routerLink]="['/book', book.id]">{{ book.title }}</a>
@@ -149,6 +149,7 @@
               <button
                 type="button"
                 class="icon-btn"
+                [appBurst]="!!library.entry(book.id)?.favorite"
                 [attr.aria-pressed]="!!library.entry(book.id)?.favorite"
                 (click)="toggleFavorite(book.id, book.title)"
                 [attr.aria-label]="library.entry(book.id)?.favorite ? t('fav.remove') : t('fav.add')"

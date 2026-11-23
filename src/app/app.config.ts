@@ -24,6 +24,7 @@ import { routes } from './app.routes';
 import { APP_NAME } from './config';
 import { MessageKey, currentLang, initI18n, t } from './i18n/i18n';
 import { CatalogService } from './services/catalog.service';
+import { onViewTransitionCreated } from './shared/motion/cover-transition';
 
 /** Translates route titles (message keys or "book:<id>") and re-applies them when the language changes. */
 @Injectable({ providedIn: 'root' })
@@ -67,7 +68,7 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
       // Scroll handling is customised in AppComponent (keep position when only query params change).
       withInMemoryScrolling({ scrollPositionRestoration: 'disabled', anchorScrolling: 'enabled' }),
-      withViewTransitions({ skipInitialTransition: true }),
+      withViewTransitions({ skipInitialTransition: true, onViewTransitionCreated }),
       withPreloading(PreloadAllModules),
     ),
     { provide: TitleStrategy, useClass: AppTitleStrategy },

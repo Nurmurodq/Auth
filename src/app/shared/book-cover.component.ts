@@ -95,7 +95,7 @@ import { BookRecord } from '../models/book.model';
       text-align: center;
     }
     .title {
-      font-family: var(--font-display);
+      font-family: var(--font-brand);
       font-weight: 520;
       font-size: 9.6cqi;
       line-height: 1.04;

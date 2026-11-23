@@ -61,13 +61,13 @@
           @for (s of stats(); track s.id) {
             <div>
               <dt>{{ s.label }}</dt>
-              <dd>{{ s.value }}</dd>
+              <dd [appCountUp]="s.count" [format]="s.format"></dd>
             </div>
           }
         </dl>
       </div>
 
-      <div class="hero-art" aria-hidden="true">
+      <div class="hero-art" aria-hidden="true" appParallax>
         <div class="stack">
           @for (book of heroBooks; track book.id; let i = $index) {
             <a class="stack-book" [style.--i]="i" [routerLink]="['/book', book.id]" tabindex="-1">
@@ -83,7 +83,7 @@
 
 <!-- Personalised -->
 @if (recs.hasProfile() && forYouBooks().length) {
-  <section class="container block" [attr.aria-label]="t('home.forYou')">
+  <section class="container block" appReveal [attr.aria-label]="t('home.forYou')">
     <app-book-shelf
       [heading]="t('home.forYou')"
       [description]="t('home.forYouDesc')"
@@ -95,7 +95,7 @@
   </section>
 } @else if (recs.needsProfile()) {
   <section class="container block">
-    <div class="personalize fade-up">
+    <div class="personalize fade-up" appSpotlight>
       <span class="personalize-icon" aria-hidden="true"><app-icon name="sparkles" [size]="24" /></span>
       <div class="personalize-copy">
         <h2 class="display">{{ t('home.personaliseTitle') }}</h2>
@@ -107,19 +107,19 @@
 }
 
 @if (recs.becauseYouEnjoyed(); as because) {
-  <section class="container block">
+  <section class="container block" appReveal>
     <app-book-shelf [heading]="t('home.becauseEnjoyed', { title: because.book.title })" [description]="t('home.becauseDesc')" [books]="because.related" />
   </section>
 }
 
 <!-- Editor's picks -->
-<section class="container block">
+<section class="container block" appReveal>
   <app-book-shelf [heading]="t('home.picks')" [description]="t('home.picksDesc')" [books]="picks" [link]="{ commands: ['/browse'] }" />
 </section>
 
 <!-- Genres -->
 <section class="container block" aria-labelledby="genres-title">
-  <div class="section-head">
+  <div class="section-head" appReveal>
     <div>
       <h2 class="section-title" id="genres-title">{{ t('home.genres') }}</h2>
       <p>{{ t('home.genresDesc') }}</p>
@@ -127,8 +127,8 @@
     <a routerLink="/browse" class="btn btn-ghost btn-sm">{{ t('footer.allBooks') }}</a>
   </div>
   <div class="genre-grid">
-    @for (g of genres; track g.genre.id) {
-      <a class="genre" [routerLink]="['/browse']" [queryParams]="{ genre: g.genre.id }" [style.--tint]="g.books[0]?.cover?.color">
+    @for (g of genres; track g.genre.id; let i = $index) {
+      <a class="genre" [appReveal]="i % 3" appSpotlight [routerLink]="['/browse']" [queryParams]="{ genre: g.genre.id }" [style.--tint]="g.books[0]?.cover?.color">
         <div class="genre-text">
           <h3>{{ g.genre.name }}</h3>
           <p>{{ g.genre.blurb }}</p>
@@ -146,7 +146,7 @@
 
 <!-- Reading experience showcase -->
 <section class="container block">
-  <div class="showcase">
+  <div class="showcase" appReveal>
     <div class="showcase-copy">
       <p class="eyebrow">{{ t('home.readerEyebrow') }}</p>
       <h2 class="display showcase-title">{{ t('home.readerTitle') }}</h2>
@@ -229,7 +229,7 @@
 <!-- Quote -->
 @if (quoteBook) {
   <section class="container block">
-    <figure class="quote">
+    <figure class="quote" appReveal>
       <app-icon name="quote" [size]="36" class="quote-mark" />
       <blockquote class="display">{{ t('home.quote') }}</blockquote>
       <figcaption>
@@ -242,7 +242,7 @@
 <!-- Join CTA -->
 @if (!auth.isAuthenticated()) {
   <section class="container block">
-    <div class="join">
+    <div class="join" appReveal appSpotlight>
       <div class="join-copy">
         <h2 class="display">{{ t('home.joinTitle') }}</h2>
         <p>{{ t('home.joinText') }}</p>

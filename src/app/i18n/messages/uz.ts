@@ -390,7 +390,7 @@ export const dictionary: Dictionary = {
     "account.yourName": "Ismingiz",
     "common.save": "Saqlash",
     "account.editName": "Ismni tahrirlash",
-    "account.since": "{date} dan beri kitobxon",
+    "account.since": "Kitobxonlik boshlangan sana: {date}",
     "account.storedLocal": "Faqat shu qurilmada saqlanadi",
     "account.synced": "Qurilmalaringiz oʻrtasida sinxronlanadi",
     "account.stats": "Mutolaa statistikasi",

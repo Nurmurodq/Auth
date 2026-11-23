@@ -126,6 +126,13 @@
   stroke: var(--accent);
   stroke-linecap: round;
   transition: stroke-dashoffset 900ms var(--ease);
+  animation: ring-in 1400ms var(--ease-out) 200ms backwards;
+}
+
+@keyframes ring-in {
+  from {
+    stroke-dashoffset: var(--ring-c);
+  }
 }
 
 .ring-label {
@@ -289,6 +296,18 @@
   border-radius: 6px 6px 2px 2px;
   background: color-mix(in srgb, var(--accent) 40%, var(--surface-2));
   transition: height 700ms var(--ease);
+  transform-origin: bottom;
+}
+
+.chart-card.is-revealed .bar {
+  animation: bar-grow 900ms var(--ease-out) backwards;
+  animation-delay: calc(200ms + var(--i, 0) * 40ms);
+}
+
+@keyframes bar-grow {
+  from {
+    transform: scaleY(0);
+  }
 }
 
 .bar.met {

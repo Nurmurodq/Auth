@@ -42,6 +42,7 @@ import { IconComponent } from '../shared/icon.component';
   `,
   styles: `
     :host {
+      view-transition-name: mobile-nav;
       position: fixed;
       inset: auto 0 0 0;
       z-index: 60;

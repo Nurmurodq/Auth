@@ -43,16 +43,31 @@ Folio is a reading platform for timeless books. It has a calm, ad-free library o
 - Export all your data as JSON, or clear your reading history.
 - Guests can read freely. Their progress carries over when they create an account.
 
+**English, Русский, Oʻzbekcha**
+- The whole interface is available in **English, Russian and Uzbek (Latin script)**. That covers navigation, every page, filters and genres, the questionnaire, recommendation reasons, toasts, error messages, page titles and the reader's controls.
+- Pick a language from the globe menu in the header, footer, sign-in pages or *Account → Preferences*. The choice is remembered, and switching dissolves smoothly in place. First-time visitors get their browser's language, and links can force one with `?lang=ru` or `?lang=uz`.
+- Correct plurals (Russian one/few/many), plus locale-aware numbers, dates, relative times ("2 дня назад", "kecha") and language names. A built-in Uzbek fallback covers browsers whose Intl lacks Uzbek data.
+- The one-line summary of every book (all 172) is translated. The books themselves, and their long descriptions, stay in the edition's original English, and book pages say so.
+- Russian headings switch to Literata, because the display face has no Cyrillic. Uzbek uses the proper modifier letters (oʻ, gʻ, ʼ), and search ignores them, so "o'zbek" still matches.
+
+**Motion & detail**
+- Book covers tilt toward the mouse in 3D, with a moving glare like light on a real dust jacket. Clicking a cover makes it **fly into the book page** (a shared-element View Transition).
+- Sections, cards and list rows rise into view as you scroll, staggered. The book page's details cascade in, and progress bars fill as they appear.
+- The hero stack floats gently and follows the pointer with parallax. Stats count up, the daily-goal ring sweeps in and the 14-day chart grows bar by bar.
+- Favouriting a book sets off a small heart burst. Cards carry a soft spotlight that follows the cursor, primary buttons get a light sweep, and a slim progress bar shows while a page loads.
+- All of it is decorative and turns off entirely with the system's **reduce motion** setting. Hover effects are mouse-only, so touch screens stay calm.
+
 **Quality**
 - Fully responsive, with a mobile tab bar and bottom-sheet filters and settings. Light, dark and system themes are applied before first paint, so there's no flash.
-- Accessible: semantic landmarks, skip link, labelled controls, keyboard support for every feature, focus-managed dialogs and reduced-motion support. It has **0 axe-core WCAG 2.1 AA violations** across all pages in both themes.
-- Fast: about 127 KB (gzip) of initial JavaScript, lazy-loaded routes, chapters loaded on demand with prefetching, responsive WebP covers, and self-hosted variable fonts that load only when used.
+- Accessible: semantic landmarks, skip link, labelled controls, keyboard support for every feature, focus-managed dialogs and reduced-motion support. It has **0 axe-core WCAG 2.1 AA violations** across all pages in both themes, in all three languages.
+- Fast: about 144 KB (compressed) of initial JavaScript and CSS, lazy-loaded routes, chapters loaded on demand with prefetching, responsive WebP covers, and self-hosted variable fonts that load only when used.
 
 ## Tech stack
 
 - **Angular 21**: standalone components, signals, zoneless change detection and the new control flow. Every component uses OnPush.
 - **Pluggable backend**: **Neon** by default (Managed Better Auth with Google sign-in, plus the Neon Data API over Postgres with row-level security). Alternatively **Supabase**, or a browser-only local mode with no server.
 - **Content**: [Standard Ebooks](https://standardebooks.org) EPUBs (CC0), converted at build time into sanitized per-chapter HTML.
+- **Internationalisation**: a small signal-based runtime (`src/app/i18n`), with no extra dependencies. Typed dictionaries mean the compiler rejects a missing translation, and Russian and Uzbek load lazily as separate chunks.
 - **Testing**: Vitest unit tests through the Angular CLI.
 
 ## Getting started
@@ -123,6 +138,12 @@ The output (`public/books`, `public/covers`, `src/app/data/catalog.data.ts`) is 
 
 To add a book, append its Standard Ebooks path, year of publication and genres to `books.config.mjs`, then run the importer.
 
+## Translations
+
+Messages live in `src/app/i18n/messages`. `en.ts` defines every key, and `ru.ts` and `uz.ts` must provide the same keys: the `Messages` type makes a missing one a compile error, and a unit test checks that placeholders such as `{title}` match. In templates and code, call `t('key', { params })`. Pass `count` to choose a plural form, written as `{ one, few, many, other }`. Book summaries per language are in each dictionary's `extras.taglines`.
+
+To add a language, create `messages/<code>.ts` exporting a `Dictionary`, then add it to `LANGUAGES` and the loaders in `i18n.ts`. If its script isn't covered by the bundled fonts, add a font too, as `styles.css` does for Russian.
+
 ## Project structure
 
 ```
@@ -130,6 +151,11 @@ src/app/
   app.component.ts / app.config.ts / app.routes.ts   shell, providers, lazy routes
   config.ts, guards.ts
   data/catalog.data.ts          generated catalog metadata
+  i18n/
+    i18n.ts                     translation store: t(), plurals, locale formatting, language detection
+    messages/en.ts              English messages (source of truth for every key)
+    messages/ru.ts, uz.ts       Russian and Uzbek messages and book summaries (lazy-loaded)
+    language-switcher.component.ts
   layout/                       header, mobile nav, footer, search palette, toasts
   models/                       book and user types
   pages/
@@ -147,6 +173,7 @@ src/app/
     library.service.ts          shelves, progress, bookmarks, stats (local-first)
     reader-settings.service.ts  typography and theme preferences
   shared/                       book cover, card, shelf, icons, shelf menu
+    motion/                     reveal, tilt, spotlight, parallax, count-up, burst, cover morph
   utils/                        formatting, text, storage, passwords
 scripts/                        content import pipeline
 neon/migrations/                Neon schema and RLS policies (default backend)

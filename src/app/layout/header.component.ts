@@ -48,7 +48,7 @@ import { initials } from '../utils/format';
         >
           <app-icon [name]="theme.resolved() === 'dark' ? 'sun' : 'moon'" />
         </button>
-        <app-language-switcher class="lang" />
+        <app-language-switcher class="lang compact-sm" />
 
         @if (auth.user(); as user) {
           <div class="account" #menuRoot>
@@ -91,6 +91,7 @@ import { initials } from '../utils/format';
   `,
   styles: `
     :host {
+      view-transition-name: site-header;
       position: sticky;
       top: 0;
       z-index: 50;
@@ -292,6 +293,12 @@ import { initials } from '../utils/format';
       }
       .bar {
         gap: 12px;
+      }
+    }
+    /* The bottom navigation already offers "Sign in" on small phones. */
+    @media (max-width: 400px) {
+      .signin {
+        display: none;
       }
     }
   `,

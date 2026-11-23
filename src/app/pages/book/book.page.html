@@ -15,11 +15,11 @@
     <section class="hero">
       <div class="cover-col">
         <div class="cover-3d">
-          <app-book-cover [book]="b" [eager]="true" [decorative]="false" sizes="(max-width: 760px) 60vw, 320px" />
+          <app-book-cover data-cover-target appTilt="14" [book]="b" [eager]="true" [decorative]="false" sizes="(max-width: 760px) 60vw, 320px" />
         </div>
       </div>
 
-      <div class="info fade-up">
+      <div class="info stagger">
         <div class="genre-row">
           @for (g of genres(); track g!.id) {
             <a class="tag genre-tag" routerLink="/browse" [queryParams]="{ genre: g!.id }">{{ g!.name }}</a>
@@ -52,6 +52,7 @@
           <button
             type="button"
             class="icon-btn round"
+            [appBurst]="isFavorite()"
             [attr.aria-pressed]="isFavorite()"
             (click)="toggleFavorite()"
             [attr.aria-label]="isFavorite() ? t('fav.remove') : t('fav.add')"
@@ -84,7 +85,7 @@
 
     <div class="columns">
       <div class="main-col">
-        <section class="panel" aria-labelledby="about-title">
+        <section class="panel" appReveal aria-labelledby="about-title">
           <h2 id="about-title" class="panel-title">{{ t('book.about') }}</h2>
           @if (showOriginalNote()) {
             <p class="orig-note"><app-icon name="globe" [size]="15" />{{ t('book.descriptionOriginal') }}</p>
@@ -103,7 +104,7 @@
           }
         </section>
 
-        <section class="panel" aria-labelledby="toc-title">
+        <section class="panel" appReveal aria-labelledby="toc-title">
           <div class="panel-head">
             <h2 id="toc-title" class="panel-title">{{ t('book.contents') }}</h2>
             <span class="muted small">{{ b.genres.includes('poetry') ? t('book.sectionsCount', { count: b.chapters }) : t('book.chaptersCount', { count: b.chapters }) }}</span>
@@ -186,7 +187,7 @@
       </div>
 
       <aside class="side-col">
-        <div class="card details">
+        <div class="card details" appReveal="2">
           <h2 class="panel-title small-title">{{ t('book.details') }}</h2>
           <dl>
             <div>
@@ -237,12 +238,12 @@
     </div>
 
     @if (moreByAuthor().length) {
-      <section class="block">
+      <section class="block" appReveal>
         <app-book-shelf [heading]="t('book.moreBy', { author: b.author })" [books]="moreByAuthor()" [link]="{ commands: ['/browse'], query: { author: b.authorId } }" />
       </section>
     }
     @if (related().length) {
-      <section class="block">
+      <section class="block" appReveal>
         <app-book-shelf [heading]="t('book.alsoEnjoy')" [description]="t('book.alsoEnjoyDesc')" [books]="related()" />
       </section>
     }

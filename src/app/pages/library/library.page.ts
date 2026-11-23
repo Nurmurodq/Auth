@@ -1,4 +1,8 @@
 import { NgTemplateOutlet } from '@angular/common';
+import { BurstDirective } from '../../shared/motion/burst.directive';
+import { CountUpDirective } from '../../shared/motion/count-up.directive';
+import { RevealDirective } from '../../shared/motion/reveal.directive';
+import { TiltDirective } from '../../shared/motion/tilt.directive';
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { BookRecord } from '../../models/book.model';
@@ -48,7 +52,7 @@ const TABS: TabMeta[] = localized<TabMeta>(
 @Component({
   selector: 'app-library',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, NgTemplateOutlet, BookCoverComponent, IconComponent, ShelfMenuComponent],
+  imports: [RouterLink, NgTemplateOutlet, BookCoverComponent, IconComponent, ShelfMenuComponent, BurstDirective, CountUpDirective, RevealDirective, TiltDirective],
   templateUrl: './library.page.html',
   styleUrl: './library.page.css',
 })

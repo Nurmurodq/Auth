@@ -6,11 +6,11 @@
   <dl class="summary">
     <div>
       <dt>{{ t('library.saved') }}</dt>
-      <dd>{{ summary().books }}</dd>
+      <dd [appCountUp]="summary().books"></dd>
     </div>
     <div>
       <dt>{{ t('shelf.finished') }}</dt>
-      <dd>{{ summary().finished }}</dd>
+      <dd [appCountUp]="summary().finished"></dd>
     </div>
     <div>
       <dt>{{ t('library.week') }}</dt>
@@ -18,7 +18,7 @@
     </div>
     <div>
       <dt>{{ t('library.streak') }}</dt>
-      <dd><app-icon name="flame" [size]="18" class="flame" />{{ summary().streak }}</dd>
+      <dd><app-icon name="flame" [size]="18" class="flame" /><span [appCountUp]="summary().streak"></span></dd>
     </div>
   </dl>
 </header>
@@ -60,8 +60,8 @@
         <ng-container *ngTemplateOutlet="empty" />
       } @else {
         <div class="bm-groups">
-          @for (g of bookmarkGroups(); track g.book.id) {
-            <article class="bm-group fade-up">
+          @for (g of bookmarkGroups(); track g.book.id; let gi = $index) {
+            <article class="bm-group" [appReveal]="gi">
               <a class="bm-book" [routerLink]="['/book', g.book.id]">
                 <div class="bm-cover"><app-book-cover [book]="g.book" sizes="56px" /></div>
                 <div>
@@ -108,10 +108,10 @@
       <ng-container *ngTemplateOutlet="empty" />
     } @else {
       <ul class="items">
-        @for (row of rows(); track row.book.id) {
-          <li class="item fade-up">
+        @for (row of rows(); track row.book.id; let i = $index) {
+          <li class="item" [appReveal]="i">
             <a class="item-cover" [routerLink]="['/book', row.book.id]" tabindex="-1" aria-hidden="true">
-              <app-book-cover [book]="row.book" sizes="110px" />
+              <app-book-cover appTilt="10" [book]="row.book" sizes="110px" />
             </a>
             <div class="item-body">
               <a class="item-title" [routerLink]="['/book', row.book.id]">{{ row.book.title }}</a>
@@ -136,6 +136,7 @@
                 <button
                   type="button"
                   class="icon-btn"
+                  [appBurst]="!!row.entry?.favorite"
                   [attr.aria-pressed]="!!row.entry?.favorite"
                   (click)="toggleFavorite(row)"
                   [attr.aria-label]="row.entry?.favorite ? t('fav.remove') : t('fav.add')"

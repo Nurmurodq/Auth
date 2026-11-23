@@ -145,6 +145,17 @@ import { LANGUAGES, Lang, currentLanguage, setLang, t } from './i18n';
       opacity: 1;
       transform: none;
     }
+    /* Narrow screens: just the globe. */
+    @media (max-width: 480px) {
+      :host(.compact-sm) .code {
+        display: none;
+      }
+      :host(.compact-sm) .lang-btn {
+        width: 40px;
+        padding: 0;
+        justify-content: center;
+      }
+    }
     @keyframes menu-in {
       from {
         opacity: 0;

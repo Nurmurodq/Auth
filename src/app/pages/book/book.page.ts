@@ -11,6 +11,9 @@ import { BookCoverComponent } from '../../shared/book-cover.component';
 import { BookShelfComponent } from '../../shared/book-shelf.component';
 import { IconComponent } from '../../shared/icon.component';
 import { ShelfMenuComponent } from '../../shared/shelf-menu.component';
+import { BurstDirective } from '../../shared/motion/burst.directive';
+import { RevealDirective } from '../../shared/motion/reveal.directive';
+import { TiltDirective } from '../../shared/motion/tilt.directive';
 import {
   easeLabel,
   estimatePages,
@@ -35,7 +38,7 @@ interface TocRow extends TocChapter {
 @Component({
   selector: 'app-book-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, BookCoverComponent, BookShelfComponent, IconComponent, ShelfMenuComponent],
+  imports: [RouterLink, BookCoverComponent, BookShelfComponent, IconComponent, ShelfMenuComponent, BurstDirective, RevealDirective, TiltDirective],
   templateUrl: './book.page.html',
   styleUrl: './book.page.css',
 })

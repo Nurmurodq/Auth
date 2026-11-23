@@ -1,8 +1,8 @@
 import { ViewportScroller } from '@angular/common';
 import { t } from './i18n/i18n';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet, Scroll } from '@angular/router';
+import { ActivatedRoute, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet, Scroll } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { FooterComponent } from './layout/footer.component';
 import { HeaderComponent } from './layout/header.component';
@@ -27,6 +27,7 @@ function layoutForPath(path: string): Layout {
   imports: [RouterOutlet, HeaderComponent, FooterComponent, MobileNavComponent, SearchPaletteComponent, ToastsComponent],
   host: { '[class.immersive]': 'layout() === "immersive"' },
   template: `
+    <div class="route-progress" [class.active]="navigating()" aria-hidden="true"></div>
     <a class="skip-link" href="#main" (click)="skipToMain($event)">{{ t('app.skip') }}</a>
     @if (layout() === 'default') {
       <app-header />
@@ -72,6 +73,10 @@ export class AppComponent {
   );
   protected readonly layout = computed(() => this.routeLayout());
 
+  /** True while a navigation takes longer than a moment (e.g. loading a page's code). */
+  protected readonly navigating = signal(false);
+  private navTimer: ReturnType<typeof setTimeout> | undefined;
+
   private readonly scroller = inject(ViewportScroller);
   private lastPath = location.pathname;
 
@@ -79,6 +84,16 @@ export class AppComponent {
     // Instantiate app-wide services eagerly so the theme and user data are ready before first paint.
     inject(ThemeService);
     inject(LibraryService);
+
+    this.router.events.subscribe((e) => {
+      if (e instanceof NavigationStart) {
+        clearTimeout(this.navTimer);
+        this.navTimer = setTimeout(() => this.navigating.set(true), 150);
+      } else if (e instanceof NavigationEnd || e instanceof NavigationCancel || e instanceof NavigationError) {
+        clearTimeout(this.navTimer);
+        this.navigating.set(false);
+      }
+    });
 
     // Restore position on back/forward, scroll to top on a new page, but stay put when
     // only the query string changes (e.g. toggling a filter on the browse page).
